@@ -2,17 +2,6 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-
-### Changed
-
-### Fixed
-
-### Updated
-
-## [10.0.0] - 2026-05-01
-
-
-### Added
 - redirection to settings page on plugin activation
 
 ### Changed
@@ -26,6 +15,10 @@
 - recurrence selector code
 - exclude .vscode from releases
 - updated github workflow versions
+
+### Fixed
+
+### Updated
 
 ## [8.3.3] - 2026-01-30
 
