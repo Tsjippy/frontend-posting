@@ -13,6 +13,7 @@
 - PLUGINCONSTANT value
 - lib updates
 - recurrence selector code
+- exclude .vscode from releases
 
 ### Fixed
 
