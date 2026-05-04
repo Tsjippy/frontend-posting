@@ -105,7 +105,7 @@ class AdminMenu extends ADMIN\SubAdminMenu{
     }
 
     public function emails($parent){
-        $tab      = 'approved-comment-email';
+        $tab      = 'post-out-of-date-email';
         if(isset($_GET['second-tab'])){
             $tab  = sanitize_key($_GET['second-tab']);
         }
@@ -141,7 +141,6 @@ class AdminMenu extends ADMIN\SubAdminMenu{
             ?>
         </div>
 
-
         <div id="post-out-of-date-emails" class="tabcontent <?php echo $tab != 'post-out-of-date-emails' ? 'hidden' : '';?>">  
             <label>
                 Define the e-mail people get when they are responsible for multiple pages which is out of date.<br>
@@ -154,7 +153,6 @@ class AdminMenu extends ADMIN\SubAdminMenu{
             $email->printInputs();
             ?>
         </div>
-
 
         <div id="pending-post-email" class="tabcontent <?php echo $tab != 'pending-post-email' ? 'hidden' : '';?>">  
             <h4>E-mail send to content managers when a post is pending</h4>
@@ -181,19 +179,21 @@ class AdminMenu extends ADMIN\SubAdminMenu{
         </div>
         <?php
 
+        addRawHtml(ob_get_clean(), $parent);
+
         return true;
     }
 
     public function data($parent=''){
         
 
-        return true;
+        return false;
     }
 
     public function functions($parent){
         
 
-        return true;
+        return false;
     }
 
     public function postActions(){
