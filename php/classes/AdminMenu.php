@@ -25,7 +25,7 @@ class AdminMenu extends ADMIN\SubAdminMenu{
         //Sort the roles
         asort($userRoles);
 
-        if(!isset($settings['content-manager-roles'])){
+        if(!isset($this->settings['content-manager-roles'])){
             $this->settings['content-manager-roles']	= [];
         }
 
@@ -41,15 +41,11 @@ class AdminMenu extends ADMIN\SubAdminMenu{
 
             $attributes = ['value' => $key];
             if(in_array($key, $this->settings['content-manager-roles'])){
-                $attributes['selected']	= 'selected=selected';
+                $attributes['selected']	= 'selected';
             }
 
             addElement('option', $select, $attributes, $role);
         }
-
-        addElement('br', $parent);
-
-        addElement('label', $parent, [], 'How should content managers be notified about pending content?');
 
         addElement('br', $parent);
 
@@ -67,7 +63,7 @@ class AdminMenu extends ADMIN\SubAdminMenu{
                 $attributes['selected'] = "selected";
             }
 
-            addElement('option', $select, $attributes);
+            addElement('option', $select, $attributes, $x);
         }
 
         addElement('br', $parent);
@@ -90,16 +86,17 @@ class AdminMenu extends ADMIN\SubAdminMenu{
 
         addElement('input', $label1, $attributes, '', 'afterBegin');
 
+        addElement('br', $parent);
+        addElement('br', $label);
+
         $label2 = addElement('label', $label, [], 'Archived');
         $attributes['value']    = 'archived';
-
-        addElement('input', $label2, $attributes, '', 'afterBegin');
-
+        
         if($this->settings['expired-post-type'] == 'archived'){
             $attributes['checked'] = "checked";
-        }else{
-            unset($attributes['checked']);
         }
+
+        addElement('input', $label2, $attributes, '', 'afterBegin');
 
         return true;
     }
