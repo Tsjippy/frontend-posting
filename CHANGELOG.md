@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- post status message
 
 ### Updated
 
