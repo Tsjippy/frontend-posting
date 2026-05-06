@@ -215,9 +215,9 @@ function templateFilter($templateFile){
 add_filter('display_post_states', __NAMESPACE__.'\postStatus', 10, 2);
 function postStatus( $states, $post ) {
 
-    if ( in_array($post->ID, SETTINGS['front-end-post-page'] ?? [])) {
+    if ($post->ID == SETTINGS['front-end-post-page'] ?? '' ) {
         $states[] = __('Frontend posting page');
-    }elseif ( in_array($post->ID, SETTINGS['pending-posts-page'] ?? [])) {
+    }elseif ( $post->ID == SETTINGS['pending-posts-page'] ?? '' ) {
         $states[] = __('Pending posts page');
     }
 
