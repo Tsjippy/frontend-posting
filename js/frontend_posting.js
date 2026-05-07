@@ -9,23 +9,14 @@ async function confirmPostDelete( event, type='delete' ) {
 	event.preventDefault();
 	parent 		= target.closest('#frontend-upload-form');
 
-	let options = {
-		title: 'Are you sure?',
-		text: `Are you sure you want to ${type} this ${document.querySelector('[name="post-type"]').value}?`,
-		icon: 'warning',
-		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
-		confirmButtonText: `Yes, ${type} it!`
+	let options	= {
+		title: `Are you sure?`,
+		ConfirmButtonText: `Yes, ${type} it!`
 	};
 
-	if(document.fullscreenElement != null){
-		options['target']	= document.fullscreenElement;
-	}
+	let response = await new Main.Alert(`Are you sure you want to ${type} this ${document.querySelector('[name="post-type"]').value}?`, 'warning', options);
 
-	var confirmed = await Swal.fire(options);
-
-	if (confirmed.isConfirmed) {
+	if (response == 'confirm') {
 		let postId 			= target.dataset.postId;
 		
 		let buttonText 		= target.innerHTML;
@@ -45,7 +36,7 @@ async function confirmPostDelete( event, type='delete' ) {
 			url 	= 'frontend_posting/archive_post'
 		}
 		
-		var response = await FormSubmit.fetchRestApi(url, formData);
+		response = await FormSubmit.fetchRestApi(url, formData);
 
 		if(response){
 			Main.displayMessage(response);
@@ -277,7 +268,7 @@ async function submitPost(target){
 			if(response.data != undefined){
 				message = message + ' ' + response.data;
 			}
-			Main.displayMessage(message, 'success');
+			Main.displayMessage(message);
 
 			location.href	= response.url;
 			return;
@@ -328,8 +319,6 @@ async function readFileContents(attachmentId){
 		
 		//Add contents to editor
 		tinymce.activeEditor.setContent(content+response);
-
-		Swal.close();
 	}
 }
 
@@ -337,59 +326,36 @@ async function readFileContents(attachmentId){
  * Checks every 0.1 second if wp.media.frame is available.
  * If available adds an on insert function
  */
-function insertMediaContents(){
+async function insertMediaContents(){
 	setTimeout(
-		function(){
+		async function(){
 			if(wp.media.frame == undefined){
 				insertMediaContents();
 				return;
 			}
-			wp.media.frame.on('insert', function() {
+			wp.media.frame.on('insert', async function() {
 				let selection = wp.media.frame.state().get('selection').first().toJSON(); 
 				if (['.txt', '.doc', '.rtf'].some(v => selection.url.includes(v))) {
-					let options = {
-						title: 'Question',
-						text: 'Do you want to insert the contents of this file into the post?',
-						icon: 'question',
-						showCancelButton: true,
-						confirmButtonColor: "#bd2919",
-						cancelButtonColor: '#d33',
-						confirmButtonText: 'Yes please',
-						cancelButtonText: 'No thanks',
-						hideClass: {
-							popup: '',                     // disable popup fade-out animation
-						},
+					let options	= {
+						title: `Question`,
+						ConfirmButtonText: 'Yes please',
+						CancelButtonText: 'No thanks',
+						timer: 3000
 					};
-
-					if(document.fullscreenElement != null){
-						options['target']	= document.fullscreenElement;
-					}
 
 					let html = Main.showLoader(null, false, 50, '', true);
 
-					Swal.fire(options).then((result) => {
-						if (result.isConfirmed) {
-							let options = {
-								title: 'Please wait...',
-								html: html,
-								showConfirmButton: false,
-								showClass: {
-									backdrop: 'swal2-noanimation', // disable backdrop animation
-									popup: '',                     // disable popup animation
-									icon: ''                       // disable icon animation
-								},
-								
-							};
+					let response = await new Main.Alert(`Do you want to insert the contents of this file into the post?`, 'question', options);
 
-							if(document.fullscreenElement != null){
-								options['target']	= document.fullscreenElement;
-							}
+					if (response == 'confirm') {
+						let options	= {
+							title: `Please wait...`
+						};
 
-							Swal.fire(options);
+						new Main.Alert(html, 'question', options);
 
-							readFileContents(selection.id);
-						}
-					});
+						readFileContents(selection.id);
+					}
 				}
 			});
 		},

@@ -39,7 +39,7 @@ function loadAssets() {
     wp_register_style('tsjippy_frontend_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/frontend_posting.min.css'), array(), PLUGINVERSION);
 	
     //Load js
-    wp_register_script('tsjippy_forms_script', TSJIPPY\pathToUrl(PLUGINPATH.'../forms/js/forms.min.js'), array('sweetalert', 'tsjippy_formsubmit_script'), PLUGINVERSION,true);
+    wp_register_script('tsjippy_forms_script', TSJIPPY\pathToUrl(PLUGINPATH.'../forms/js/forms.min.js'), array('tsjippy_formsubmit_script'), PLUGINVERSION,true);
 
     $dependables    = apply_filters('tsjippy-frontend-content-js', array('tsjippy_fileupload_script', 'tsjippy_forms_script'));
 	wp_register_script('tsjippy_frontend_script', TSJIPPY\pathToUrl(PLUGINPATH.'js/frontend_posting.min.js'), $dependables, PLUGINVERSION, true);
