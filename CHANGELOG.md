@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- post deletion on deactivation
 
 ### Updated
+
+## [10.0.7] - 2026-05-08
+
+
+### Fixed
+- post deletion on deactivation
 
 ## [10.0.6] - 2026-05-08
 
