@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- post deletion on deactivation
 
 ### Updated
 
