@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- error in rest api
 
 ### Updated
+
+## [10.0.5] - 2026-05-08
+
+
+### Fixed
+- error in rest api
 
 ## [10.0.4] - 2026-05-07
 
