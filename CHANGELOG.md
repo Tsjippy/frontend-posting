@@ -6,10 +6,15 @@
 ### Changed
 
 ### Fixed
-- account page retrieval
-- edit button
 
 ### Updated
+
+## [10.0.6] - 2026-05-08
+
+
+### Fixed
+- account page retrieval
+- edit button
 
 ## [10.0.5] - 2026-05-08
 
