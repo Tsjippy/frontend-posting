@@ -46,7 +46,11 @@ register_activation_hook( __FILE__, function(){
 
 // run on deactivation
 register_deactivation_hook( __FILE__, function(){
-	wp_delete_post(SETTINGS['front-end-post-page'] ?? '', true);
+	$postId	= SETTINGS['front-end-post-page'] ?? false;
+
+	if($postId){
+		wp_delete_post($postId, true);
+	}
 
 	wp_clear_scheduled_hook( 'expired_posts_check_action' );
 	wp_clear_scheduled_hook( 'page_age_warning_action' );
