@@ -11,7 +11,8 @@ async function confirmPostDelete( event, type='delete' ) {
 
 	let options	= {
 		title: `Are you sure?`,
-		ConfirmButtonText: `Yes, ${type} it!`
+		ConfirmButtonText: `Yes, ${type} it!`,
+		CancelButtonText: "Cancel"
 	};
 
 	let response = await new Main.Alert(`Are you sure you want to ${type} this ${document.querySelector('[name="post-type"]').value}?`, 'warning', options);
