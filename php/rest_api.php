@@ -290,8 +290,8 @@ function addCategory(\WP_REST_Request $request ){
 	$name		= $request->get_param('cat-name');
 	$parent		= $request->get_param('cat-parent');
 	$postType	= $request->get_param('post-type');
-
-	$taxonomy	= end(get_object_taxonomies($postType));
+	$taxes		= get_object_taxonomies($postType);
+	$taxonomy	= end($taxes);
 	
 	$args 		= ['slug' => strtolower($name)];
 	if(is_numeric($parent)){
