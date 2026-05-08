@@ -7,6 +7,7 @@
 
 ### Fixed
 - account page retrieval
+- edit button
 
 ### Updated
 
