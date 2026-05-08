@@ -51,7 +51,7 @@ function yourPosts(){
 			}
 			
 			$url 		= get_permalink($post);
-			$editUrl	= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+			$editUrl	= get_permalink(SETTINGS['front-end-post-page'] ?? '');
 			if(!$editUrl){
 				$editUrl = '';
 			}
@@ -99,7 +99,7 @@ function pendingPages(){
 		
 	);
 
-	$url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+	$url			= get_permalink(SETTINGS['front-end-post-page'] ?? '');
 	if(!$url){
 		return '';
 	}

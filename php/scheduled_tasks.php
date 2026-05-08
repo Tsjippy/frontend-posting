@@ -85,7 +85,7 @@ function pageAgeWarning(){
 		$postTitle 				= $page->post_title;
 
 		//Get the edit page url
-		$url		= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+		$url		= get_permalink(SETTINGS['front-end-post-page'] ?? '');
 		$url 		= add_query_arg( ['post-id' => $postId], $url );
 
 		//Get the last modified date

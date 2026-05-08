@@ -441,7 +441,7 @@ function submitPost(){
 function checkForDuplicate(\WP_REST_Request $request ){
 	global $wpdb;
 
-	$url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+	$url			= get_permalink(SETTINGS['front-end-post-page'] ?? '');
 	if(!$url){
 		return;
 	}

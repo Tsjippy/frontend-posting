@@ -46,10 +46,7 @@ register_activation_hook( __FILE__, function(){
 
 // run on deactivation
 register_deactivation_hook( __FILE__, function(){
-	foreach(SETTINGS['front-end-post-pages'] as $page){
-		// Remove the auto created page
-		wp_delete_post($page, true);
-	}
+	wp_delete_post(SETTINGS['front-end-post-page'] ?? '', true);
 
 	wp_clear_scheduled_hook( 'expired_posts_check_action' );
 	wp_clear_scheduled_hook( 'page_age_warning_action' );

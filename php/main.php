@@ -62,7 +62,7 @@ function sendPendingPostWarning( object $post, $update){
 	$type = $post->post_type;
 	
 	//send notification to all content managers
-	$url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+	$url			= get_permalink(SETTINGS['front-end-post-page'] ?? '');
 	if(!$url){
 		return;
 	}

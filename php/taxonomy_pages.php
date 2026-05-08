@@ -99,7 +99,7 @@ function attachmentFieldsToEdit($formFields, $post ){
 
 add_action('tsjippy_before_archive', __NAMESPACE__.'\beforeArchive');
 function beforeArchive($type){
-    $url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+    $url			= get_permalink(SETTINGS['front-end-post-page'] ?? '');
 	if(is_numeric($url)){
 		if($type == 'event'){
 			$text	= "Add an event to the calendar";
@@ -113,7 +113,10 @@ function beforeArchive($type){
 
 add_filter('tsjippy_empty_description', __NAMESPACE__.'\emptyDescription', 10, 2);
 function emptyDescription($message, $post){
-    $url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+    $url			= get_permalink(SETTINGS['front-end-post-page'] ?? '');
+	if(!$url){
+		$url	= '';
+	}
 	$message	= "<div style='margin-top:10px;'>";
 		$message	.= "This {$post->post_type} lacks a description.<br>";
 		$message	.= "Please add one.<br>";
@@ -125,7 +128,7 @@ function emptyDescription($message, $post){
 
 add_filter('tsjippy-empty-taxonomy', __NAMESPACE__.'\emptyTax', 10, 2);
 function emptyTax($message, $type){
-	$url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+	$url			= get_permalink(SETTINGS['front-end-post-page'] ?? '');
 	$message	.= "<br><a href='$url?type=$type' class='button'>Add a $type</a>";
 	return $message;
 }

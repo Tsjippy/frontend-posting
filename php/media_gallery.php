@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 add_filter('tsjippy-media-edit-link', __NAMESPACE__.'\editLink', 10, 2);
 function editLink($link, $id){
-    $url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
+    $url			= get_permalink(SETTINGS['front-end-post-page'] ?? '');
 	if($url){
 		return"<a href='$url?post-id=$id' class='button'>Edit</a>";
     }
