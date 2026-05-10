@@ -5,6 +5,7 @@
 - cancel button in popup
 
 ### Changed
+- removed pclzip as it is already in wp
 
 ### Fixed
 
