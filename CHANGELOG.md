@@ -2,13 +2,22 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.0.9] - 2026-05-11
+
+
+### Added
 - cancel button in popup
 
 ### Changed
 - removed pclzip as it is already in wp
 - removed admin login for cron
-
-### Fixed
 
 ### Updated
 - css
