@@ -72,9 +72,6 @@ function expiredPostsCheck(){
  * Checks for page who are not updated for a long time
 */
 function pageAgeWarning(){
-	//Change the user to the adminaccount otherwise get_users will not work
-	wp_set_current_user(1);
-
 	$emails					= [];
 	
 	//Loop over all the pages
