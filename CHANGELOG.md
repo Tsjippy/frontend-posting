@@ -6,6 +6,7 @@
 
 ### Changed
 - removed pclzip as it is already in wp
+- removed admin login for cron
 
 ### Fixed
 
