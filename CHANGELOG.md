@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- store frontend page id properly
 
 ### Updated
 
