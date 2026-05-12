@@ -6,14 +6,9 @@
 ### Changed
 
 ### Fixed
+- store frontend page id properly
 
 ### Updated
-
-## [10.1.2] - 2026-05-12
-
-
-### Fixed
-- store frontend page id properly
 
 ## [10.1.1] - 2026-05-12
 
