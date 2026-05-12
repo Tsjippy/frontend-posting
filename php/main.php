@@ -38,6 +38,14 @@ function getOldPages(){
 	));
 }
 
+/**
+ * Sends a warning to content managers if a pending post is published
+ * 
+ * @param object $post The post object
+ * @param bool $update Whether this is an update or a new post
+ * 
+ * @return void
+ */
 function sendPendingPostWarning( object $post, $update){
 	//Do not continue if already send
 	if(!empty(get_post_meta($post->ID, 'pending_notification_send', true))){
@@ -86,6 +94,15 @@ function sendPendingPostWarning( object $post, $update){
 
 //Delete the indicator that the warning has been send
 add_action(  'transition_post_status', __NAMESPACE__.'\onStatusChange', 10, 3 );
+/**
+ * Deletes the indicator that the pending post warning has been send when a post is published
+ * 
+ * @param string $newStatus The new status of the post
+ * 	@param string $oldStatus The old status of the post
+ * @param object $post The post object
+ * 
+ * @return void
+ */
 function onStatusChange( $newStatus, $oldStatus, $post ) {
 	if ($newStatus == 'publish' && $oldStatus == 'pending'){
 		delete_post_meta($post->ID, 'pending_notification_send');
@@ -94,6 +111,13 @@ function onStatusChange( $newStatus, $oldStatus, $post ) {
 
 //Allow display attributes in post content
 add_filter( 'safe_style_css',  __NAMESPACE__.'\safeStyles');
+/**
+ * Adds display to the list of safe style attributes
+ *
+ * @param array $styles The list of safe style attributes
+ *
+ * @return array The updated list of safe style attributes
+ */
 function safeStyles( $styles ) {
     $styles[] = 'display';
     return $styles;
@@ -101,6 +125,8 @@ function safeStyles( $styles ) {
 
 /**
  * Checks if the current user is allowed to edit a post
+ * 
+ * @param object|int $post The post object or post ID to check
  *
  * @return	boolean			True if allowed
  */
@@ -135,6 +161,14 @@ function allowedToEdit($post){
 
 //Add post edit button
 add_filter( 'the_content', __NAMESPACE__.'\filterContent', 15, 2);
+/**
+ * Filters the content to add an edit button for allowed users
+ *
+ * @param string $content The post content
+ * @param string $caller The caller of the filter
+ *
+ * @return string The updated content
+ */
 function filterContent( $content, $caller='' ) {
 	//Do not show if:
 	if (
@@ -204,6 +238,12 @@ function filterContent( $content, $caller='' ) {
 }
 
 add_filter('tsjippy-template-filter',  __NAMESPACE__.'\templateFilter');
+/**
+ * Filters the template to show a custom template for attachments
+ * 
+ * @param string $templateFile The original template file
+ * @return string The updated template file
+ */
 function templateFilter($templateFile){
 	if(str_contains($templateFile, 'single-attachment')){
 		return PLUGINPATH.'templates/single-attachment.php';
@@ -213,8 +253,15 @@ function templateFilter($templateFile){
 }
 
 add_filter('display_post_states', __NAMESPACE__.'\postStatus', 10, 2);
+/**
+ * Adds display to the list of safe style attributes
+ * 
+ * @param array $states The list of post states
+ * @param object $post The post object
+ * 
+ * @return array The updated list of safe style attributes
+ */
 function postStatus( $states, $post ) {
-
     if ($post->ID == SETTINGS['front-end-post-page'] ?? '' ) {
         $states[] = __('Frontend posting page');
     }elseif ( $post->ID == SETTINGS['pending-posts-page'] ?? '' ) {

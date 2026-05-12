@@ -6,18 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
-add_action( 'wp_trash_post',  __NAMESPACE__.'\trashPost');
-function trashPost(int $postId){
-    $postId  = SETTINGS['front-end-post-page'] ?? false;
-    if($postId){ 
-        $settings   = SETTINGS;
-        unset($settings['front-end-post-page']);
-
-        update_option('tsjippy_frontendposting_settings', $settings);
-    }
-}
-
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\loadAssets');
 function loadAssets() {
     wp_register_style('tsjippy_frontend_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/frontend_posting.min.css'), array(), PLUGINVERSION);
