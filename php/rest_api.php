@@ -15,7 +15,9 @@ function restApiInit() {
 		array(
 			'methods' 				=> 'POST',
 			'callback' 				=> __NAMESPACE__.'\getAttachmentContents',
-			'permission_callback' 	=> '__return_true',
+			'permission_callback' 	=> function(){
+				return current_user_can('read');
+			},
 			'args'					=> array(
 				'attachment-id'		=> array(
 					'required'	=> true,
@@ -34,7 +36,9 @@ function restApiInit() {
 		array(
 			'methods' 				=> 'POST',
 			'callback' 				=> __NAMESPACE__.'\addCategory',
-			'permission_callback' 	=> '__return_true',
+			'permission_callback' 	=> function(){
+				return current_user_can('edit_posts');
+			},
 			'args'					=> array(
 				'cat-name'		=> array('required'	=> true),
 				'post-type'		=> array(
@@ -54,7 +58,9 @@ function restApiInit() {
 		array(
 			'methods' 				=> 'POST',
 			'callback' 				=> __NAMESPACE__.'\submitPost',
-			'permission_callback' 	=> '__return_true',
+			'permission_callback' 	=> function(){
+				return current_user_can('edit_posts');
+			},
 			'args'					=> array(
 				'post-type'		=> array(
 					'required'	=> true,
@@ -147,7 +153,9 @@ function restApiInit() {
 					return $e;
 				}
 			},
-			'permission_callback' 	=> '__return_true',
+			'permission_callback' 	=> function(){
+				return current_user_can('read');
+			},
 			'args'					=> array(
 				'post-id'		=> array(
 					'required'	=> true,
@@ -169,7 +177,9 @@ function restApiInit() {
 				delete_post_meta( $_POST['post-id'], '_edit_lock');
 				return 'Succes';
 			},
-			'permission_callback' 	=> '__return_true',
+			'permission_callback' 	=> function(){
+				return current_user_can('read');
+			},
 			'args'					=> array(
 				'post-id'		=> array(
 					'required'	=> true,
@@ -233,25 +243,6 @@ function restApiInit() {
 		)
 	);
 
-	// Get post
-	register_rest_route(
-		RESTAPIPREFIX.'/frontend_posting',
-		'/post_result',
-		array(
-			'methods' 				=> 'POST',
-			'callback' 				=> __NAMESPACE__.'\sendPost',
-			'permission_callback' 	=> '__return_true',
-			'args'					=> array(
-				'post-id'		=> array(
-					'required'	=> true,
-					'validate_callback' => function($postId){
-						return is_numeric($postId);
-					}
-				)
-			)
-		)
-	);
-
 	// Check for posts with the same title
 	register_rest_route(
 		RESTAPIPREFIX.'/frontend_posting',
@@ -259,7 +250,9 @@ function restApiInit() {
 		array(
 			'methods' 				=> 'POST',
 			'callback' 				=> __NAMESPACE__.'\checkForDuplicate',
-			'permission_callback' 	=> '__return_true',
+			'permission_callback' 	=> function(){
+				return current_user_can('read');
+			},
 			'args'					=> array(
 				'title'		=> array(
 					'required'	=> true

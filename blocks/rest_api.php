@@ -11,7 +11,9 @@ function restApiInitBlocks() {
 		array(
 			'methods' 				=> 'GET',
 			'callback' 				=> __NAMESPACE__.'\yourPosts',
-			'permission_callback' 	=> '__return_true',
+			'permission_callback' 	=> function($rest){
+				return current_user_can('read');
+			},
 		)
 	);
 
@@ -22,7 +24,9 @@ function restApiInitBlocks() {
 		array(
 			'methods' 				=> 'GET',
 			'callback' 				=> __NAMESPACE__.'\pendingPages',
-			'permission_callback' 	=> '__return_true',
+			'permission_callback' 	=> function($rest){
+				return current_user_can('edit_posts');
+			},
 		)
 	);
 }
