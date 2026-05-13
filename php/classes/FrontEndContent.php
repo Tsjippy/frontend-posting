@@ -699,7 +699,7 @@ class FrontEndContent{
 			<div id="expiry-date-div" class="frontend-form">
 				<h4>Expiry date</h4>
 				<label>
-					<input type='date' class='' name='expirydate' min="<?php echo date("Y-m-d"); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'expirydate', true)); ?>" style="display: unset; width:unset;">
+					<input type='date' class='' name='expirydate' min="<?php echo gmdate("Y-m-d"); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'expirydate', true)); ?>" style="display: unset; width:unset;">
 					Set an optional expiry date of this post
 				</label>
 			</div>
@@ -881,15 +881,15 @@ class FrontEndContent{
 			// Only show publish date if not yet published
 			if(empty($this->post->post_status) || !in_array($this->post->post_status, ['publish', 'inherit'])){
 				if(empty($this->post)){
-					$publishDate	= date("Y-m-d");
+					$publishDate	= gmdate("Y-m-d");
 				}else{
-					$publishDate	= max(date("Y-m-d", strtotime($this->post->post_date)), date("Y-m-d"));
+					$publishDate	= max(date("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
 				}
 
 				?>
 				<label>
 					<h4>Publishing date</h4>
-					<input type="date" min="<?php echo date("Y-m-d");?>" name="publish-date" value="<?php echo $publishDate;?>">
+					<input type="date" min="<?php echo gmdate("Y-m-d");?>" name="publish-date" value="<?php echo $publishDate;?>">
 					Define when the content should be published
 				</label>
 				<?php
@@ -1125,9 +1125,9 @@ class FrontEndContent{
 		if(
 			strtotime($post->post_date) > time()	&&								// Current post date is in the future
 			!empty($_POST['publish-date']) 			&& 								// a publishing date is set
-			$_POST['publish-date'] != date('Y-m-d', strtotime($post->post_date))	// it is not the same as before
+			$_POST['publish-date'] != gmdate('Y-m-d', strtotime($post->post_date))	// it is not the same as before
 		){
-			$publishDate					= date("Y-m-d 08:00:00", strtotime($_POST['publish-date']));
+			$publishDate					= gmdate("Y-m-d 08:00:00", strtotime($_POST['publish-date']));
 			$newPostData['post_date'] 		= $publishDate;
 			$newPostData['post_date_gmt'] 	= $publishDate;
 		}
@@ -1258,8 +1258,8 @@ class FrontEndContent{
 			}
 
 			//Schedule the post if in the future
-			if($_POST['publish-date'] != date('Y-m-d')){
-				$publishDate			= date("Y-m-d 08:00:00", strtotime($_POST['publish-date']));
+			if($_POST['publish-date'] != gmdate('Y-m-d')){
+				$publishDate			= gmdate("Y-m-d 08:00:00", strtotime($_POST['publish-date']));
 
 				$post['post_date'] 		= $publishDate;
 				$post['post_date_gmt'] 	= $publishDate;
@@ -1322,7 +1322,7 @@ class FrontEndContent{
 			$this->status	== 'publish'			&&
 			$this->fullrights 						&&
 			isset($_POST['publish-date']) 			&&
-			$_POST['publish-date'] > date('Y-m-d')
+			$_POST['publish-date'] > gmdate('Y-m-d')
 		){
 			$this->status	= 'future';
 		}
@@ -1358,7 +1358,7 @@ class FrontEndContent{
 			);
 
 			foreach($posts as $p){
-				if(current_time('Y-m-d') == date('Y-m-d', strtotime($p->post_date))){
+				if(current_time('Y-m-d') == gmdate('Y-m-d', strtotime($p->post_date))){
 					$url	= get_permalink($p);
 					return new \WP_Error('frontend', "A post with title $this->postTitle is already published today!\nSee it <a href='$url'>here</a>");
 				}
@@ -1452,7 +1452,7 @@ class FrontEndContent{
 			$message	= "Succesfully $this->actionText the $this->postType";
 		}elseif($this->status == 'draft'){
 			$message	= "Succesfully $this->actionText the draft for this $this->postType";
-		}elseif($_POST['publish-date'] > date('Y-m-d') && $this->status == 'future'){
+		}elseif($_POST['publish-date'] > gmdate('Y-m-d') && $this->status == 'future'){
 			$message	= "Succesfully $this->actionText the $this->postType, it will be published on ".date('d F Y', strtotime($_POST['publish-date'])).' 8 AM';
 		}else{
 			$message	= "Succesfully $this->actionText the $this->postType, it will be published after it has been reviewed";

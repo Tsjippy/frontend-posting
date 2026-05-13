@@ -41,7 +41,7 @@ function expiredPostsCheck(){
 			),
 			array(
 				'key' => 'expirydate',
-				'value' => date("Y-m-d"), 
+				'value' => gmdate("Y-m-d"), 
 				'compare' => '<=',
 				'type' => 'DATE'
 			),

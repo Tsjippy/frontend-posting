@@ -113,7 +113,7 @@ function pendingPages(){
 		foreach ( $pendingPosts as $post ) {
 			$url = add_query_arg( ['post-id' => $post->ID], $url );
 			if(strtotime($post->post_date_gmt) > time()){
-				$date	= date(DATEFORMAT, strtotime($post->post_date_gmt));
+				$date	= gmdate(DATEFORMAT, strtotime($post->post_date_gmt));
 				$html .= "<li>$post->post_title (scheduled for $date) <a href='$url'>Publish now</a></li>";
 			}else{
 				$html .= "<li>$post->post_title <a href='$url' target='_blank'>Review and publish</a></li>";
