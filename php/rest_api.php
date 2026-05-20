@@ -407,7 +407,7 @@ function submitPost(){
 	// Get the picture
 	$result['picture']	= get_the_post_thumbnail_url($post->ID, 'full');
 
-	$result['html'] = do_shortcode($html);
+	$result['html'] 	= do_shortcode($html);
 
 	if($post->post_status == 'pending'){
 		$result['url']	= get_preview_post_link($post->ID);
