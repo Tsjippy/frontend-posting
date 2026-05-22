@@ -255,7 +255,7 @@ class FrontEndContent{
 						'textarea_name'				=> "post-content",
 						'textarea_rows'				=> 10
 					);
-					echo  wp_editor($this->postContent, 'post-content', $settings);
+					wp_editor($this->postContent, 'post-content', $settings);
 					?>
 				</div>
 
@@ -1002,7 +1002,7 @@ class FrontEndContent{
 	public function storeCustomCategories($post){
 		foreach($this->postTypes as $postType => $taxonomy){
 			$cats = [];
-			if(@is_array($_POST[$taxonomy.'-ids'])){
+			if(!empty($_POST[$taxonomy.'-ids']) && is_array($_POST[$taxonomy.'-ids'])){
 				foreach($_POST[$taxonomy.'-ids'] as $catId) {
 					if(is_numeric($catId)){
 						$cats[] = $catId;
