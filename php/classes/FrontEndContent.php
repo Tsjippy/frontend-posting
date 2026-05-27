@@ -453,7 +453,7 @@ class FrontEndContent{
 	 *
 	**/
 	public function showChanges(){
-		if($this->post->post_status ?? '' != 'inherit'){
+		if(($this->post->post_status ?? '') != 'inherit'){
 			return;
 		}
 
