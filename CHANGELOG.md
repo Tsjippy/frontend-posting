@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- empty post bug
 
 ### Updated
 
