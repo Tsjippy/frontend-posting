@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- empty post bug
 
 ### Updated
+
+## [10.1.6] - 2026-05-27
+
+
+### Fixed
+- empty post bug
 
 ## [10.1.5] - 2026-05-22
 
