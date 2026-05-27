@@ -453,7 +453,7 @@ class FrontEndContent{
 	 *
 	**/
 	public function showChanges(){
-		if($this->post->post_status != 'inherit'){
+		if($this->post->post_status ?? '' != 'inherit'){
 			return;
 		}
 
@@ -900,7 +900,7 @@ class FrontEndContent{
 				<h4>News Gallery</h4>
 				<label>
 					<input type='checkbox' name='skipgallery' value='skipgallery' <?php if(get_post_meta($this->postId, 'skipgallery', true)){echo 'checked';}?>>
-					Do not add this <?php echo $this->post->post_type;?> to the news gallery
+					Do not add this <?php echo esc_attr($this->post->post_type ?? '');?> to the news gallery
 				</label>
 			</div>
 			<?php
@@ -1368,7 +1368,7 @@ class FrontEndContent{
 		$this->postContent 	= $this->preparePostContent($_POST['post-content']);
 
 		$this->postCategories = [];
-		if(is_array($_POST['category-id'])){
+		if(is_array($_POST['category-id'] ?? [])){
 			foreach($_POST['category-id'] as $categoryId) {
 				if(!empty($categoryId)){
 					$this->postCategories[] = $categoryId;
