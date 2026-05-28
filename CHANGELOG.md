@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- empty post stus bug
 
 ### Updated
+
+## [10.1.8] - 2026-05-28
+
+
+### Fixed
+- empty post stus bug
 
 ## [10.1.7] - 2026-05-28
 
