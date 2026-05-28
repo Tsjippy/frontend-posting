@@ -103,7 +103,7 @@ function displayPostStatus( $statuses ) {
     global $post; // we need it to check current post status
     
     if( get_query_var( 'post_status' ) != 'archived' ){ // not for pages with all posts of this status
-        if( $post->post_status == 'archived' ){ // если статус поста - Архив
+        if( ($post->post_status ?? '') == 'archived' ){ // если статус поста - Архив
             return array('Archived'); // returning our status label
         }
     }
