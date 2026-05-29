@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- wp_unslash
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [10.2.0] - 2026-05-29
+
+
+### Added
+- wp_unslash
 
 ## [10.1.9] - 2026-05-28
 
