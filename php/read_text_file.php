@@ -7,13 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function readTextFile($path){
-	// Ensure the WordPress Filesystem API is loaded
-	require_once( ABSPATH . 'wp-admin/includes/file.php' );
-
-	// Initialize the filesystem object
-	WP_Filesystem();
-
-	global $wp_filesystem;
+	$wpFileSystem   = TSJIPPY\loadWpFileSystem();
 
 	$ext 	= pathinfo($path, PATHINFO_EXTENSION);
 		
@@ -30,9 +24,9 @@ function readTextFile($path){
 	}
 	
 	if($reader == 'plain'){
-		$file = $wp_filesystem->fopen($path, "r");
-		$contents =  $wp_filesystem->fread($file,filesize($path));
-		$wp_filesystem->fclose($file);
+		$file = $wpFileSystem->fopen($path, "r");
+		$contents =  $wpFileSystem->fread($file,filesize($path));
+		$wpFileSystem->fclose($file);
 		
 		return str_replace("\n", '<br>', $contents);
 	}else{
