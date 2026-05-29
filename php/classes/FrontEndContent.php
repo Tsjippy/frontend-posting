@@ -1315,7 +1315,7 @@ class FrontEndContent{
 	public function submitPost($status=''){
 		$this->status	= $status;
 		if(empty($this->status)){
-			$this->status	= sanitize_text_field($_POST['post-status']);
+			$this->status	= sanitize_text_field( wp_unslash( $_POST['post-status']));
 		}
 
 		if(
@@ -1327,10 +1327,10 @@ class FrontEndContent{
 			$this->status	= 'future';
 		}
 
-		$this->postType 	= sanitize_text_field($_POST['post-type']);
+		$this->postType 	= sanitize_text_field( wp_unslash( $_POST['post-type']));
 		
 		//First letter should be capital in the title
-		$this->postTitle 	= ucfirst(trim(sanitize_text_field($_POST['post-title'])));
+		$this->postTitle 	= ucfirst(trim(sanitize_text_field( wp_unslash( $_POST['post-title']))));
 
 		$this->oldPost		= '';
 		if(is_numeric($_POST['post-id'])){
