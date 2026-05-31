@@ -876,7 +876,7 @@ class FrontEndContent{
 				$authorId = $this->post->post_author;
 			}
 
-			echo TSJIPPY\userSelect('Author', true, false, '', 'post-author', [], $authorId);
+			TSJIPPY\userSelect(title:'Author', onlyAdults:true, id:'post-author', userId: $authorId, echo: true);
 
 			// Only show publish date if not yet published
 			if(empty($this->post->post_status) || !in_array($this->post->post_status, ['publish', 'inherit'])){
