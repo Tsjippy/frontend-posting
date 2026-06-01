@@ -1368,7 +1368,7 @@ class FrontEndContent{
 		$this->postContent 	= $this->preparePostContent($_POST['post-content']);
 
 		$this->postCategories = [];
-		if(is_array($_POST['category-id'] ?? [])){
+		if(is_array($_POST['category-id'] ?? false)){
 			foreach($_POST['category-id'] as $categoryId) {
 				if(!empty($categoryId)){
 					$this->postCategories[] = $categoryId;
