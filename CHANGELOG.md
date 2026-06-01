@@ -8,6 +8,7 @@
 
 ### Fixed
 - added domain to __ function
+- bug
 
 ### Updated
 
