@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- insert media contents
 
 ### Updated
+
+## [10.2.3] - 2026-06-01
+
+
+### Fixed
+- insert media contents
 
 ## [10.2.2] - 2026-06-01
 
