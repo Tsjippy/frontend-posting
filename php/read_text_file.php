@@ -24,8 +24,8 @@ function readTextFile($path){
 	}
 	
 	if($reader == 'plain'){
-		$file = $wpFileSystem->fopen($path, "r");
-		$contents =  $wpFileSystem->fread($file,filesize($path));
+		$file 		= $wpFileSystem->fopen($path, "r");
+		$contents 	= $wpFileSystem->fread($file,filesize($path));
 		$wpFileSystem->fclose($file);
 		
 		return str_replace("\n", '<br>', $contents);
