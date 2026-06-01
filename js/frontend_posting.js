@@ -340,8 +340,7 @@ async function insertMediaContents(){
 					let options	= {
 						title: `Question`,
 						ConfirmButtonText: 'Yes please',
-						CancelButtonText: 'No thanks',
-						timer: 3000
+						CancelButtonText: 'No thanks'
 					};
 
 					let html = Main.showLoader(null, false, 50, '', true);
