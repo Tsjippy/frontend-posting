@@ -15,7 +15,8 @@ async function confirmPostDelete( event, type='delete' ) {
 		CancelButtonText: "Cancel"
 	};
 
-	let response = await new Main.Alert(`Are you sure you want to ${type} this ${document.querySelector('[name="post-type"]').value}?`, 'warning', options);
+	let alerter 		= new Main.Alert(`Are you sure you want to ${type} this ${document.querySelector('[name="post-type"]').value}?`, 'warning', options);
+	let response	= await alerter.promise;
 
 	if (response == 'confirm') {
 		let postId 			= target.dataset.postId;
@@ -343,18 +344,19 @@ async function insertMediaContents(){
 						CancelButtonText: 'No thanks'
 					};
 
-					let html = Main.showLoader(null, false, 50, '', true);
-
-					let response = await new Main.Alert(`Do you want to insert the contents of this file into the post?`, 'question', options);
+					let alerter		= new Main.Alert(`Do you want to insert the contents of this file into the post?`, 'question', options);
+					let response	= await alerter.promise;
 
 					if (response == 'confirm') {
 						let options	= {
 							title: `Please wait...`
 						};
 
-						new Main.Alert(html, 'question', options);
+						let alerter	= new Main.Alert('Reading file contents', 'loader', options);
 
 						readFileContents(selection.id);
+
+						alerter.expired();
 					}
 				}
 			});
