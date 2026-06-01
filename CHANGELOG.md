@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- insert media contents
 
 ### Updated
 
