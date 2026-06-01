@@ -76,15 +76,17 @@ function sendPendingPostWarning( object $post, $update){
 	}
 
 	$url			= add_query_arg( ['post-id' => $post->ID], $url );
+	TSJIPPY\printArray($post);
 	$authorName		= get_userdata($post->post_author)->display_name;
+	TSJIPPY\printArray($authorName);
 	
 	foreach($users as $user){
 		if(in_array('email', $channels)){
-			$pendinfPostEmail    = new PendingPostEmail($user, $authorName, $actionText, $type, $url);
-			$pendinfPostEmail->filterMail();
+			$pendingPostEmail    = new PendingPostEmail($user, $authorName, $actionText, $type, $url);
+			$pendingPostEmail->filterMail();
 				
 			//Send e-mail
-			wp_mail( $user->user_email, $pendinfPostEmail->subject, $pendinfPostEmail->message);
+			wp_mail( $user->user_email, $pendingPostEmail->subject, $pendingPostEmail->message);
 		}
 	}
 	
