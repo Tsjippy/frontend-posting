@@ -158,13 +158,13 @@ class FrontEndContent{
 			?>
 			<form id="postform">
 				<input type="hidden" class="no-reset" name="post-status" 	value="pending">
-				<input type="hidden" class="no-reset" name="post-type" 		value="<?php echo $this->postType; ?>">
-				<input type="hidden" class="no-reset" name="post-image-id" 	value="<?php echo $this->postImageId;?>">
-				<input type="hidden" class="no-reset" name="update" 			value="<?php echo $this->update;?>">
-				<input type='hidden' class='no-reset' name='post-id' 		value='<?php echo $this->postId;?>'>
+				<input type="hidden" class="no-reset" name="post-type" 		value="<?php echo esc_attr($this->postType); ?>">
+				<input type="hidden" class="no-reset" name="post-image-id" 	value="<?php echo esc_attr($this->postImageId);?>">
+				<input type="hidden" class="no-reset" name="update" 			value="<?php echo esc_attr($this->update);?>">
+				<input type='hidden' class='no-reset' name='post-id' 		value='<?php echo esc_attr($this->postId);?>'>
 
 				<h4>Title</h4>
-				<input type="text" name="post-title" class='block' value="<?php echo $this->postTitle;?>" required>
+				<input type="text" name="post-title" class='block' value="<?php echo esc_attr($this->postTitle);?>" required>
 
 				<?php
 				do_action('tsjippy_frontend_post_before_content', $this);
@@ -276,7 +276,7 @@ class FrontEndContent{
 
 					?>
 					<div class='submit-wrapper' style='display: flex;'>
-						<button type='button' class='button savedraft' name='draft-post'><?php echo $buttonText;?></button>
+						<button type='button' class='button savedraft' name='draft-post'><?php echo esc_attr($buttonText);?></button>
 					</div>
 					<?php
 				}
@@ -285,7 +285,7 @@ class FrontEndContent{
 				if($this->fullrights){
 					?>
 					<div class='submit-wrapper' style='display: flex;'>
-						<button type='button' name='publish-post' class='button'>Publish <span class='replace-post-type'><?php echo $this->postName;?></span></button>
+						<button type='button' name='publish-post' class='button'>Publish <span class='replace-post-type'><?php echo esc_attr($this->postName);?></span></button>
 					</div>
 					<?php
 				}
@@ -653,14 +653,14 @@ class FrontEndContent{
 			) );
 
 			?>
-			<div id="add-<?php echo $postType;?>-type" class="modal hidden">
+			<div id="add-<?php echo esc_attr($postType);?>-type" class="modal hidden">
 				<!-- Modal content -->
 				<div class="modal-content">
 					<span id="modal-close" class="close">&times;</span>
-					<form action="" method="post" id="add-<?php echo $postType;?>-type-form" class="add-category">
-						<p>Please fill in the form to add a new <?php echo $postType;?> category</p>
-						<input type="hidden" class="no-reset" name="post-type" value="<?php echo $postType;?>">
-						<input type="hidden" class="no-reset" name="user-id" value="<?php echo $this->user->ID; ?>">
+					<form action="" method="post" id="add-<?php echo esc_attr($postType);?>-type-form" class="add-category">
+						<p>Please fill in the form to add a new <?php echo esc_attr($postType);?> category</p>
+						<input type="hidden" class="no-reset" name="post-type" value="<?php echo esc_attr($postType);?>">
+						<input type="hidden" class="no-reset" name="user-id" value="<?php echo esc_attr($this->user->ID); ?>">
 
 						<label>
 							<h4>Category name<span class="required">*</span></h4>
@@ -757,7 +757,7 @@ class FrontEndContent{
 			}
 
 			?>
-			<div class="property <?php echo $postType; if($this->postType != $postType){echo ' hidden';} ?>">
+			<div class="property <?php echo esc_attr($postType); if($this->postType != $postType){echo ' hidden';} ?>">
 				<div class="frontend-form">
 					<h4><?php echo ucfirst($postType);?> type</h4>
 					<div class='categories'>
@@ -826,16 +826,16 @@ class FrontEndContent{
 						}
 
 						?>
-						<div id='<?php echo $postType;?>_parenttypes'>
+						<div id='<?php echo esc_attr($postType);?>_parenttypes'>
 							<?php
 							echo $parentCategoryHtml;
 							?>
-							<button type='button' name='add-<?php echo $postType;?>-type-button' class='button add-cat' data-type='<?php echo $postType;?>'>Add category</button>
+							<button type='button' name='add-<?php echo esc_attr($postType);?>-type-button' class='button add-cat' data-type='<?php echo esc_attr($postType);?>'>Add category</button>
 						</div>
 
 						<label id='subcategorylabel' class='frontend-profile-label <?php echo $hidden ?>'>Sub-category</label>
 
-						<div id='<?php echo $postType;?>_childtypes' class='childtypes'>
+						<div id='<?php echo esc_attr($postType);?>_childtypes' class='childtypes'>
 							<?php
 							echo $childCategoryHtml;
 							?>
@@ -868,7 +868,7 @@ class FrontEndContent{
 		?>
 		<button type="button" class="button" id="advanced-publish-options-button" style='display:block; margin-top:15px;'><span><?php echo $buttontext;?></span> advanced options</button>
 
-		<div class="advanced-publish-options <?php echo $hidden;?>">
+		<div class="advanced-publish-options <?php echo esc_attr($hidden);?>">
 			<?php
 			// Show change author dropdown
 			$authorId = $this->user->ID;
@@ -889,7 +889,7 @@ class FrontEndContent{
 				?>
 				<label>
 					<h4>Publishing date</h4>
-					<input type="date" min="<?php echo gmdate("Y-m-d");?>" name="publish-date" value="<?php echo $publishDate;?>">
+					<input type="date" min="<?php echo gmdate("Y-m-d");?>" name="publish-date" value="<?php echo esc_attr($publishDate);?>">
 					Define when the content should be published
 				</label>
 				<?php

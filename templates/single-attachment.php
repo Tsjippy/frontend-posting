@@ -59,7 +59,7 @@ get_header(); ?>
                         if(!empty($categories)){
                             ?>
                             <div class='category media meta' style='padding-top:10px;'>
-                                <img src='<?php echo $url;?>' alt='category' loading='lazy' class='media-icon'>
+                                <img src='<?php echo esc_attr($url);?>' alt='category' loading='lazy' class='media-icon'>
 
                                 <?php
                                 //now loop over the array to print the categories
@@ -117,7 +117,7 @@ get_header(); ?>
                                     ?>
                                     <button type="button" class="button small download">
                                         Download
-                                        <a href='<?php echo $url;?>' class='hidden' download="<?php echo $fileName;?>">Download</a>
+                                        <a href='<?php echo esc_attr($url);?>' class='hidden' download="<?php echo esc_attr($fileName);?>">Download</a>
                                     </button>
                                     <?php
                                 }
