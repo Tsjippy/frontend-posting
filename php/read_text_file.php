@@ -48,7 +48,7 @@ function readTextFile($path){
 
 		// Unwanting html
 		$allowedTags 		= '<br>,<br />,<strong>,<b>,<i>';
-		$html 		= wp_strip_all_tags($html, $allowedTags);
+		$html 		= strip_tags($html, $allowedTags);
 
 		// Remove remaining spans
 		$re 		= '~<span[^>]*>([^<]*)<\/span>~sm';

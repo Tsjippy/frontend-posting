@@ -6,6 +6,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+$postId             = get_the_ID();
+$url            = wp_get_attachment_thumb_url($postId);
+$iconUrl        = $url;
+$title          = get_the_title();
+$mime           = get_post_mime_type();
+$type           = explode('/', $mime)[0];
+$description    = ucfirst(get_the_content());
+$attachmentUrl  = get_attachment_link();
+
 get_header(); ?>
 
 	<div id='primary'>
@@ -39,7 +48,7 @@ get_header(); ?>
                     );
                     
                     //First loop over the cat to see if any parent cat needs to be removed
-                    foreach($categories as $id=>$category){
+                    foreach($categories as $id => $category){
                         //Get the child categories of this category
                         $children = get_term_children($id, 'attachment_cat');
                         
@@ -63,7 +72,7 @@ get_header(); ?>
 
                                 <?php
                                 //now loop over the array to print the categories
-                                foreach($categories as $id=>$category){
+                                foreach($categories as $id => $category){
                                     //Only show the category if all of its subcats are not there
                                     $url        = get_term_link($id);
                                     $category   = ucfirst($category);
@@ -105,15 +114,18 @@ get_header(); ?>
                                 <?php
 
                                 if(!empty($description)){
+                                    /**
+                                     * @disregard P1008
+                                     */
                                     ?>
-                                    <button type='button' class='button small description' data-description='<?php echo base64_encode($description);?>' title='<?php echo wp_strip_all_tags($title);?>'>Description</button>
+                                    <button type='button' class='button small description' data-description='<?php echo base64_encode($description);?>' title='<?php echo strip_tags($title);?>'>Description</button>
                                     <?php
                                 }
 
-                                $url            = apply_filters('tsjippy_media_gallery_download_url', $url, $id);
+                                $url            = apply_filters('tsjippy_media_gallery_download_url', $url, $postId);
 
                                 if(file_exists(TSJIPPY\urlToPath($url))){
-                                    $fileName   = apply_filters('tsjippy_media_gallery_download_filename', '', $type, $id);
+                                    $fileName   = apply_filters('tsjippy_media_gallery_download_filename', '', $type, $postId);
                                     ?>
                                     <button type="button" class="button small download">
                                         Download
