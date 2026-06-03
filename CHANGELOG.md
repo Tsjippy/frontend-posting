@@ -8,6 +8,7 @@
 - addSaveButton with echo param
 
 ### Fixed
+- attachment page template
 
 ### Updated
 
