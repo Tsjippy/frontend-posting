@@ -2,6 +2,17 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.2.5] - 2026-06-03
+
+
+### Added
 - echo escaping
 
 ### Changed
@@ -9,8 +20,6 @@
 
 ### Fixed
 - attachment page template
-
-### Updated
 
 ## [10.2.4] - 2026-06-01
 
