@@ -280,7 +280,7 @@ class FrontEndContent{
 					</div>
 					<?php
 				}
-				echo  TSJIPPY\addSaveButton('submit_post', $this->action);
+				TSJIPPY\addSaveButton('submit_post', $this->action);
 
 				if($this->fullrights){
 					?>
@@ -629,7 +629,7 @@ class FrontEndContent{
 				<input type="hidden" class="no-reset" name="post-id" value="<?php echo  esc_html($this->postId); ?>">
 				<?php
 				echo  $html;
-				echo TSJIPPY\addSaveButton('change-post-type','Change the post type');
+				TSJIPPY\addSaveButton('change-post-type','Change the post type');
 				?>
 			</form>
 			<?php
@@ -680,7 +680,7 @@ class FrontEndContent{
 							?>
 						</select>
 
-						<?php echo TSJIPPY\addSaveButton("add_{$postType}_type", "Add $postType category"); ?>
+						<?php TSJIPPY\addSaveButton("add_{$postType}_type", "Add $postType category"); ?>
 					</form>
 				</div>
 			</div>
@@ -883,7 +883,7 @@ class FrontEndContent{
 				if(empty($this->post)){
 					$publishDate	= gmdate("Y-m-d");
 				}else{
-					$publishDate	= max(date("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
+					$publishDate	= max(gmdate("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
 				}
 
 				?>
@@ -1453,7 +1453,7 @@ class FrontEndContent{
 		}elseif($this->status == 'draft'){
 			$message	= "Succesfully $this->actionText the draft for this $this->postType";
 		}elseif($_POST['publish-date'] > gmdate('Y-m-d') && $this->status == 'future'){
-			$message	= "Succesfully $this->actionText the $this->postType, it will be published on ".date('d F Y', strtotime($_POST['publish-date'])).' 8 AM';
+			$message	= "Succesfully $this->actionText the $this->postType, it will be published on ".gmdate('d F Y', strtotime($_POST['publish-date'])).' 8 AM';
 		}else{
 			$message	= "Succesfully $this->actionText the $this->postType, it will be published after it has been reviewed";
 		}
