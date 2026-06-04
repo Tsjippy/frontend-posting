@@ -1,19 +1,23 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 use TSJIPPY\ADMIN;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class ApprovedPostMail extends ADMIN\MailSetting{
+class ApprovedPostMail extends ADMIN\MailSetting
+{
 
     public $authorName;
     public $postType;
     public $url;
 
-    public function __construct($authorName='', $postType='', $url='') {
+    public function __construct($authorName = '', $postType = '', $url = '')
+    {
         // call parent constructor
         parent::__construct('approved_post', PLUGINSLUG);
 

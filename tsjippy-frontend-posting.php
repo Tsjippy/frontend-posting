@@ -1,5 +1,7 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 
 /**
@@ -20,7 +22,7 @@ use TSJIPPY;
  *
  * @author Ewald Harmsen
  */
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -57,6 +59,4 @@ register_deactivation_hook(__FILE__, function () {
     wp_clear_scheduled_hook('expired_posts_check_action');
     wp_clear_scheduled_hook('page_age_warning_action');
     wp_clear_scheduled_hook('publish_sheduled_posts_action');
-
 });
-

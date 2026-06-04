@@ -1,152 +1,152 @@
-@use '../../../plugins/tsjippy-shared-functionality/includes/css/scss/global' as *;
+@use "../../../plugins/tsjippy-shared-functionality/includes/css/scss/global"
+  as *;
 
-.media-frame-router button{
-	color: black;
+.media-frame-router button {
+  color: black;
 }
 
-#postform{
-	display: inline-block;
-	min-width: 700px;
+#postform {
+  display: inline-block;
+  min-width: 700px;
 
-	input[type="text"]{
-        width: 100%;
+  input[type="text"] {
+    width: 100%;
+  }
+
+  .submit-wrapper {
+    max-width: 300px;
+    margin-right: 20px;
+    float: left;
+
+    .loadergif {
+      width: initial;
+    }
+  }
+
+  .post-content-wrapper,
+  .wp-editor-wrap,
+  .title-wrapper {
+    margin-top: 15px;
+  }
+
+  .month {
+    min-width: 120px;
+    display: inline-block;
+  }
+
+  .categories-wrapper {
+    margin-top: 15px;
+
+    .info-box {
+      float: unset;
+
+      /* Only non ios devices */
+      @supports not (-webkit-touch-callout: none) {
+        margin-top: -70px;
+      }
+
+      &:hover {
+        display: contents;
+      }
+    }
+  }
+
+  .info-box {
+    @media (min-width: 600px) {
+      display: inline-table;
     }
 
-	.submit-wrapper{
-		max-width: 300px;
-		margin-right: 20px;
-		float: left;
-		
-		.loadergif{
-			width: initial;
-		}
-	}
-	
-	.post-content-wrapper,
-	.wp-editor-wrap,
-	.title-wrapper
-	{
-		margin-top: 15px;
-	}
+    /* Tooltip text  on frontend form*/
+    .tooltiptext {
+      padding: 5px 0;
+      margin-left: -100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
 
-	.month{
-		min-width: 120px;
-		display: inline-block;
-	}
-	
-	.categories-wrapper{
-		margin-top:15px;
-		
-		.info-box{
-			float: unset;
-			
-			/* Only non ios devices */
-			@supports not (-webkit-touch-callout: none) {
-				margin-top: -70px;
-			}
-			
-			&:hover{
-				display: contents;
-			}
-		}
-	}
-	
-	.info-box {
-		@media (min-width: 600px){
-			display: inline-table;
-		}
+  #wp-post_content-wrap,
+  .category-wrapper {
+    margin-bottom: 20px;
+  }
 
-		/* Tooltip text  on frontend form*/
-		.tooltiptext {
-		  padding: 5px 0;
-		  margin-left: -100%;
-		  position: absolute;
-		  z-index: 1;
-		}
-	}
-	
-	#wp-post_content-wrap, 
-	.category-wrapper
-	{
-		margin-bottom: 20px;
-	}
-	
-	.category-select{
-		margin-right: 10px;
-	}
-	
-	#location-child-types{
-		margin-top: 5px;
-	}
+  .category-select {
+    margin-right: 10px;
+  }
 
-	input[type="text"],
-	input[type="email"],
-	input[type="tel"],
-	input[type="password"]
-	{
-		width: 100%;
-	}
+  #location-child-types {
+    margin-top: 5px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"] {
+    width: 100%;
+  }
 }
 
-.post-button-wrapper{
-	display: flex;
-	z-index: 1;
+.post-button-wrapper {
+  display: flex;
+  z-index: 1;
+  position: relative;
+
+  @media (min-width: 1250px) {
+    margin-top: -77px;
+    float: right;
+  }
+
+  .submit-wrapper:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+table.diff {
+  border: none;
+
+  .diff-deletedline {
+    width: 50%;
     position: relative;
-	
-	@media (min-width: 1250px){
-		margin-top:-77px;
-		float: right;
-	}
+    background-color: #fcf0f1;
 
-	.submit-wrapper:not(:last-child){
-		margin-right: 20px;
-	}
+    del {
+      background-color: #ffabaf;
+    }
+  }
+
+  .diff-addedline {
+    width: 50%;
+    position: relative;
+    background-color: #edfaef;
+
+    ins {
+      background-color: #68de7c;
+    }
+  }
+
+  th,
+  td {
+    border: none;
+  }
+
+  td.old {
+    background-color: #fcf0f1;
+  }
+
+  td.new {
+    background-color: #edfaef;
+  }
+
+  td.key,
+  td.old,
+  td.new {
+    width: 33%;
+    text-align: center;
+  }
 }
 
-table.diff{
-	border: none;
-	
-	.diff-deletedline {		
-		width: 50%;
-		position: relative;
-		background-color: #fcf0f1;
-
-		del {
-			background-color: #ffabaf;
-		}
-	}
-
-	.diff-addedline {		
-		width: 50%;
-		position: relative;
-		background-color: #edfaef;
-	
-		ins {
-			background-color: #68de7c;
-		}
-	}
-
-	th, td{
-		border: none;
-	}
-
-	td.old{
-		background-color: #fcf0f1;
-	}
-
-	td.new{
-		background-color: #edfaef;
-	}
-
-	td.key, td.old, td.new{
-		width: 33%;
-		text-align: center;
-	}
-
-}
-
-.post-diff-wrapper{
-	h4{
-		text-align: center;
-	}
+.post-diff-wrapper {
+  h4 {
+    text-align: center;
+  }
 }

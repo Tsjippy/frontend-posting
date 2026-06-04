@@ -1,22 +1,25 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 add_action('init', __NAMESPACE__ . '\initTasks');
-function initTasks() {
+function initTasks()
+{
     //add action for use in scheduled task
     add_action('expired_posts_check_action', __NAMESPACE__ . '\expiredPostsCheck');
     add_action('page_age_warning_action', __NAMESPACE__ . '\pageAgeWarning');
     add_action('publish_posts_action', __NAMESPACE__ . '\publishPost');
     add_action('publish_sheduled_posts_action', __NAMESPACE__ . '\publish_missed_posts');
-
 }
 
-function scheduleTasks() {
+function scheduleTasks()
+{
     TSJIPPY\scheduleTask('expired_posts_check_action', 'daily');
     TSJIPPY\scheduleTask('publish_sheduled_posts_action', 'quarterly');
 
@@ -29,7 +32,8 @@ function scheduleTasks() {
 /**
  * Checks for expired posts and removes them
  */
-function expiredPostsCheck() {
+function expiredPostsCheck()
+{
     //Get all posts with the expirydate meta key with a value equal or before today
     $posts = get_posts(array(
         'numberposts'      => -1,
@@ -38,44 +42,44 @@ function expiredPostsCheck() {
             array(
                 'key' => 'expirydate',
                 'compare' => 'EXISTS'
-           ),
+            ),
             array(
                 'key' => 'expirydate',
                 'value' => gmdate("Y-m-d"),
                 'compare' => '<=',
                 'type' => 'DATE'
-           ),
-       )
-   ));
+            ),
+        )
+    ));
 
     foreach ($posts as $post) {
         $status    = SETTINGS['expired-post-type'] ?? 'trash';
 
         if ($status == 'trash') {
             wp_trash_post($post->ID);
-        }else{
+        } else {
             wp_update_post(
                 array(
                     'ID'             => $post->ID,
                     'post_status'    => 'archived',
-               ),
+                ),
                 false,
                 false
-           );
+            );
         }
         TSJIPPY\printArray("Moving '{$post->post_title}' to $status as it has expired");
-
     }
 }
 
 /**
  * Checks for page who are not updated for a long time
-*/
-function pageAgeWarning() {
+ */
+function pageAgeWarning()
+{
     $emails                    = [];
 
     //Loop over all the pages
-    foreach ( getOldPages() as $page) {
+    foreach (getOldPages() as $page) {
         //Get the ID of the current page
         $postId                 = $page->ID;
 
@@ -87,14 +91,14 @@ function pageAgeWarning() {
 
         //Get the last modified date
         $secondsSinceUpdated     = time() - get_post_modified_time('U', true, $page);
-        $pageAge                = round($secondsSinceUpdated /60 /60 /24);
+        $pageAge                = round($secondsSinceUpdated / 60 / 60 / 24);
 
         //Send an e-mail
         $recipients = getPageRecipients($page);
         foreach ($recipients as $recipient) {
             $email    = $recipient->user_email;
             //Only email if valid email
-            if (!str_contains($email,' .empty')) {
+            if (!str_contains($email, ' .empty')) {
 
                 if (!isset($emails[$email])) {
 
@@ -106,7 +110,7 @@ function pageAgeWarning() {
                         'message'    => $postOutOfDateEmail->message,
                         'count'        => 1
                     ];
-                }else{
+                } else {
                     $postOutOfDateEmail    = new PostOutOfDateEmails($recipient, $postTitle, $pageAge, $url);
                     $postOutOfDateEmail->filterMail();
 
@@ -137,7 +141,8 @@ function pageAgeWarning() {
 /**
  * Function to check who the recipients should be for the page update mail
  */
-function getPageRecipients($page) {
+function getPageRecipients($page)
+{
 
     $recipients = [];
 
@@ -145,8 +150,8 @@ function getPageRecipients($page) {
     $users = get_users(
         array(
             'meta_key'     => 'jobs'
-       )
-   );
+        )
+    );
 
     //Loop over the users to see if they have this ministry set
     foreach ($users as $user) {
@@ -159,7 +164,7 @@ function getPageRecipients($page) {
     if (empty(count($recipients))) {
         $recipients = get_users(array(
             'role'    => 'editor',
-       ));
+        ));
     }
 
     return $recipients;
@@ -168,7 +173,8 @@ function getPageRecipients($page) {
 /**
  * publish any scheduled post that missed its schedule
  */
-function publish_missed_posts() {
+function publish_missed_posts()
+{
     $posts = get_posts(
         array(
             'post_type'        => 'any',
@@ -178,8 +184,8 @@ function publish_missed_posts() {
                 'column' => 'post_date',
                 'before'  => "now",
             ],
-       )
-   );
+        )
+    );
 
     foreach ($posts as $post) {
         wp_publish_post($post);

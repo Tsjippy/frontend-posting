@@ -1,8 +1,10 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -11,7 +13,8 @@ if ( ! defined('ABSPATH')) {
  *
  * @return    array    Array of post objects
  */
-function getOldPages() {
+function getOldPages()
+{
     $maxAge    = SETTINGS['max-page-age'] ?? 6;
 
     //Get all pages without the static content meta key who have been edited last more than X months ago
@@ -24,18 +27,18 @@ function getOldPages() {
             array(
                 'key'         => 'static_content',
                 'compare'    => 'NOT EXISTS'
-           ),
+            ),
             array(
                 'key'        => 'static_content',
                 'compare'    => '!=',
                 'value'        => true
-           ),
-       ),
+            ),
+        ),
         'date_query' => [
             'column' => 'post_modified',
             'before'  => "$maxAge months ago",
         ],
-   ));
+    ));
 }
 
 /**
@@ -46,7 +49,8 @@ function getOldPages() {
  *
  * @return void
  */
-function sendPendingPostWarning(object $post, $update) {
+function sendPendingPostWarning(object $post, $update)
+{
     //Do not continue if already send
     if (!empty(get_post_meta($post->ID, 'pending_notification_send', true))) {
         return;
@@ -59,11 +63,11 @@ function sendPendingPostWarning(object $post, $update) {
     //get all the content managers
     $users = get_users(array(
         'role__in'    => $roles,
-   ));
+    ));
 
     if ($update) {
         $actionText = 'updated';
-    }else{
+    } else {
         $actionText = 'created';
     }
 
@@ -95,7 +99,7 @@ function sendPendingPostWarning(object $post, $update) {
 }
 
 //Delete the indicator that the warning has been send
-add_action( 'transition_post_status', __NAMESPACE__ . '\onStatusChange', 10, 3);
+add_action('transition_post_status', __NAMESPACE__ . '\onStatusChange', 10, 3);
 /**
  * Deletes the indicator that the pending post warning has been send when a post is published
  *
@@ -105,7 +109,8 @@ add_action( 'transition_post_status', __NAMESPACE__ . '\onStatusChange', 10, 3);
  *
  * @return void
  */
-function onStatusChange($newStatus, $oldStatus, $post) {
+function onStatusChange($newStatus, $oldStatus, $post)
+{
     if ($newStatus == 'publish' && $oldStatus == 'pending') {
         delete_post_meta($post->ID, 'pending_notification_send');
     }
@@ -120,7 +125,8 @@ add_filter('safe_style_css',  __NAMESPACE__ . '\safeStyles');
  *
  * @return array The updated list of safe style attributes
  */
-function safeStyles($styles) {
+function safeStyles($styles)
+{
     $styles[] = 'display';
     return $styles;
 }
@@ -132,7 +138,8 @@ function safeStyles($styles) {
  *
  * @return    boolean            True if allowed
  */
-function allowedToEdit($post) {
+function allowedToEdit($post)
+{
     if (empty($post)) {
         return true;
     }
@@ -154,7 +161,7 @@ function allowedToEdit($post) {
         $userPageId == $postId                                                                ||    // pseronal user page
         apply_filters('tsjippy_frontend_content_edit_rights', false, $postCategory)                ||    // external filter
         $user->has_cap('edit_others_posts')                                                    // user has permission to edit any post
-   ) {
+    ) {
         return true;
     }
 
@@ -171,7 +178,8 @@ add_filter('the_content', __NAMESPACE__ . '\filterContent', 15, 2);
  *
  * @return string The updated content
  */
-function filterContent($content, $caller='') {
+function filterContent($content, $caller = '')
+{
     //Do not show if:
     if (
         !is_user_logged_in()                             ||    // not logged in or
@@ -180,7 +188,7 @@ function filterContent($content, $caller='') {
         is_tax()                                        ||    // not an archive page
         is_front_page()                                    ||    // is the front page
         $caller == 'mailchimp'                                // mailchimp
-   ) {
+    ) {
         return $content;
     }
 
@@ -190,11 +198,11 @@ function filterContent($content, $caller='') {
     if (isset($_GET['p']) || isset($_GET['page_id'])) {
         if (isset($_GET['p'])) {
             $postId     = $_GET['p'];
-        }else{
+        } else {
             $postId     = $_GET['page_id'];
         }
-    //published
-    }else{
+        //published
+    } else {
         $postId         = $post->ID;
     }
 
@@ -210,12 +218,12 @@ function filterContent($content, $caller='') {
                 (
                     $type     == 'block'    &&
                     $match    == true
-               ) ||
+                ) ||
                 (
                     $type     == 'allow'    &&
                     $match    == false
-               )
-           ) {
+                )
+            ) {
                 return '<div class="error">You have no permission to see this</div>';
             }
         }
@@ -223,20 +231,20 @@ function filterContent($content, $caller='') {
 
     $buttonHtml    = '';
     //Add an edit page button if:
-    if ( allowedToEdit($post)) {
+    if (allowedToEdit($post)) {
         $type         = str_replace('-', ' ', $post->post_type);
         $buttonText = "Edit this $type";
 
         if ($type == 'attachment') {
             $url        = admin_url("post.php?post=$post->ID&action=edit");
             $buttonHtml    = "<a href=$url class='button small hidden' class='page-edit'>$buttonText</a>";
-        }else{
+        } else {
             $buttonHtml    = "<button type='button' class='button small hidden page-edit' data-post-id='$postId'>$buttonText</button>";
         }
     }
     $buttonHtml    = apply_filters('post-edit-button', $buttonHtml, $post, $content);
 
-    return $buttonHtml. "<div class='content-wrapper'>$content</div>";
+    return $buttonHtml . "<div class='content-wrapper'>$content</div>";
 }
 
 add_filter('tsjippy-template-filter',  __NAMESPACE__ . '\templateFilter');
@@ -246,9 +254,10 @@ add_filter('tsjippy-template-filter',  __NAMESPACE__ . '\templateFilter');
  * @param string $templateFile The original template file
  * @return string The updated template file
  */
-function templateFilter($templateFile) {
+function templateFilter($templateFile)
+{
     if (str_contains($templateFile, 'single-attachment')) {
-        return PLUGINPATH. 'templates/single-attachment.php';
+        return PLUGINPATH . 'templates/single-attachment.php';
     }
 
     return $templateFile;
@@ -263,10 +272,11 @@ add_filter('display_post_states', __NAMESPACE__ . '\postStatus', 10, 2);
  *
  * @return array The updated list of safe style attributes
  */
-function postStatus($states, $post) {
+function postStatus($states, $post)
+{
     if ($post->ID == (SETTINGS['front-end-post-page'] ?? '')) {
         $states[] = __('Frontend posting page', 'tsjippy');
-    }elseif ( $post->ID == (SETTINGS['pending-posts-page'] ?? '')) {
+    } elseif ($post->ID == (SETTINGS['pending-posts-page'] ?? '')) {
         $states[] = __('Pending posts page', 'tsjippy');
     }
 

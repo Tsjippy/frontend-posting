@@ -1,34 +1,38 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 // filter library if needed
 add_filter('ajax_query_attachments_args',  __NAMESPACE__ . '\attachmentArgs');
-function attachmentArgs($query) {
+function attachmentArgs($query)
+{
     if (!empty($_REQUEST['query']['category'])) {
         $category = $_REQUEST['query']['category'];
 
         $query['tax_query'] = array(
-            array (
+            array(
                 'taxonomy'     => 'attachment_cat',
                 'field'     => 'slug',
-                'terms'     => $category ,
-           )
-       );
+                'terms'     => $category,
+            )
+        );
     }
 
     return $query;
 }
 
 add_action('init', __NAMESPACE__ . '\initTaxonomies');
-function initTaxonomies() {
+function initTaxonomies()
+{
 
     $taxonomies = array('category', 'post_tag'); // add the 2 tax to ...
-    foreach ( $taxonomies as $tax) {
+    foreach ($taxonomies as $tax) {
         register_taxonomy_for_object_type($tax, 'page');
     }
 
@@ -43,13 +47,14 @@ function initTaxonomies() {
  */
 
 add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\attachmentFieldsToEdit', 10, 2);
-function attachmentFieldsToEdit($formFields, $post) {
+function attachmentFieldsToEdit($formFields, $post)
+{
     $categories    = get_categories(array(
         'orderby'         => 'name',
         'order'           => 'ASC',
         'taxonomy'        => 'attachment',
         'hide_empty'     => false,
-   ));
+    ));
 
     $checkboxes        = '';
     $catNames            = '';
@@ -69,25 +74,25 @@ function attachmentFieldsToEdit($formFields, $post) {
         }
 
         $checkboxes    .= "<label>";
-            $checkboxes    .= "<input $checked style='width: initial' type='checkbox' class='attachment-cat-checkbox' value='{$category->slug}' onchange='attachmentChanged(this)'>";
-            $checkboxes    .= $name;
+        $checkboxes    .= "<input $checked style='width: initial' type='checkbox' class='attachment-cat-checkbox' value='{$category->slug}' onchange='attachmentChanged(this)'>";
+        $checkboxes    .= $name;
         $checkboxes    .= "</label><br>";
     }
 
     $html   = "<div class='attachment-cat-wrapper'>";
-        $html    .= "<script>";
-            $html    .= "function attachmentChanged(element) {";
-                $html    .= "let val        = element.value;";
-                $html    .= "let catEl    = document.getElementById('attachments[{$post->ID}][attachment-cat]');";
-                $html    .= "if (element.checked) {";
-                    $html    .= "catEl.value    = catEl.value + ','+val;";
-                $html    .= "} else{";
-                    $html    .= "catEl.value    = catEl.value.replace(','+val, '').replace(val, '');";
-                $html    .= "}";
-            $html    .= "}";
-        $html    .= "</script>";
-        $html    .= "<input type='hidden' class='no-reset' name='attachments[{$post->ID}][attachment-cat]' id='attachments[{$post->ID}][attachment-cat]' value='$catNames'>";
-        $html   .= $checkboxes;
+    $html    .= "<script>";
+    $html    .= "function attachmentChanged(element) {";
+    $html    .= "let val        = element.value;";
+    $html    .= "let catEl    = document.getElementById('attachments[{$post->ID}][attachment-cat]');";
+    $html    .= "if (element.checked) {";
+    $html    .= "catEl.value    = catEl.value + ','+val;";
+    $html    .= "} else{";
+    $html    .= "catEl.value    = catEl.value.replace(','+val, '').replace(val, '');";
+    $html    .= "}";
+    $html    .= "}";
+    $html    .= "</script>";
+    $html    .= "<input type='hidden' class='no-reset' name='attachments[{$post->ID}][attachment-cat]' id='attachments[{$post->ID}][attachment-cat]' value='$catNames'>";
+    $html   .= $checkboxes;
     $html   .= "</div>";
 
     $formFields['attachment-cat']['input']    = 'html';
@@ -98,12 +103,13 @@ function attachmentFieldsToEdit($formFields, $post) {
 }
 
 add_action('tsjippy_before_archive', __NAMESPACE__ . '\beforeArchive');
-function beforeArchive($type) {
+function beforeArchive($type)
+{
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
     if (is_numeric($url)) {
         if ($type == 'event') {
             $text    = "Add an event to the calendar";
-        }else{
+        } else {
             $text    = "Add a new $type";
         }
 
@@ -112,22 +118,24 @@ function beforeArchive($type) {
 }
 
 add_filter('tsjippy_empty_description', __NAMESPACE__ . '\emptyDescription', 10, 2);
-function emptyDescription($message, $post) {
+function emptyDescription($message, $post)
+{
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
     if (!$url) {
         $url    = '';
     }
     $message    = "<div style='margin-top:10px;'>";
-        $message    .= "This {$post->post_type} lacks a description.<br>";
-        $message    .= "Please add one.<br>";
-        $message    .= "<a href='$url?post-id={$post->ID}' class='button'>Add description</a>";
+    $message    .= "This {$post->post_type} lacks a description.<br>";
+    $message    .= "Please add one.<br>";
+    $message    .= "<a href='$url?post-id={$post->ID}' class='button'>Add description</a>";
     $message    .= '</div>';
 
     return $message;
 }
 
 add_filter('tsjippy-empty-taxonomy', __NAMESPACE__ . '\emptyTax', 10, 2);
-function emptyTax($message, $type) {
+function emptyTax($message, $type)
+{
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
     $message    .= "<br><a href='$url?type=$type' class='button'>Add a $type</a>";
     return $message;

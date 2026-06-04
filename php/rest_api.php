@@ -1,16 +1,19 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 add_action('rest_api_init', __NAMESPACE__ . '\restApiInit');
-function restApiInit() {
+function restApiInit()
+{
     // get_attachment_contents
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/get_attachment_contents',
         array(
             'methods'                 => 'POST',
@@ -24,14 +27,14 @@ function restApiInit() {
                     'validate_callback' => function ($attachmentId) {
                         return is_numeric($attachmentId);
                     }
-               ),
-           )
-       )
-   );
+                ),
+            )
+        )
+    );
 
     // add_category
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/add_category',
         array(
             'methods'                 => 'POST',
@@ -46,14 +49,14 @@ function restApiInit() {
                     'validate_callback' => function ($param) {
                         return in_array($param, get_post_types());
                     }
-               ),
-           )
-       )
-   );
+                ),
+            )
+        )
+    );
 
     //submit_post
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/submit_post',
         array(
             'methods'                 => 'POST',
@@ -67,28 +70,28 @@ function restApiInit() {
                     'validate_callback' => function ($param) {
                         return in_array($param, get_post_types());
                     }
-               ),
+                ),
                 'post-title'        => array(
                     'required'    => true
-               ),
+                ),
                 'post-content'    => array(
                     'required'    => true
-               ),
+                ),
                 'post-author'    => array(
                     'required'    => true
-               ),
+                ),
                 'publish-date'    => array(
                     'validate_callback' => function ($param) {
                         return TSJIPPY\isDate($param);
                     }
-               ),
-           )
-       )
-   );
+                ),
+            )
+        )
+    );
 
     // remove_post
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/remove_post',
         array(
             'methods'                 => 'POST',
@@ -106,14 +109,14 @@ function restApiInit() {
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 
     // archive post
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/archive_post',
         array(
             'methods'                 => 'POST',
@@ -131,25 +134,25 @@ function restApiInit() {
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 
     // refresh post lock
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/refresh_post_lock',
         array(
             'methods'                 => 'POST',
             'callback'                 => function () {
-                try{
+                try {
                     if (!function_exists('wp_set_post_lock')) {
                         include ABSPATH . 'wp-admin/includes/post.php';
                     }
                     wp_set_post_lock($_POST['post-id']);
                     return 'Succes';
-                }catch (\Exception $e) {
+                } catch (\Exception $e) {
                     return $e;
                 }
             },
@@ -162,14 +165,14 @@ function restApiInit() {
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 
     // delete post lock
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/delete_post_lock',
         array(
             'methods'                 => 'POST',
@@ -186,14 +189,14 @@ function restApiInit() {
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 
     // change post type
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/change_post_type',
         array(
             'methods'                 => 'POST',
@@ -211,20 +214,20 @@ function restApiInit() {
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-               ),
+                ),
                 'post-type-selector'        => array(
                     'required'    => true,
                     'validate_callback' => function ($param) {
                         return in_array($param, get_post_types());
                     }
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 
     // Get frontend content form
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/post_edit',
         array(
             'methods'                 => 'POST',
@@ -238,14 +241,14 @@ function restApiInit() {
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 
     // Check for posts with the same title
     register_rest_route(
-        RESTAPIPREFIX. '/frontend_posting',
+        RESTAPIPREFIX . '/frontend_posting',
         '/check_duplicate',
         array(
             'methods'                 => 'POST',
@@ -256,17 +259,17 @@ function restApiInit() {
             'args'                    => array(
                 'title'        => array(
                     'required'    => true
-               )
-           )
-       )
-   );
-
+                )
+            )
+        )
+    );
 }
 
 /**
  * Converts a file's contents to html
  */
-function getAttachmentContents(\WP_REST_Request $request) {
+function getAttachmentContents(\WP_REST_Request $request)
+{
     $path    = get_attached_file($request['attachment-id']);
 
     if (!file_exists($path)) {
@@ -279,7 +282,8 @@ function getAttachmentContents(\WP_REST_Request $request) {
 /**
  * Add a new category to a post type
  */
-function addCategory(\WP_REST_Request $request) {
+function addCategory(\WP_REST_Request $request)
+{
     $name        = $request->get_param('cat-name');
     $parent        = $request->get_param('cat-parent');
     $postType    = $request->get_param('post-type');
@@ -301,7 +305,7 @@ function addCategory(\WP_REST_Request $request) {
 
     if (is_wp_error($result)) {
         return new \WP_Error('Event Cat error', $result->get_error_message(), ['status' => 500]);
-    }else{
+    } else {
         return [
             'id'        => $result['term_id'],
             'message'    => "Added $name succesfully as a $postType category"
@@ -312,7 +316,8 @@ function addCategory(\WP_REST_Request $request) {
 /**
  * Get the front posting form
  */
-function sendForm() {
+function sendForm()
+{
     do_action('wp_enqueue_scripts');
     wp_enqueue_media();
 
@@ -345,7 +350,8 @@ function sendForm() {
 /**
  * Gets a post
  */
-function sendPost() {
+function sendPost()
+{
     $postId    = $_REQUEST['post-id'];
 
     // Get the picture
@@ -360,7 +366,8 @@ function sendPost() {
     ];
 }
 
-function submitPost() {
+function submitPost()
+{
     global $post;
 
     $frontEndContent    = new FrontEndContent();
@@ -373,35 +380,35 @@ function submitPost() {
     // Load the updated  post in the loop
     if ($result['post']->post_type  == 'change') {
         $p    = $frontEndContent->oldPost->ID;
-    }else{
+    } else {
         $p    = $frontEndContent->postId;
     }
 
     $posts    = new \WP_Query(array(
         'p'            => $p,
         'post_type' => 'any'
-   ));
+    ));
 
-    $GLOBALS['wp_query']= $posts;
+    $GLOBALS['wp_query'] = $posts;
     $post                = $posts->post;
     $GLOBALS['post']    = $post;
 
     if ('page' == $post->post_type) {
         $type = 'page';
-    }else{
+    } else {
         $type = 'single';
     }
     // Find the the correct template
-    $baseTemplate    = locate_template(["content-{$type}.php",'content.php']);
+    $baseTemplate    = locate_template(["content-{$type}.php", 'content.php']);
     $template         = apply_filters("content_template", $baseTemplate, 'content');
 
     if (empty($template)) {
         $html    = false;
-    }else{
+    } else {
         // Get the html from the template
         ob_start();
         include_once($template);
-        $html=ob_get_clean();
+        $html = ob_get_clean();
     }
 
     // Get the picture
@@ -411,7 +418,7 @@ function submitPost() {
 
     if ($post->post_status == 'pending') {
         $result['url']    = get_preview_post_link($post->ID);
-    }else{
+    } else {
         $result['url']    = get_permalink($post->ID);
     }
 
@@ -431,7 +438,8 @@ function submitPost() {
     return $result;
 }
 
-function checkForDuplicate(\WP_REST_Request $request) {
+function checkForDuplicate(\WP_REST_Request $request)
+{
     global $wpdb;
 
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
@@ -441,7 +449,7 @@ function checkForDuplicate(\WP_REST_Request $request) {
 
     $title    = $request->get_param('title');
     $type    = $request->get_param('type');
-    $exclude= $request->get_param('exclude');
+    $exclude = $request->get_param('exclude');
 
     $query    = "SELECT * FROM {$wpdb->prefix}posts WHERE post_title LIKE %s AND post_type = %s";
 
@@ -451,12 +459,12 @@ function checkForDuplicate(\WP_REST_Request $request) {
     $posts     = $wpdb->get_results(
         $wpdb->prepare(
             $query,
-            "%" .$wpdb->esc_like($title). "%",
+            "%" . $wpdb->esc_like($title) . "%",
             $type,
             $exclude
-       ),
+        ),
         OBJECT
-   );
+    );
 
     $html    = "";
 
@@ -485,8 +493,7 @@ function checkForDuplicate(\WP_REST_Request $request) {
             $url1        = get_permalink($posts[0]);
             $url2        = add_query_arg(['post-id' => $posts[0]->ID], $url);
             $html        .= "See it <a href='$url1'>here</a>, or edit it <a href='$url2'>here</a>";
-
-        }elseif ( count($posts) > 1) {
+        } elseif (count($posts) > 1) {
             $count    = count($posts);
             $html    .= "$count posts with a similar title already exist:<br>";
 
@@ -495,7 +502,6 @@ function checkForDuplicate(\WP_REST_Request $request) {
                 $url2        = add_query_arg(['post-id' => $post->ID], $url);
                 $html        .= "$post->post_title <a href='$url1'>view</a>, or <a href='$url2'>edit</a><br>";
             }
-
         }
     }
 

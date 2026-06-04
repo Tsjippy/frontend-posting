@@ -1,13 +1,16 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 use TSJIPPY\ADMIN;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class PendingPostEmail extends ADMIN\MailSetting{
+class PendingPostEmail extends ADMIN\MailSetting
+{
 
     public $user;
     public $authorName;
@@ -15,7 +18,8 @@ class PendingPostEmail extends ADMIN\MailSetting{
     public $postType;
     public $url;
 
-    public function __construct($user, $authorName='', $actionText='', $postType='', $url='') {
+    public function __construct($user, $authorName = '', $actionText = '', $postType = '', $url = '')
+    {
         // call parent constructor
         parent::__construct('pending_post', PLUGINSLUG);
 

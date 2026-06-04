@@ -1,20 +1,24 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 use TSJIPPY\ADMIN;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class PostOutOfDateEmail extends ADMIN\MailSetting{
+class PostOutOfDateEmail extends ADMIN\MailSetting
+{
 
     public $user;
     public $postTitle;
     public $pageAge;
     public $url;
 
-    public function __construct($user, $postTitle='', $pageAge='', $url='') {
+    public function __construct($user, $postTitle = '', $pageAge = '', $url = '')
+    {
         // call parent constructor
         parent::__construct('page_age', PLUGINSLUG);
 

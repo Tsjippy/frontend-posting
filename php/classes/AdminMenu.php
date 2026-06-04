@@ -1,16 +1,19 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 use TSJIPPY\ADMIN;
 
 use function TSJIPPY\addElement;
 use function TSJIPPY\addRawHtml;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class AdminMenu extends ADMIN\SubAdminMenu{
+class AdminMenu extends ADMIN\SubAdminMenu
+{
 
     /**
      * AdminMenu constructor.
@@ -18,11 +21,13 @@ class AdminMenu extends ADMIN\SubAdminMenu{
      * @param array $settings The settings for the plugin
      * @param string $name The name of the plugin
      */
-    public function __construct($settings, $name) {
+    public function __construct($settings, $name)
+    {
         parent::__construct($settings, $name);
     }
 
-    public function settings($parent) {
+    public function settings($parent)
+    {
         global $wp_roles;
 
         //Get all available roles
@@ -107,30 +112,31 @@ class AdminMenu extends ADMIN\SubAdminMenu{
         return true;
     }
 
-    public function emails($parent) {
+    public function emails($parent)
+    {
         $tab      = 'post-out-of-date-email';
         if (isset($_GET['second-tab'])) {
             $tab  = sanitize_key(wp_unslash($_GET['second-tab']));
         }
 
         ob_start();
-        ?>
+?>
         <div class="tablink-wrapper">
-            <button type="button" class="tablink <?php echo $tab == 'post-out-of-date-email' ? 'active' : '';?>" id="show-post-out-of-date-email" data-target="post-out-of-date-email">
+            <button type="button" class="tablink <?php echo $tab == 'post-out-of-date-email' ? 'active' : ''; ?>" id="show-post-out-of-date-email" data-target="post-out-of-date-email">
                 Post out of date e-mail
             </button>
-            <button type="button" class="tablink <?php echo $tab == 'post-out-of-date-emails' ? 'active' : '';?>" id="show-post-out-of-date-emails" data-target="post-out-of-date-emails">
+            <button type="button" class="tablink <?php echo $tab == 'post-out-of-date-emails' ? 'active' : ''; ?>" id="show-post-out-of-date-emails" data-target="post-out-of-date-emails">
                 Multiple posts out of date e-mail
             </button>
-            <button type="button" class="tablink <?php echo $tab == 'pending-post-email' ? 'active' : '';?>" id="show-pending-post-email" data-target="pending-post-email">
+            <button type="button" class="tablink <?php echo $tab == 'pending-post-email' ? 'active' : ''; ?>" id="show-pending-post-email" data-target="pending-post-email">
                 Pending post e-mail
             </button>
-            <button type="button" class="tablink <?php echo $tab == 'post-approved-email' ? 'active' : '';?>" id="show-post-approved-email" data-target="post-approved-email">
+            <button type="button" class="tablink <?php echo $tab == 'post-approved-email' ? 'active' : ''; ?>" id="show-post-approved-email" data-target="post-approved-email">
                 Post Approved e-mail
             </button>
         </div>
 
-        <div id="post-out-of-date-email" class="tabcontent <?php echo $tab != 'post-out-of-date-email' ? 'hidden' : '';?>">
+        <div id="post-out-of-date-email" class="tabcontent <?php echo $tab != 'post-out-of-date-email' ? 'hidden' : ''; ?>">
             <h4>E-mail send to people when a page is out of date</h4>
             <label>
                 Define the e-mail people get when they are responsible for a page which is out of date.<br>
@@ -144,7 +150,7 @@ class AdminMenu extends ADMIN\SubAdminMenu{
             ?>
         </div>
 
-        <div id="post-out-of-date-emails" class="tabcontent <?php echo $tab != 'post-out-of-date-emails' ? 'hidden' : '';?>">
+        <div id="post-out-of-date-emails" class="tabcontent <?php echo $tab != 'post-out-of-date-emails' ? 'hidden' : ''; ?>">
             <label>
                 Define the e-mail people get when they are responsible for multiple pages which is out of date.<br>
                 You can use placeholders in your inputs.<br>
@@ -157,7 +163,7 @@ class AdminMenu extends ADMIN\SubAdminMenu{
             ?>
         </div>
 
-        <div id="pending-post-email" class="tabcontent <?php echo $tab != 'pending-post-email' ? 'hidden' : '';?>">
+        <div id="pending-post-email" class="tabcontent <?php echo $tab != 'pending-post-email' ? 'hidden' : ''; ?>">
             <h4>E-mail send to content managers when a post is pending</h4>
             <label>
                 Define the e-mail content managers get when someone has submitted a post or post update for review<br>
@@ -169,7 +175,7 @@ class AdminMenu extends ADMIN\SubAdminMenu{
             ?>
         </div>
 
-        <div id="post-approved-email" class="tabcontent <?php echo $tab != 'post-approved-email' ? 'hidden' : '';?>">
+        <div id="post-approved-email" class="tabcontent <?php echo $tab != 'post-approved-email' ? 'hidden' : ''; ?>">
             <h4>E-mail send to authors when their content is approved</h4>
             <label>
                 Define the e-mail authors when their post is approved<br>
@@ -180,26 +186,29 @@ class AdminMenu extends ADMIN\SubAdminMenu{
             $email->printInputs();
             ?>
         </div>
-        <?php
+<?php
 
         addRawHtml(ob_get_clean(), $parent);
 
         return true;
     }
 
-    public function data($parent='') {
+    public function data($parent = '')
+    {
 
 
         return false;
     }
 
-    public function functions($parent) {
+    public function functions($parent)
+    {
 
 
         return false;
     }
 
-    public function postActions() {
+    public function postActions()
+    {
 
 
         return '';
@@ -208,8 +217,9 @@ class AdminMenu extends ADMIN\SubAdminMenu{
     /**
      * Schedules the tasks for this plugin
      *
-    */
-    public function postSettingsSave() {
+     */
+    public function postSettingsSave()
+    {
         scheduleTasks();
 
         return true;

@@ -1,35 +1,38 @@
 <?php
+
 namespace TSJIPPY\FRONTENDPOSTING;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-function readTextFile($path) {
+function readTextFile($path)
+{
     $wpFileSystem   = TSJIPPY\loadWpFileSystem();
 
     $ext     = pathinfo($path, PATHINFO_EXTENSION);
 
     if ($ext == 'docx') {
         $reader = 'Word2007';
-    }elseif ($ext == 'doc') {
+    } elseif ($ext == 'doc') {
         $reader = 'MsDoc';
-    }elseif ($ext == 'rtf') {
+    } elseif ($ext == 'rtf') {
         $reader = 'rtf';
-    }elseif ($ext == 'txt') {
+    } elseif ($ext == 'txt') {
         $reader = 'plain';
-    }else{
+    } else {
         $reader = 'Word2007';
     }
 
     if ($reader == 'plain') {
         $file         = $wpFileSystem->fopen($path, "r");
-        $contents     = $wpFileSystem->fread($file,filesize($path));
+        $contents     = $wpFileSystem->fread($file, filesize($path));
         $wpFileSystem->fclose($file);
 
         return str_replace("\n", '<br>', $contents);
-    }else{
+    } else {
         //Load the filecontents
         $phpWord = \PhpOffice\PhpWord\IOFactory::createReader($reader)->load($path);
 
