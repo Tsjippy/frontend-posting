@@ -191,8 +191,8 @@ class FrontEndContent
                     ?>
                         <h4>Upload your file</h4>
                     <?php
-                        $uploader = new TSJIPPY\FILEUPLOAD\FileUpload($this->user->ID);
-                        echo $uploader->getUploadHtml('attachment', 'private', false, '', true);
+                        $uploader = new TSJIPPY\FILEUPLOAD\FileUploadHtml($this->user->ID);
+                        echo $uploader->getUploadHtml('attachment', 'private', false, [], true);
                     }
                     ?>
                 </div>
