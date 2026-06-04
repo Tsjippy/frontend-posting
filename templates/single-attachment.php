@@ -2,8 +2,8 @@
 namespace TSJIPPY\FRONTENDPOSTING;
 use TSJIPPY;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+if ( ! defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
 }
 
 $postId             = get_the_ID();
@@ -17,7 +17,7 @@ $attachmentUrl  = get_attachment_link();
 
 get_header(); ?>
 
-	<div id='primary'>
+    <div id='primary'>
         <style>
             @media (min-width: 991px) {
                 #primary:not(:only-child) {
@@ -29,13 +29,13 @@ get_header(); ?>
                 margin-top: 10px;
             }
         </style>
-		<main>
-			<?php
-				while ( have_posts() ) :
+        <main>
+            <?php
+                while ( have_posts()) :
 
-					the_post();
+                    the_post();
 
-                    $url	= TSJIPPY\pathToUrl(PLUGINPATH.'pictures/media.png');
+                    $url    = TSJIPPY\pathToUrl(PLUGINPATH. 'pictures/media.png');
 
                     $categories = wp_get_post_terms(
                         get_the_ID(),
@@ -44,41 +44,41 @@ get_header(); ?>
                             'orderby'   => 'name',
                             'order'     => 'ASC',
                             'fields'    => 'id=>name'
-                        )
-                    );
-                    
+                       )
+                   );
+
                     //First loop over the cat to see if any parent cat needs to be removed
-                    foreach($categories as $id => $category){
+                    foreach ($categories as $id => $category) {
                         //Get the child categories of this category
                         $children = get_term_children($id, 'attachment_cat');
-                        
+
                         //Loop over the children to see if one of them is also in the cat array
-                        foreach($children as $child){
-                            if(isset($categories[$child])){
+                        foreach ($children as $child) {
+                            if (isset($categories[$child])) {
                                 unset($categories[$id]);
                                 break;
                             }
                         }
                     }
 
-                    $lastKey	 = array_key_last($categories);
+                    $lastKey     = array_key_last($categories);
                     ?>
                     <div class='media metas'>
                         <?php
-                        if(!empty($categories)){
+                        if (!empty($categories)) {
                             ?>
                             <div class='category media meta' style='padding-top:10px;'>
                                 <img src='<?php echo esc_attr($url);?>' alt='category' loading='lazy' class='media-icon'>
 
                                 <?php
                                 //now loop over the array to print the categories
-                                foreach($categories as $id => $category){
+                                foreach ($categories as $id => $category) {
                                     //Only show the category if all of its subcats are not there
                                     $url        = get_term_link($id);
                                     $category   = ucfirst($category);
                                     echo "<a href='$url'>$category</a>";
-                                    
-                                    if($id != $lastKey){
+
+                                    if ($id != $lastKey) {
                                         echo ', ';
                                     }
                                 }
@@ -88,11 +88,11 @@ get_header(); ?>
                         }
 
                         $vimeoId    = get_post_meta(get_the_ID(), 'vimeo_id', true);
-                        if(is_numeric($vimeoId)){
+                        if (is_numeric($vimeoId)) {
                             ?>
                             <div class='vimeo media meta'>
                                 <?php
-                                $imageUrl   = TSJIPPY\pathToUrl(PLUGINPATH.'pictures/vimeo.png');
+                                $imageUrl   = TSJIPPY\pathToUrl(PLUGINPATH. 'pictures/vimeo.png');
                                 $icon       = "<img src='$imageUrl' alt='vimeo' loading='lazy' class='media-icon'>";
                                 echo "<a href='https://vimeo.com/$vimeoId' title='vimeo id'>$icon $vimeoId</a>";
                                 ?>
@@ -113,7 +113,7 @@ get_header(); ?>
                             <div class="button-wrapper">
                                 <?php
 
-                                if(!empty($description)){
+                                if (!empty($description)) {
                                     /**
                                      * @disregard P1008
                                      */
@@ -124,7 +124,7 @@ get_header(); ?>
 
                                 $url            = apply_filters('tsjippy_media_gallery_download_url', $url, $postId);
 
-                                if(file_exists(TSJIPPY\urlToPath($url))){
+                                if (file_exists(TSJIPPY\urlToPath($url))) {
                                     $fileName   = apply_filters('tsjippy_media_gallery_download_filename', '', $type, $postId);
                                     ?>
                                     <button type="button" class="button small download">
@@ -139,13 +139,13 @@ get_header(); ?>
                     </article>
                     <?php
 
-				endwhile;
-			?>
-		</main>
-	</div>
+                endwhile;
+            ?>
+        </main>
+    </div>
 
-	<?php
+    <?php
 
     get_sidebar();
 
-	get_footer();
+    get_footer();

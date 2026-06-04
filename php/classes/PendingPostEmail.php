@@ -3,8 +3,8 @@ namespace TSJIPPY\FRONTENDPOSTING;
 use TSJIPPY;
 use TSJIPPY\ADMIN;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if ( ! defined('ABSPATH')) {
+    exit;
 }
 
 class PendingPostEmail extends ADMIN\MailSetting{
@@ -17,7 +17,7 @@ class PendingPostEmail extends ADMIN\MailSetting{
 
     public function __construct($user, $authorName='', $actionText='', $postType='', $url='') {
         // call parent constructor
-		parent::__construct('pending_post', PLUGINSLUG);
+        parent::__construct('pending_post', PLUGINSLUG);
 
         $this->addUser($user);
 
@@ -29,6 +29,6 @@ class PendingPostEmail extends ADMIN\MailSetting{
         $this->defaultSubject    = "Please review a %post-type%";
 
         $this->defaultMessage    = 'Hi %first_name%,<br><br>';
-		$this->defaultMessage   .= "%author_name% just %action_text% a %post-type%. Please review it <a href='%url%'>here</a>";
+        $this->defaultMessage   .= "%author_name% just %action_text% a %post-type%. Please review it <a href='%url%'>here</a>";
     }
 }

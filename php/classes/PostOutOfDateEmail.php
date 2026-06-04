@@ -3,8 +3,8 @@ namespace TSJIPPY\FRONTENDPOSTING;
 use TSJIPPY;
 use TSJIPPY\ADMIN;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if ( ! defined('ABSPATH')) {
+    exit;
 }
 
 class PostOutOfDateEmail extends ADMIN\MailSetting{
@@ -16,7 +16,7 @@ class PostOutOfDateEmail extends ADMIN\MailSetting{
 
     public function __construct($user, $postTitle='', $pageAge='', $url='') {
         // call parent constructor
-		parent::__construct('page_age', PLUGINSLUG);
+        parent::__construct('page_age', PLUGINSLUG);
 
         $this->addUser($user);
 
@@ -27,7 +27,7 @@ class PostOutOfDateEmail extends ADMIN\MailSetting{
         $this->defaultSubject    = "Please update the contents of '%post_title%'";
 
         $this->defaultMessage    = 'Hi %first_name%,<br><br>';
-		$this->defaultMessage   .= "It has been %page_age% days since the page with title '%post_title%' on %site_url% has been updated.<br>";
-		$this->defaultMessage   .= "Please follow <a href='%url%'>this link</a> to update it.";
+        $this->defaultMessage   .= "It has been %page_age% days since the page with title '%post_title%' on %site_url% has been updated.<br>";
+        $this->defaultMessage   .= "Please follow <a href='%url%'>this link</a> to update it. ";
     }
 }
