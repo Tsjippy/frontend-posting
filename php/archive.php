@@ -96,7 +96,7 @@ function addPostStatus()
             };
 
             // Bind click event before inline-edit-post.js has a chance to bind it
-            jQuery('#the-list').on('click', ' .editinline', inlineEditPostStatus);
+            jQuery('#the-list').on('click', '.editinline', inlineEditPostStatus);
         });
     </script>
 

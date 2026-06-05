@@ -98,7 +98,7 @@ function pageAgeWarning()
         foreach ($recipients as $recipient) {
             $email    = $recipient->user_email;
             //Only email if valid email
-            if (!str_contains($email, ' .empty')) {
+            if (!str_contains($email, '.empty')) {
 
                 if (!isset($emails[$email])) {
 
