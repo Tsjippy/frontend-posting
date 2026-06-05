@@ -9,6 +9,7 @@
 
 ### Fixed
 - spacing problem
+- space before dot bug
 
 ### Updated
 
