@@ -9,7 +9,7 @@ function restApiInitBlocks()
 {
     // show post list
     register_rest_route(
-        RESTAPIPREFIX . '/frontendposting',
+        TSJIPPY\RESTAPIPREFIX . '/frontendposting',
         '/your_posts',
         array(
             'methods'                 => 'GET',
@@ -22,7 +22,7 @@ function restApiInitBlocks()
 
     // show pening pages
     register_rest_route(
-        RESTAPIPREFIX . '/frontendposting',
+        TSJIPPY\RESTAPIPREFIX . '/frontendposting',
         '/pending_pages',
         array(
             'methods'                 => 'GET',

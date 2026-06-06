@@ -13,7 +13,7 @@ function restApiInit()
 {
     // get_attachment_contents
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/get_attachment_contents',
         array(
             'methods'                 => 'POST',
@@ -34,7 +34,7 @@ function restApiInit()
 
     // add_category
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/add_category',
         array(
             'methods'                 => 'POST',
@@ -56,7 +56,7 @@ function restApiInit()
 
     //submit_post
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/submit_post',
         array(
             'methods'                 => 'POST',
@@ -91,7 +91,7 @@ function restApiInit()
 
     // remove_post
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/remove_post',
         array(
             'methods'                 => 'POST',
@@ -116,7 +116,7 @@ function restApiInit()
 
     // archive post
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/archive_post',
         array(
             'methods'                 => 'POST',
@@ -141,7 +141,7 @@ function restApiInit()
 
     // refresh post lock
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/refresh_post_lock',
         array(
             'methods'                 => 'POST',
@@ -172,7 +172,7 @@ function restApiInit()
 
     // delete post lock
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/delete_post_lock',
         array(
             'methods'                 => 'POST',
@@ -196,7 +196,7 @@ function restApiInit()
 
     // change post type
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/change_post_type',
         array(
             'methods'                 => 'POST',
@@ -227,7 +227,7 @@ function restApiInit()
 
     // Get frontend content form
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/post_edit',
         array(
             'methods'                 => 'POST',
@@ -248,7 +248,7 @@ function restApiInit()
 
     // Check for posts with the same title
     register_rest_route(
-        RESTAPIPREFIX . '/frontend_posting',
+        TSJIPPY\RESTAPIPREFIX . '/frontend_posting',
         '/check_duplicate',
         array(
             'methods'                 => 'POST',
