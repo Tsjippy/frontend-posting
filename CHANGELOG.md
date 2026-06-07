@@ -9,6 +9,7 @@
 - code layout
 - namespaced all constants
 - use wp_kses_post to keep html
+- sanitize all posts and get vars
 
 ### Fixed
 - spacing problem
