@@ -285,7 +285,7 @@ class FrontEndContent
 
         ?>
             <div class='submit-wrapper' style='display: flex;'>
-                <button type='button' class='button savedraft' name='draft-post'><?php echo esc_attr($buttonText); ?></button>
+                <button type='button' class='button savedraft' name='draft-post'><?php echo wp_kses_post($buttonText); ?></button>
             </div>
         <?php
         }
