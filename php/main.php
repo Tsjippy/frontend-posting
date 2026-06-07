@@ -197,9 +197,9 @@ function filterContent($content, $caller = '')
     //This is a draft
     if (isset($_GET['p']) || isset($_GET['page_id'])) {
         if (isset($_GET['p'])) {
-            $postId     = $_GET['p'];
+            $postId     = TSJIPPY\sanitize($_GET['p']);
         } else {
-            $postId     = $_GET['page_id'];
+            $postId     = (int) $_GET['page_id'];
         }
         //published
     } else {

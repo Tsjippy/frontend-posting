@@ -150,7 +150,7 @@ function restApiInit()
                     if (!function_exists('wp_set_post_lock')) {
                         include ABSPATH . 'wp-admin/includes/post.php';
                     }
-                    wp_set_post_lock($_POST['post-id']);
+                    wp_set_post_lock((int) $_POST['post-id']);
                     return 'Succes';
                 } catch (\Exception $e) {
                     return $e;
@@ -177,7 +177,7 @@ function restApiInit()
         array(
             'methods'                 => 'POST',
             'callback'                 => function () {
-                delete_post_meta($_POST['post-id'], '_edit_lock');
+                delete_post_meta((int) $_POST['post-id'], '_edit_lock');
                 return 'Succes';
             },
             'permission_callback'     => function () {

@@ -37,25 +37,25 @@ class FrontEndContent
 
     public function __construct()
     {
-        $this->postId            = isset($_GET['post-id']) ? $_GET['post-id'] : '';
-        $this->user             = wp_get_current_user();
-        $this->post             = null;
+        $this->postId       = isset($_GET['post-id']) ? $_GET['post-id'] : '';
+        $this->user         = wp_get_current_user();
+        $this->post         = null;
         if (is_numeric($this->postId)) {
-            $this->post    = get_post($this->postId);
+            $this->post     = get_post($this->postId);
         }
-        $this->postType         = "post";
-        $this->name             = "post";
-        $this->postTitle         = '';
-        $this->postCategory     = [];
-        $this->postContent        = '';
-        $this->postParent         = null;
-        $this->postImageId        = 0;
-        $this->lite             = false;
+        $this->postType     = "post";
+        $this->name         = "post";
+        $this->postTitle    = '';
+        $this->postCategory = [];
+        $this->postContent  = '';
+        $this->postParent   = null;
+        $this->postImageId  = 0;
+        $this->lite         = false;
 
         if ($this->user->has_cap('edit_others_posts')) {
-            $this->fullrights        = true;
+            $this->fullrights = true;
         } else {
-            $this->fullrights        = false;
+            $this->fullrights = false;
         }
 
         if (get_class($this) == __NAMESPACE__ . '\FrontEndContent') {
@@ -443,7 +443,7 @@ class FrontEndContent
         }
 
         if (!empty($_GET['type'])) {
-            $this->postType     = $_GET['type'];
+            $this->postType     = TSJIPPY\sanitize($_GET['type']);
         }
         $this->postType                                         = apply_filters('tsjippy-frontendcontent-posttype', $this->postType);
 
@@ -1036,7 +1036,7 @@ class FrontEndContent
     {
         foreach ($this->postTypes as $postType => $taxonomy) {
             $cats = [];
-            if (!empty($_POST[$taxonomy . '-ids']) && is_array($_POST[$taxonomy . '-ids'])) {
+            if (is_array($_POST[$taxonomy . '-ids'] ?? '')) {
                 foreach ($_POST[$taxonomy . '-ids'] as $catId) {
                     if (is_numeric($catId)) {
                         $cats[] = $catId;
@@ -1098,7 +1098,7 @@ class FrontEndContent
      */
     public function updateExistingPost()
     {
-        $this->postId = $_POST['post-id'];
+        $this->postId = (int) $_POST['post-id'];
 
         //Retrieve the old post data
         $post = get_post($this->postId);
@@ -1160,12 +1160,11 @@ class FrontEndContent
         // update publish date if needed
         if (
             strtotime($post->post_date) > time()    &&                                // Current post date is in the future
-            !empty($_POST['publish-date'])             &&                                 // a publishing date is set
-            $_POST['publish-date'] != gmdate('Y-m-d', strtotime($post->post_date))    // it is not the same as before
+            ($_POST['publish-date'] ?? '') != gmdate('Y-m-d', strtotime($post->post_date))    // it is not the same as before
         ) {
-            $publishDate                    = gmdate("Y-m-d 08:00:00", strtotime($_POST['publish-date']));
-            $newPostData['post_date']         = $publishDate;
-            $newPostData['post_date_gmt']     = $publishDate;
+            $publishDate                    = gmdate("Y-m-d 08:00:00", strtotime(TSJIPPY\sanitize($_POST['publish-date'])));
+            $newPostData['post_date']       = $publishDate;
+            $newPostData['post_date_gmt']   = $publishDate;
         }
 
         if ($this->postContent != $post->post_content) {
@@ -1177,12 +1176,12 @@ class FrontEndContent
         }
 
         if ($_POST['post-author'] != $post->post_author) {
-            $newPostData['post_author']        = $_POST['post-author'];
+            $newPostData['post_author']        = TSJIPPY\sanitize($_POST['post-author']);
         }
 
         //parent
         if (isset($_POST["parent-$post->post_type"])) {
-            $newPostData['post_parent']        = $_POST["parent-$post->post_type"];
+            $newPostData['post_parent']        = TSJIPPY\sanitize($_POST["parent-$post->post_type"]);
         }
 
         if ($this->postCategories != $post->post_category) {
@@ -1275,19 +1274,19 @@ class FrontEndContent
 
         //New post
         $post = array(
-            'post_type'        => $this->postType,
+            'post_type'     => $this->postType,
             'post_title'    => $this->postTitle,
             'post_content'  => $this->postContent,
             'post_status'   => $this->status,
-            'post-author'   => $_POST['post-author']
+            'post-author'   => TSJIPPY\sanitize($_POST['post-author'])
         );
 
         if ($this->postType == 'attachment') {
-            $this->postId     = TSJIPPY\addToLibrary(TSJIPPY\urlToPath($_POST['attachment'][0]), $this->postTitle, $this->postContent);
+            $this->postId     = TSJIPPY\addToLibrary(TSJIPPY\urlToPath(TSJIPPY\sanitize($_POST['attachment'][0] ?? '', 'url')), $this->postTitle, $this->postContent);
             $post['ID']    = $this->postId;
         } else {
             if (isset($_POST["parent-$this->postType"])) {
-                $newPostData['post_parent']        = $_POST["parent-$this->postType"];
+                $newPostData['post_parent']        = TSJIPPY\sanitize($_POST["parent-$this->postType"]);
             }
 
             if (!empty(count($this->postCategories))) {
@@ -1296,7 +1295,7 @@ class FrontEndContent
 
             //Schedule the post if in the future
             if ($_POST['publish-date'] != gmdate('Y-m-d')) {
-                $publishDate            = gmdate("Y-m-d 08:00:00", strtotime($_POST['publish-date']));
+                $publishDate            = gmdate("Y-m-d 08:00:00", strtotime(TSJIPPY\sanitize($_POST['publish-date'])));
 
                 $post['post_date']         = $publishDate;
                 $post['post_date_gmt']     = $publishDate;
@@ -1353,22 +1352,21 @@ class FrontEndContent
     {
         $this->status    = $status;
         if (empty($this->status)) {
-            $this->status    = sanitize_text_field(wp_unslash($_POST['post-status']));
+            $this->status    = TSJIPPY\sanitize($_POST['post-status']);
         }
 
         if (
             $this->status    == 'publish'            &&
             $this->fullrights                         &&
-            isset($_POST['publish-date'])             &&
-            $_POST['publish-date'] > gmdate('Y-m-d')
+            $_POST['publish-date'] ?? '' > gmdate('Y-m-d')
         ) {
             $this->status    = 'future';
         }
 
-        $this->postType     = sanitize_text_field(wp_unslash($_POST['post-type']));
+        $this->postType     = TSJIPPY\sanitize($_POST['post-type']);
 
         //First letter should be capital in the title
-        $this->postTitle     = ucfirst(trim(sanitize_text_field(wp_unslash($_POST['post-title']))));
+        $this->postTitle     = ucfirst(trim(TSJIPPY\sanitize($_POST['post-title'])));
 
         $this->oldPost        = '';
         if (is_numeric($_POST['post-id'])) {
@@ -1403,7 +1401,7 @@ class FrontEndContent
             }
         }
 
-        $this->postContent     = $this->preparePostContent($_POST['post-content']);
+        $this->postContent     = $this->preparePostContent(TSJIPPY\sanitize($_POST['post-content']));
 
         $this->postCategories = [];
         if (is_array($_POST['category-id'] ?? false)) {
@@ -1432,8 +1430,8 @@ class FrontEndContent
         }
 
         //Set the featured image
-        if (isset($_POST['post-image-id']) && $_POST['post-image-id'] != 0) {
-            set_post_thumbnail($this->postId, $_POST['post-image-id']);
+        if(($_POST['post-image-id'] ?? '') != 0) {
+            set_post_thumbnail($this->postId, (int) $_POST['post-image-id']);
         } elseif ($this->update) {
             delete_post_thumbnail($this->postId);
         }
@@ -1447,14 +1445,13 @@ class FrontEndContent
 
         // Role view rights
         delete_post_meta($this->postId, 'post_view_roles');
-        if (isset($_POST['post-view-roles'])) {
-            if (in_array($_POST['permission-filter-type'], ['blobk', 'allow'])) {
-                update_metadata('post', $this->postId, 'permission_filter_type', $_POST['permission-filter-type']);
-            }
 
-            foreach ($_POST['post-view-roles'] as $role) {
-                add_metadata('post', $this->postId, 'post_view_roles', $role);
-            }
+        if (in_array(TSJIPPY\sanitize($_POST['permission-filter-type'] ?? ''), ['blobk', 'allow'])) {
+            update_metadata('post', $this->postId, 'permission_filter_type', $_POST['permission-filter-type']);
+        }
+
+        foreach (TSJIPPY\sanitize($_POST['post-view-roles'] ?? []) as $role) {
+            add_metadata('post', $this->postId, 'post_view_roles', $role);
         }
 
         //Expiry date
@@ -1463,7 +1460,7 @@ class FrontEndContent
                 delete_post_meta($this->postId, 'expirydate');
             } else {
                 //Store expiry date
-                update_metadata('post', $this->postId, 'expirydate', $_POST['expirydate']);
+                update_metadata('post', $this->postId, 'expirydate', TSJIPPY\sanitize($_POST['expirydate']));
             }
         }
 
@@ -1471,7 +1468,7 @@ class FrontEndContent
         if (!isset($_POST['skipgallery'])) {
             delete_post_meta($this->postId, 'skipgallery');
         } else {
-            update_metadata('post', $this->postId, 'skipgallery', $_POST['skipgallery']);
+            update_metadata('post', $this->postId, 'skipgallery', TSJIPPY\sanitize($_POST['skipgallery']));
         }
 
         if ($post->post_status == 'pending' && $this->status == 'pending') {
@@ -1490,8 +1487,8 @@ class FrontEndContent
             $message    = "Succesfully $this->actionText the $this->postType";
         } elseif ($this->status == 'draft') {
             $message    = "Succesfully $this->actionText the draft for this $this->postType";
-        } elseif ($_POST['publish-date'] > gmdate('Y-m-d') && $this->status == 'future') {
-            $message    = "Succesfully $this->actionText the $this->postType, it will be published on " . gmdate('d F Y', strtotime($_POST['publish-date'])) . ' 8 AM';
+        } elseif (($_POST['publish-date'] ?? '') > gmdate('Y-m-d') && $this->status == 'future') {
+            $message    = "Succesfully $this->actionText the $this->postType, it will be published on " . gmdate('d F Y', strtotime(TSJIPPY\sanitize($_POST['publish-date']))) . ' 8 AM';
         } else {
             $message    = "Succesfully $this->actionText the $this->postType, it will be published after it has been reviewed";
         }
@@ -1511,11 +1508,11 @@ class FrontEndContent
      **/
     public function archivePost()
     {
-        $postId     = $_POST['post-id'];
+        $postId     = (int) $_POST['post-id'];
 
         $data = array(
             'ID'             => $postId,
-            'post_status'     => 'archived'
+            'post_status'    => 'archived'
         );
 
         wp_update_post($data);
@@ -1539,11 +1536,11 @@ class FrontEndContent
      **/
     public function removePost()
     {
-        $postId = $_POST['post-id'];
+        $postId   = (int) $_POST['post-id'];
 
-        $post        = wp_trash_post($postId);
+        $post     = wp_trash_post($postId);
 
-        $postType    = get_post_type($post);
+        $postType = get_post_type($post);
 
         if ($postType) {
             return "Succesfully deleted $postType '{$post->post_title}'<br>You can leave this page now";
@@ -1561,11 +1558,11 @@ class FrontEndContent
      **/
     public function changePostType()
     {
-        $postType    = $_POST['post-type-selector'];
+        $postType = TSJIPPY\sanitize($_POST['post-type-selector']);
 
-        $postId        = $_POST['post-id'];
+        $postId   = (int) $_POST['post-id'];
 
-        $result        = set_post_type($postId, $postType);
+        $result   = set_post_type($postId, $postType);
 
         // remove the parent as parents need to be of the same type
         $this->removeParents($postId);
