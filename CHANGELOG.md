@@ -8,6 +8,7 @@
 - comply to coding standards
 - code layout
 - namespaced all constants
+- use wp_kses_post to keep html
 
 ### Fixed
 - spacing problem
