@@ -10,6 +10,7 @@
 - namespaced all constants
 - use wp_kses_post to keep html
 - sanitize all posts and get vars
+- js updated
 
 ### Fixed
 - spacing problem
