@@ -275,9 +275,9 @@ add_filter('display_post_states', __NAMESPACE__ . '\postStatus', 10, 2);
 function postStatus($states, $post)
 {
     if ($post->ID == (SETTINGS['front-end-post-page'] ?? '')) {
-        $states[] = __('Frontend posting page', 'tsjippy');
+        $states[] = __('Frontend posting page', '%TEXTDOMAIN%');
     } elseif ($post->ID == (SETTINGS['pending-posts-page'] ?? '')) {
-        $states[] = __('Pending posts page', 'tsjippy');
+        $states[] = __('Pending posts page', '%TEXTDOMAIN%');
     }
 
     return $states;
