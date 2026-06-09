@@ -27,7 +27,7 @@ function initPostStatus()
 /* add_action('admin_footer-edit', __NAMESPACE__ . '\addPostStatus');
 add_action('admin_footer-post.php', __NAMESPACE__ . '\addPostStatus');
 add_action('admin_footer-post-new.php', __NAMESPACE__ . '\addPostStatus'); */
-add_action('admin_footer', __NAMESPACE__ . '\addPostStatus');
+add_action('admin_print_footer_scripts', __NAMESPACE__ . '\addPostStatus');
 function addPostStatus()
 {
     global $post;

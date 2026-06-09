@@ -80,19 +80,19 @@ function attachmentFieldsToEdit($formFields, $post)
     }
 
     $html   = "<div class='attachment-cat-wrapper'>";
-    $html    .= "<script>";
-    $html    .= "function attachmentChanged(element) {";
-    $html    .= "let val        = element.value;";
-    $html    .= "let catEl    = document.getElementById('attachments[{$post->ID}][attachment-cat]');";
-    $html    .= "if (element.checked) {";
-    $html    .= "catEl.value    = catEl.value + ','+val;";
-    $html    .= "} else{";
-    $html    .= "catEl.value    = catEl.value.replace(','+val, '').replace(val, '');";
-    $html    .= "}";
-    $html    .= "}";
-    $html    .= "</script>";
-    $html    .= "<input type='hidden' class='no-reset' name='attachments[{$post->ID}][attachment-cat]' id='attachments[{$post->ID}][attachment-cat]' value='$catNames'>";
-    $html   .= $checkboxes;
+        $html    .= "<script>";
+            $html    .= "function attachmentChanged(element) {";
+                $html    .= "let val        = element.value;";
+                $html    .= "let catEl    = document.getElementById('attachments[{$post->ID}][attachment-cat]');";
+                $html    .= "if (element.checked) {";
+                    $html    .= "catEl.value    = catEl.value + ','+val;";
+                $html    .= "} else{";
+                    $html    .= "catEl.value    = catEl.value.replace(','+val, '').replace(val, '');";
+                $html    .= "}";
+            $html    .= "}";
+        $html    .= "</script>";
+        $html    .= "<input type='hidden' class='no-reset' name='attachments[{$post->ID}][attachment-cat]' id='attachments[{$post->ID}][attachment-cat]' value='$catNames'>";
+        $html   .= $checkboxes;
     $html   .= "</div>";
 
     $formFields['attachment-cat']['input']    = 'html';
