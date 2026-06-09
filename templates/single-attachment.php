@@ -17,7 +17,7 @@ $type           = explode('/', $mime)[0];
 $description    = ucfirst(get_the_content());
 $attachmentUrl  = get_attachment_link();
 
-wp_register_style('tsjippy_frontend_template', TSJIPPY\pathToUrl(PLUGINPATH . 'css/template.min.css'), array(), PLUGINVERSION);
+wp_enqueue_style('tsjippy_template');
 
 get_header(); ?>
 
