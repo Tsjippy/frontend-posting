@@ -11,6 +11,7 @@
 - use wp_kses_post to keep html
 - sanitize all posts and get vars
 - js updated
+- moved inline style to scss file
 
 ### Fixed
 - spacing problem
