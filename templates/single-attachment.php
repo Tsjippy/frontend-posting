@@ -8,7 +8,7 @@ if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-$postId             = get_the_ID();
+$postId         = get_the_ID();
 $url            = wp_get_attachment_thumb_url($postId);
 $iconUrl        = $url;
 $title          = get_the_title();
@@ -17,20 +17,11 @@ $type           = explode('/', $mime)[0];
 $description    = ucfirst(get_the_content());
 $attachmentUrl  = get_attachment_link();
 
+wp_register_style('tsjippy_frontend_template', TSJIPPY\pathToUrl(PLUGINPATH . 'css/template.min.css'), array(), PLUGINVERSION);
+
 get_header(); ?>
 
 <div id='primary'>
-    <style>
-        @media (min-width: 991px) {
-            #primary:not(:only-child) {
-                width: 70%;
-            }
-        }
-
-        .content-wrapper {
-            margin-top: 10px;
-        }
-    </style>
     <main>
         <?php
         while (have_posts()) :
