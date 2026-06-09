@@ -52,7 +52,7 @@ function getOldPages()
 function sendPendingPostWarning(object $post, $update)
 {
     //Do not continue if already send
-    if (!empty(get_post_meta($post->ID, 'pending_notification_send', true))) {
+    if (!empty(get_post_meta($post->ID, 'tsjippy_pending_notification_send', true))) {
         return;
     }
 
@@ -95,7 +95,7 @@ function sendPendingPostWarning(object $post, $update)
     }
 
     //Mark warning as send
-    update_metadata('post', $post->ID, 'pending_notification_send', true);
+    update_metadata('post', $post->ID, 'tsjippy_pending_notification_send', true);
 }
 
 //Delete the indicator that the warning has been send
@@ -112,7 +112,7 @@ add_action('transition_post_status', __NAMESPACE__ . '\onStatusChange', 10, 3);
 function onStatusChange($newStatus, $oldStatus, $post)
 {
     if ($newStatus == 'publish' && $oldStatus == 'pending') {
-        delete_post_meta($post->ID, 'pending_notification_send');
+        delete_post_meta($post->ID, 'tsjippy_pending_notification_send');
     }
 }
 
@@ -206,9 +206,9 @@ function filterContent($content, $caller = '')
         $postId         = $post->ID;
     }
 
-    $postViewRoles    = get_post_meta($postId, 'post_view_roles');
+    $postViewRoles    = get_post_meta($postId, 'tsjippy_post_view_roles');
     if (!empty($postViewRoles) && is_array($postViewRoles)) {
-        $type        = get_post_meta($postId, 'permission_filter_type', true);
+        $type        = get_post_meta($postId, 'tsjippy_permission_filter_type', true);
 
         if (!empty($type)) {
             $roles         = get_userdata(get_current_user_id())->roles;

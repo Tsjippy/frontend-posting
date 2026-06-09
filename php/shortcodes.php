@@ -8,7 +8,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-add_shortcode('your_posts', __NAMESPACE__ . '\yourPosts');
+add_shortcode('tsjippy_your_posts', __NAMESPACE__ . '\yourPosts');
 
 function yourPosts()
 {
@@ -80,7 +80,7 @@ function yourPosts()
 }
 
 //Shortcode to display all pages and post who are pending
-add_shortcode("pending-pages", __NAMESPACE__ . '\pendingPages');
+add_shortcode("tsjippy_pending-pages", __NAMESPACE__ . '\pendingPages');
 
 function pendingPages()
 {
@@ -145,7 +145,7 @@ function pendingPages()
 }
 
 //Shortcode to display number of pending posts and pages
-add_shortcode('pending_post_icon', __NAMESPACE__ . '\pendingPostIcon');
+add_shortcode('tsjippy_pending_post_icon', __NAMESPACE__ . '\pendingPostIcon');
 function pendingPostIcon()
 {
     //Get all the posts with a pending status
@@ -173,7 +173,7 @@ function pendingPostIcon()
 }
 
 //Add shortcode for the post edit form
-add_shortcode("front_end_post", __NAMESPACE__ . '\fontEndPost');
+add_shortcode("tsjippy_front_end_post", __NAMESPACE__ . '\fontEndPost');
 function fontEndPost()
 {
     $frontEndContent    = new FrontEndContent();
@@ -181,7 +181,7 @@ function fontEndPost()
 }
 
 //Add shortcode for the post edit form
-add_shortcode("old-pages", __NAMESPACE__ . '\oldPages');
+add_shortcode("tsjippy_old-pages", __NAMESPACE__ . '\oldPages');
 function oldPages()
 {
     $oldPages    = getOldPages();

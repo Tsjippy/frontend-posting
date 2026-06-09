@@ -80,7 +80,7 @@ get_header(); ?>
                 <?php
                 }
 
-                $vimeoId    = get_post_meta(get_the_ID(), 'vimeo_id', true);
+                $vimeoId    = get_post_meta(get_the_ID(), 'tsjippy_vimeo_id', true);
                 if (is_numeric($vimeoId)) {
                 ?>
                     <div class='vimeo media meta'>

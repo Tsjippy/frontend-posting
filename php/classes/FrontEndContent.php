@@ -719,7 +719,7 @@ class FrontEndContent
             <div id="expiry-date-div" class="frontend-form">
                 <h4>Expiry date</h4>
                 <label>
-                    <input type='date' class='' name='expirydate' min="<?php echo gmdate("Y-m-d"); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'expirydate', true)); ?>" style="display: unset; width:unset;">
+                    <input type='date' class='' name='expirydate' min="<?php echo gmdate("Y-m-d"); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'tsjippy_expirydate', true)); ?>" style="display: unset; width:unset;">
                     Set an optional expiry date of this post
                 </label>
             </div>
@@ -751,7 +751,7 @@ class FrontEndContent
             <div id="static-content" class="frontend-form">
                 <h4>Update warnings</h4>
                 <label>
-                    <input type='checkbox' name='static-content' value='static-content' <?php if (get_post_meta($this->postId, 'static_content', true)) {
+                    <input type='checkbox' name='static-content' value='static-content' <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) {
                                                                                             echo 'checked';
                                                                                         } ?>>
                     Do not send update warnings for this page
@@ -929,7 +929,7 @@ class FrontEndContent
             <div id="nonews" class="frontend-form">
                 <h4>News Gallery</h4>
                 <label>
-                    <input type='checkbox' name='skipgallery' value='skipgallery' <?php if (get_post_meta($this->postId, 'skipgallery', true)) {
+                    <input type='checkbox' name='skipgallery' value='skipgallery' <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) {
                                                                                         echo 'checked';
                                                                                     } ?>>
                     Do not add this <?php echo esc_attr($this->post->post_type ?? ''); ?> to the news gallery
@@ -963,7 +963,7 @@ class FrontEndContent
             $viewRoles    = [];
 
             if (is_numeric($this->postId)) {
-                $viewRoles    = get_post_meta($this->postId, 'post_view_roles');
+                $viewRoles    = get_post_meta($this->postId, 'tsjippy_post_view_roles');
             }
 
             ?>
@@ -1438,37 +1438,37 @@ class FrontEndContent
 
         //Static content
         if (isset($_POST['static-content'])) {
-            update_metadata('post', $this->postId, 'static_content', true);
+            update_metadata('post', $this->postId, 'tsjippy_static_content', true);
         } else {
-            delete_post_meta($this->postId, 'static_content');
+            delete_post_meta($this->postId, 'tsjippy_static_content');
         }
 
         // Role view rights
-        delete_post_meta($this->postId, 'post_view_roles');
+        delete_post_meta($this->postId, 'tsjippy_post_view_roles');
 
         if (in_array(TSJIPPY\sanitize($_POST['permission-filter-type'] ?? ''), ['blobk', 'allow'])) {
-            update_metadata('post', $this->postId, 'permission_filter_type', $_POST['permission-filter-type']);
+            update_metadata('post', $this->postId, 'tsjippy_permission_filter_type', $_POST['permission-filter-type']);
         }
 
         foreach (TSJIPPY\sanitize($_POST['post-view-roles'] ?? []) as $role) {
-            add_metadata('post', $this->postId, 'post_view_roles', $role);
+            add_metadata('post', $this->postId, 'tsjippy_post_view_roles', $role);
         }
 
         //Expiry date
         if (isset($_POST['expirydate'])) {
             if (empty($_POST['expirydate'])) {
-                delete_post_meta($this->postId, 'expirydate');
+                delete_post_meta($this->postId, 'tsjippy_expirydate');
             } else {
                 //Store expiry date
-                update_metadata('post', $this->postId, 'expirydate', TSJIPPY\sanitize($_POST['expirydate']));
+                update_metadata('post', $this->postId, 'tsjippy_expirydate', TSJIPPY\sanitize($_POST['expirydate']));
             }
         }
 
         // News Gallery
         if (!isset($_POST['skipgallery'])) {
-            delete_post_meta($this->postId, 'skipgallery');
+            delete_post_meta($this->postId, 'tsjippy_skipgallery');
         } else {
-            update_metadata('post', $this->postId, 'skipgallery', TSJIPPY\sanitize($_POST['skipgallery']));
+            update_metadata('post', $this->postId, 'tsjippy_skipgallery', TSJIPPY\sanitize($_POST['skipgallery']));
         }
 
         if ($post->post_status == 'pending' && $this->status == 'pending') {
@@ -1601,11 +1601,11 @@ class FrontEndContent
      */
     public function getPostMeta($key)
     {
-        $value  = get_post_meta($this->postId, $key, true);
+        $value  = get_post_meta($this->postId, "tsjippy_$key", true);
 
         // use parent value if the revision value is non existing
         if (empty($value) && !empty($this->orgPost)) {
-            $value    =  get_post_meta($this->orgPost->ID, $key, true);
+            $value    =  get_post_meta($this->orgPost->ID, "tsjippy_$key", true);
         }
 
         return $value;
