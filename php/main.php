@@ -153,7 +153,7 @@ function allowedToEdit($post)
     $postAuthor     = $post->post_author;
     $postCategory     = $post->post_category;
     $userPageId     = TSJIPPY\maybeGetUserPageId($user->ID);
-    $ministries     = (array)get_user_meta($user->ID, "jobs", true);
+    $ministries     = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
 
     if (
         $postAuthor == $user->ID                                                             ||     // Own page
