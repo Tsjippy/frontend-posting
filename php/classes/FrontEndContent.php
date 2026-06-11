@@ -188,11 +188,11 @@ class FrontEndContent
                         echo "<h4>Attachment preview</h4>";
                         echo apply_filters('tsjippy_attachment_preview', $image, $this->postId);
                     } else {
-                    ?>
+                        ?>
                         <h4>Upload your file</h4>
-                    <?php
+                        <?php
                         $uploader = new TSJIPPY\FILEUPLOAD\FileUploadHtml($this->user->ID);
-                        echo $uploader->getUploadHtml('attachment', 'private', false, [], true);
+                        echo $uploader->getUploadHtml(inputName: 'attachment', targetDir: 'private', editBeforeUpload: true);
                     }
                     ?>
                 </div>
