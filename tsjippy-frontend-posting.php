@@ -35,11 +35,15 @@ define(__NAMESPACE__ . '\SETTINGS', get_option('tsjippy_frontendposting_settings
 
 // run right before activation
 register_activation_hook(__FILE__, function () {
+    if(file_exists(__DIR__  . '/shared-functionality/loader.php')){
+        require_once(__DIR__  . '/shared-functionality/loader.php');
+    }
+
     // Create frontend posting page
-    $settings    = SETTINGS;
+    $settings                           = SETTINGS;
     $settings['front-end-post-page']    = TSJIPPY\ADMIN\createDefaultPage('Add content', '[front_end_post]');
 
-    $settings['pending-posts-page']        = TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '[pending-pages]');
+    $settings['pending-posts-page']     = TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '[pending-pages]');
 
     update_option('tsjippy_frontendposting_settings', $settings);
 });
