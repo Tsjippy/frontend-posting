@@ -25,11 +25,11 @@ function getOldPages()
         'meta_query' => array(
             'relation' => 'OR',
             array(
-                'key'         => 'static_content',
+                'key'         => 'tsjippy_static_content',
                 'compare'    => 'NOT EXISTS'
             ),
             array(
-                'key'        => 'static_content',
+                'key'        => 'tsjippy_static_content',
                 'compare'    => '!=',
                 'value'        => true
             ),

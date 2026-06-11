@@ -40,11 +40,11 @@ function expiredPostsCheck()
         'meta_query' => array(
             'relation' => 'AND',
             array(
-                'key' => 'expirydate',
+                'key' => 'tsjippy_expirydate',
                 'compare' => 'EXISTS'
             ),
             array(
-                'key' => 'expirydate',
+                'key' => 'tsjippy_expirydate',
                 'value' => gmdate("Y-m-d"),
                 'compare' => '<=',
                 'type' => 'DATE'
