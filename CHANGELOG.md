@@ -10,6 +10,7 @@
 - use named arguments for fileuploadhtml
 
 ### Fixed
+- prefix meta_query
 
 ### Updated
 
