@@ -2,6 +2,17 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.2.7] - 2026-06-11
+
+
+### Added
 - placeholder for textdomain
 - user, post and rest_meta prefixing
 
@@ -11,8 +22,6 @@
 
 ### Fixed
 - prefix meta_query
-
-### Updated
 
 ## [10.2.6] - 2026-06-09
 
