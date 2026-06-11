@@ -7,6 +7,7 @@
 
 ### Changed
 - prefixed post metas and shortcodes
+- use named arguments for fileuploadhtml
 
 ### Fixed
 
