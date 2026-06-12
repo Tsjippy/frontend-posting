@@ -41,9 +41,9 @@ register_activation_hook(__FILE__, function () {
 
     // Create frontend posting page
     $settings                           = SETTINGS;
-    $settings['front-end-post-page']    = TSJIPPY\ADMIN\createDefaultPage('Add content', '[front_end_post]');
+    $settings['front-end-post-page']    = TSJIPPY\ADMIN\createDefaultPage('Add content', '[tsjippy_front_end_post]');
 
-    $settings['pending-posts-page']     = TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '[pending-pages]');
+    $settings['pending-posts-page']     = TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '[tsjippy_pending-pages]');
 
     update_option('tsjippy_frontendposting_settings', $settings);
 });
