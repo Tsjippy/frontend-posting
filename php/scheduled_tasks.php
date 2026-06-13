@@ -149,7 +149,7 @@ function getPageRecipients($page)
     //Get all the users with a ministry set
     $users = get_users(
         array(
-            'meta_key'     => 'jobs'
+            'meta_key'     => 'tsjippy_jobs'
         )
     );
 
