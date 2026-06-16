@@ -159,7 +159,7 @@ function allowedToEdit($post)
         $postAuthor == $user->ID                                                             ||     // Own page
         in_array($post->ID, array_keys($ministries))                                        ||    // ministry pafe
         $userPageId == $postId                                                                ||    // pseronal user page
-        apply_filters('tsjippy_frontend_content_edit_rights', false, $postCategory)                ||    // external filter
+        apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)                ||    // external filter
         $user->has_cap('edit_others_posts')                                                    // user has permission to edit any post
     ) {
         return true;
@@ -242,7 +242,7 @@ function filterContent($content, $caller = '')
             $buttonHtml    = "<button type='button' class='button small hidden page-edit' data-post-id='$postId'>$buttonText</button>";
         }
     }
-    $buttonHtml    = apply_filters('post-edit-button', $buttonHtml, $post, $content);
+    $buttonHtml    = apply_filters('tsjippy-post-edit-button', $buttonHtml, $post, $content);
 
     return $buttonHtml . "<div class='content-wrapper'>$content</div>";
 }

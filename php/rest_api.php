@@ -301,7 +301,7 @@ function addCategory(\WP_REST_Request $request)
         return $result;
     }
 
-    do_action('tsjippy_after_category_add', $postType, strtolower($name), $result);
+    do_action('tsjippy-after-category-add', $postType, strtolower($name), $result);
 
     if (is_wp_error($result)) {
         return new \WP_Error('Event Cat error', $result->get_error_message(), ['status' => 500]);

@@ -115,10 +115,10 @@ get_header(); ?>
                         <?php
                         }
 
-                        $url            = apply_filters('tsjippy_media_gallery_download_url', $url, $postId);
+                        $url            = apply_filters('tsjippy-media-gallery-download-url', $url, $postId);
 
                         if (file_exists(TSJIPPY\urlToPath($url))) {
-                            $fileName   = apply_filters('tsjippy_media_gallery_download_filename', '', $type, $postId);
+                            $fileName   = apply_filters('tsjippy-media-gallery-download-filename', '', $type, $postId);
                         ?>
                             <button type="button" class="button small download">
                                 Download

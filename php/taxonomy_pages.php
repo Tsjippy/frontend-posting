@@ -102,7 +102,7 @@ function attachmentFieldsToEdit($formFields, $post)
     return $formFields;
 }
 
-add_action('tsjippy_before_archive', __NAMESPACE__ . '\beforeArchive');
+add_action('tsjippy-before-archive', __NAMESPACE__ . '\beforeArchive');
 function beforeArchive($type)
 {
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
@@ -117,7 +117,7 @@ function beforeArchive($type)
     }
 }
 
-add_filter('tsjippy_empty_description', __NAMESPACE__ . '\emptyDescription', 10, 2);
+add_filter('tsjippy-empty-description', __NAMESPACE__ . '\emptyDescription', 10, 2);
 function emptyDescription($message, $post)
 {
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
