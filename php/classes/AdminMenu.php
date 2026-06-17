@@ -91,7 +91,7 @@ class AdminMenu extends ADMIN\SubAdminMenu
             'id'    => 'expired-post-type',
             'value' => 'trash'
         ];
-        if ($this->settings['expired-post-type'] == 'trash') {
+        if (($this->settings['expired-post-type'] ?? '') == 'trash') {
             $attributes['checked'] = "checked";
         }
 
@@ -103,7 +103,7 @@ class AdminMenu extends ADMIN\SubAdminMenu
         $label2 = addElement('label', $label, [], 'Archived');
         $attributes['value']    = 'archived';
 
-        if ($this->settings['expired-post-type'] == 'archived') {
+        if (($this->settings['expired-post-type'] ?? '') == 'archived') {
             $attributes['checked'] = "checked";
         }
 
