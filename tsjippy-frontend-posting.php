@@ -59,10 +59,6 @@ register_deactivation_hook(__FILE__, function () {
     if ($postId) {
         wp_delete_post($postId, true);
     }
-
-    wp_clear_scheduled_hook('expired_posts_check_action');
-    wp_clear_scheduled_hook('page_age_warning_action');
-    wp_clear_scheduled_hook('publish_sheduled_posts_action');
 });
 
 // Load shared code

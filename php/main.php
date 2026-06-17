@@ -242,7 +242,7 @@ function filterContent($content, $caller = '')
             $buttonHtml    = "<button type='button' class='button small hidden page-edit' data-post-id='$postId'>$buttonText</button>";
         }
     }
-    $buttonHtml    = apply_filters('tsjippy-post-edit-button', $buttonHtml, $post, $content);
+    $buttonHtml    = apply_filters('tsjippy-frontend-content-post-edit-button', $buttonHtml, $post, $content);
 
     return $buttonHtml . "<div class='content-wrapper'>$content</div>";
 }

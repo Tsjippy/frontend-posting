@@ -8,25 +8,19 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-add_action('init', __NAMESPACE__ . '\initTasks');
-function initTasks()
-{
-    //add action for use in scheduled task
-    add_action('tsjippy-expired-posts-check', __NAMESPACE__ . '\expiredPostsCheck');
-    add_action('tsjippy-page-age-warning', __NAMESPACE__ . '\pageAgeWarning');
-    add_action('tsjippy-publish-posts', __NAMESPACE__ . '\publishPost');
-    add_action('tsjippy-publish-sheduled-posts', __NAMESPACE__ . '\publish_missed_posts');
-}
-
+add_action('init', __NAMESPACE__ . '\scheduleTasks');
 function scheduleTasks()
 {
-    TSJIPPY\scheduleTask('tsjippy-expired-posts-check', 'daily');
-    TSJIPPY\scheduleTask('tsjippy-publish-sheduled-posts', 'quarterly');
+    TSJIPPY\scheduleTask('tsjippy-frontend-posting-expired-posts-check', 'daily', __NAMESPACE__, 'expiredPostsCheck');
+    TSJIPPY\scheduleTask('tsjippy-frontend-posting-publish-sheduled-posts', 'quarterly', __NAMESPACE__, 'publish_missed_posts');
 
     $freq    = SETTINGS['page-age-reminder'] ?? false;
     if ($freq) {
-        TSJIPPY\scheduleTask('tsjippy-page-age-warning', $freq);
+        TSJIPPY\scheduleTask('tsjippy-frontend-posting-page-age-warning', $freq, __NAMESPACE__, 'pageAgeWarning');
     }
+
+    //add action for use in scheduled task
+    //add_action('tsjippy-frontend-posting-publish-posts', __NAMESPACE__ . '\publishPost');
 }
 
 /**
