@@ -30,18 +30,18 @@ function expiredPostsCheck()
 {
     //Get all posts with the expirydate meta key with a value equal or before today
     $posts = get_posts(array(
-        'numberposts'      => -1,
-        'meta_query' => array(
+        'numberposts' => -1,
+        'meta_query'  => array(
             'relation' => 'AND',
             array(
-                'key' => 'tsjippy_expirydate',
+                'key'     => 'tsjippy_expirydate',
                 'compare' => 'EXISTS'
             ),
             array(
-                'key' => 'tsjippy_expirydate',
-                'value' => gmdate("Y-m-d"),
+                'key'     => 'tsjippy_expirydate',
+                'value'   => gmdate("Y-m-d"),
                 'compare' => '<=',
-                'type' => 'DATE'
+                'type'    => 'DATE'
             ),
         )
     ));
@@ -75,17 +75,17 @@ function pageAgeWarning()
     //Loop over all the pages
     foreach (getOldPages() as $page) {
         //Get the ID of the current page
-        $postId                 = $page->ID;
+        $postId    = $page->ID;
 
-        $postTitle                 = $page->post_title;
+        $postTitle = $page->post_title;
 
         //Get the edit page url
-        $url        = get_permalink(SETTINGS['front-end-post-page'] ?? '');
-        $url         = add_query_arg(['post-id' => $postId], $url);
+        $url       = get_permalink(SETTINGS['front-end-post-page'] ?? '');
+        $url       = add_query_arg(['post-id' => $postId], $url);
 
         //Get the last modified date
-        $secondsSinceUpdated     = time() - get_post_modified_time('U', true, $page);
-        $pageAge                = round($secondsSinceUpdated / 60 / 60 / 24);
+        $secondsSinceUpdated = time() - get_post_modified_time('U', true, $page);
+        $pageAge             = round($secondsSinceUpdated / 60 / 60 / 24);
 
         //Send an e-mail
         $recipients = getPageRecipients($page);
@@ -171,11 +171,11 @@ function publish_missed_posts()
 {
     $posts = get_posts(
         array(
-            'post_type'        => 'any',
-            'numberposts'    => -1,
-            'post_status'    => 'future',
-            'date_query' => [
-                'column' => 'post_date',
+            'post_type'   => 'any',
+            'numberposts' => -1,
+            'post_status' => 'future',
+            'date_query'  => [
+                'column'  => 'post_date',
                 'before'  => "now",
             ],
         )
