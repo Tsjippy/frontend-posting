@@ -13,7 +13,7 @@ add_filter('ajax_query_attachments_args',  __NAMESPACE__ . '\attachmentArgs');
 function attachmentArgs($query)
 {
     if (!empty($_REQUEST['query']['category'])) {
-        $category = $_REQUEST['query']['category'];
+        $category = TSJIPPY\sanitize($_REQUEST['query']['category'] ?? '');
 
         $query['tax_query'] = array(
             array(

@@ -323,9 +323,9 @@ function sendForm()
 
     wp_enqueue_editor();
 
-    $frontEndContent            = new FrontEndContent();
-    $frontEndContent->postId    = $_REQUEST['post-id'];
-    $html                        = $frontEndContent->frontendPost(true);
+    $frontEndContent         = new FrontEndContent();
+    $frontEndContent->postId = (int) $_REQUEST['post-id'];
+    $html                    = $frontEndContent->frontendPost(true);
 
     \_WP_Editors::enqueue_scripts();
     ob_start();
@@ -352,10 +352,10 @@ function sendForm()
  */
 function sendPost()
 {
-    $postId    = $_REQUEST['post-id'];
+    $postId  = (int) $_REQUEST['post-id'];
 
     // Get the picture
-    $url    = get_the_post_thumbnail_url($postId, 'full');
+    $url     = get_the_post_thumbnail_url($postId, 'full');
 
     // Get  the content
     $content = apply_filters('the_content', get_the_content());
