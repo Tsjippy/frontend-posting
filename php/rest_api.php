@@ -447,7 +447,7 @@ function checkForDuplicate(\WP_REST_Request $request)
         return;
     }
 
-    $title    = $request->get_param('title');
+    $title   = $request->get_param('title');
     $type    = $request->get_param('type');
     $exclude = $request->get_param('exclude');
 
