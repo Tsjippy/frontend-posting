@@ -929,9 +929,13 @@ class FrontEndContent
             <div id="nonews" class="frontend-form">
                 <h4>News Gallery</h4>
                 <label>
-                    <input type='checkbox' name='skipgallery' value='skipgallery' <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) {
-                                                                                        echo 'checked';
-                                                                                    } ?>>
+                    <input 
+                        type='checkbox' 
+                        name='skipgallery' 
+                        value='skipgallery' 
+                        <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) {
+                            echo 'checked';
+                        } ?>>
                     Do not add this <?php echo esc_attr($this->post->post_type ?? ''); ?> to the news gallery
                 </label>
             </div>
@@ -1468,7 +1472,7 @@ class FrontEndContent
         if (!isset($_POST['skipgallery'])) {
             delete_post_meta($this->postId, 'tsjippy_skipgallery');
         } else {
-            update_metadata('post', $this->postId, 'tsjippy_skipgallery', TSJIPPY\sanitize($_POST['skipgallery']));
+            update_metadata('post', $this->postId, 'tsjippy_skipgallery', true);
         }
 
         if ($post->post_status == 'pending' && $this->status == 'pending') {
