@@ -55,7 +55,7 @@ get_header(); ?>
             }
 
             $lastKey     = array_key_last($categories);
-        ?>
+            ?>
             <div class='media metas'>
                 <?php
                 if (!empty($categories)) {
@@ -69,7 +69,11 @@ get_header(); ?>
                             //Only show the category if all of its subcats are not there
                             $url        = get_term_link($id);
                             $category   = ucfirst($category);
-                            echo "<a href='$url'>$category</a>";
+                            ?>
+                            <a href='<?php echo esc_url($url);?>'>
+                                <?php echo esc_html($category);?>
+                            </a>
+                            <?php
 
                             if ($id != $lastKey) {
                                 echo ', ';
@@ -84,11 +88,10 @@ get_header(); ?>
                 if (is_numeric($vimeoId)) {
                 ?>
                     <div class='vimeo media meta'>
-                        <?php
-                        $imageUrl   = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/vimeo.png');
-                        $icon       = "<img src='$imageUrl' alt='vimeo' loading='lazy' class='media-icon'>";
-                        echo "<a href='https://vimeo.com/$vimeoId' title='vimeo id'>$icon $vimeoId</a>";
-                        ?>
+                        <a href='https://vimeo.com/<?php echo esc_attr($vimeoId);?>' title='vimeo id'>
+                            <img src='<?php echo esc_url(TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/vimeo.png'));?>' alt='vimeo' loading='lazy' class='media-icon'> 
+                            <?php echo esc_html($vimeoId); ?>
+                        </a>
                     </div>
                 <?php
                 }
@@ -110,9 +113,11 @@ get_header(); ?>
                             /**
                              * @disregard P1008
                              */
-                        ?>
-                            <button type='button' class='button small description' data-description='<?php echo base64_encode($description); ?>' title='<?php echo strip_tags($title); ?>'>Description</button>
-                        <?php
+                            ?>
+                            <button type='button' class='button small description' data-description='<?php echo esc_attr(base64_encode($description)); ?>' title='<?php echo esc_html($title); ?>'>
+                                Description
+                            </button>
+                            <?php
                         }
 
                         $url            = apply_filters('tsjippy-media-gallery-download-url', $url, $postId);

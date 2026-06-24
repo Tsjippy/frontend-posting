@@ -200,7 +200,7 @@ function restApiInit()
         '/change_post_type',
         array(
             'methods'                 => 'POST',
-            'callback'                 => function () {
+            'callback'                => function () {
                 $frontEndContent    = new FrontEndContent();
                 return $frontEndContent->changePostType();
             },
@@ -214,14 +214,14 @@ function restApiInit()
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-                ),
-                'post-type-selector'        => array(
-                    'required'    => true,
+                ),            
+                'post-type-selector'    => array(
+                    'required'          => true,
                     'validate_callback' => function ($param) {
                         return in_array($param, get_post_types());
                     }
                 )
-            )
+            ),
         )
     );
 

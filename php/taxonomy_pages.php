@@ -113,7 +113,12 @@ function beforeArchive($type)
             $text    = "Add a new $type";
         }
 
-        echo "<a href='$url?type=$type' class='button'>$text</a><br>";
+        ?>
+        <a href='<?php echo esc_url("$url?type=$type");?>' class='button'>
+            <?php echo esc_html($text);?>
+        </a>
+        <br>
+        <?php
     }
 }
 

@@ -13,13 +13,14 @@ add_action('init', __NAMESPACE__ . '\initPostStatus');
 function initPostStatus()
 {
     register_post_status('archived', array(
-        'label'                     => _x('Archived', 'post'),
+        'label'                     => _x('Archived', 'post', '%TEXTDOMAIN%'),
         'public'                    => false,
         'exclude_from_search'       => false,
         'show_in_admin_all_list'    => true,
         'show_in_admin_status_list' => true,
         'protected'                 => true,
-        'label_count'               => _n_noop('Archived <span class="count">(%s)</span>', 'Archived <span class="count">(%s)</span>'),
+        /* translators: %d: post count. */
+        'label_count'               => _n_noop('Archived <span class="count">(%d)</span>', 'Archived <span class="count">(%d)</span>', '%TEXTDOMAIN%'),
     ));
 }
 

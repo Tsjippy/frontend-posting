@@ -78,20 +78,20 @@ async function deletePostLock() {
 
 // Strores a change of post type on the server
 async function changePostType(target) {
-  var response = await FormSubmit.submitForm(
-    target,
-    "frontend_posting/change_post_type",
-  );
-
-  if (response) {
-    Main.displayMessage(response);
+  // no need to run on a new post
+  if(target.closest('form').querySelector(`[name="post-id"]`).value == ''){
+    return;
   }
+
+  let formData = new FormData(target.closest('form'));
+
+  let response = await FormSubmit.fetchRestApi("frontend_posting/change_post_type", formData);
 }
 
 // Switches the available fields on post type change
 function switchforms(target) {
-  var postType;
-  var parent = document.getElementById("frontend-upload-form");
+  let postType;
+  let parent = document.getElementById("frontend-upload-form");
 
   if (target == null) {
     postType = location.search.replace("?type=", "");
@@ -135,6 +135,19 @@ function switchforms(target) {
   if (postType == "attachment") {
     // tick the box to always include the url
     parent.querySelector('[name="signal-url"]').checked = true;
+  }
+
+  // title is not empty
+  if (
+    target
+      .closest("#frontend-upload-form")
+      .querySelector('[name="post-title"]').value != ""
+  ) {
+    checkForDuplicate(
+      target
+        .closest("#frontend-upload-form")
+        .querySelector('[name="post-title"]'),
+    );
   }
 }
 
@@ -511,8 +524,6 @@ document.addEventListener("click", (event) => {
     confirmPostDelete(event, "delete");
   } else if (target.name == "archive-post") {
     confirmPostDelete(event, "archive");
-  } else if (target.name == "change-post-type") {
-    changePostType(target);
   } else if (target.name == "add-featured-image") {
     addFeaturedImage(event);
   } else if (target.id == "show-all-fields") {
@@ -558,25 +569,21 @@ document.addEventListener("click", (event) => {
 document.addEventListener("change", (event) => {
   let target = event.target;
 
-  //listen to change of post type
+  /**
+   * Post type changed
+   */
   if (target.id == "post-type-selector") {
     switchforms(target);
 
-    // title is not empty
-    if (
-      target
-        .closest("#frontend-upload-form")
-        .querySelector('[name="post-title"]').value != ""
-    ) {
-      checkForDuplicate(
-        target
-          .closest("#frontend-upload-form")
-          .querySelector('[name="post-title"]'),
-      );
-    }
-  } else if (target.name == "post-title") {
+    // store in db
+    changePostType(target);
+  } 
+  
+  else if (target.name == "post-title") {
     checkForDuplicate(target);
-  } else if (target.list != null) {
+  } 
+  
+  else if (target.list != null) {
     //find the relevant datalist option
     let datalistOp = target.list.querySelector(`[value='${target.value}' i]`);
     if (datalistOp != null) {
@@ -592,7 +599,10 @@ document.addEventListener("change", (event) => {
   //listen for parent type select
   else if (target.classList.contains("parent_cat")) {
     catChanged(target);
-  } else {
+  } 
+
+  
+  else {
     return;
   }
 
