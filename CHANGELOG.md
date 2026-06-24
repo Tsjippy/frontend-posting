@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- change post type on select
 
 ### Fixed
 
