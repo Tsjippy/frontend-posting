@@ -797,11 +797,14 @@ class FrontEndContent
         <?php if ($this->postType != 'post') {
             echo ' hidden';
         } ?>">
-            <div id="expiry-date-div" class="frontend-form">
-                <h4>Expiry date</h4>
-                <label>
+            <div id="expiry-date-div" class="frontend-form expand-wrapper">
+                <h4>
+                    Expiry date
+                    <button class="button small expand" type='button'>&#9660;</button>
+                </h4>
+                <label class='hidden expandable'>
+                    Expiry date<br>
                     <input type='date' class='' name='expirydate' min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'tsjippy_expirydate', true)); ?>" style="display: unset; width:unset;">
-                    Set an optional expiry date of this post
                 </label>
             </div>
         </div>
@@ -822,22 +825,28 @@ class FrontEndContent
         <?php if ($this->postType != 'page') {
             echo ' hidden';
         } ?>">
-            <div id="parentpage" class="frontend-form">
+            <div id="parentpage" class="frontend-form expand-wrapper">
                 <h4>
                     Select a parent page
+                    <button class="button small expand" type='button'>&#9660;</button>
                 </h4>
-                <?php
-                // phpcs:ignore
-                echo TSJIPPY\pageSelect('parent-page', $this->postParent, '', ['page'], false);
-                ?>
+                <div class='expandable'>
+                    <?php
+                    // phpcs:ignore
+                    echo TSJIPPY\pageSelect('parent-page', $this->postParent, '', ['page'], false);
+                    ?>
+                </div>
             </div>
 
             <?php
             do_action('tsjippy-frontend-content-page-specific-fields', $this->postId);
             ?>
-            <div id="static-content" class="frontend-form">
-                <h4>Update warnings</h4>
-                <label>
+            <div id="static-content" class="frontend-form expand-wrapper">
+                <h4>
+                    Update warnings
+                    <button class="button small expand" type='button'>&#9660;</button>
+                </h4>
+                <label class='expandable'>
                     <input 
                     type='checkbox' 
                     name='static-content' 
@@ -1000,8 +1009,20 @@ class FrontEndContent
             if (isset($this->post->post_author) && is_numeric($this->post->post_author)) {
                 $authorId = $this->post->post_author;
             }
+            
+            ?>
+            <div class='expand-wrapper'>
+                <h4>
+                    Author <button class="button small expand" type='button'>&#9660;</button>
+                </h4>
 
-            TSJIPPY\userSelect(title: 'Author', onlyAdults: true, id: 'post-author', userId: $authorId, echo: true);
+                <div class='hidden expandable'>
+                    <?php
+                    TSJIPPY\userSelect(onlyAdults: true, id: 'post-author', userId: $authorId, echo: true);
+                    ?>
+                </div>
+            </div>
+            <?php
 
             // Only show publish date if not yet published
             if (empty($this->post->post_status) || !in_array($this->post->post_status, ['publish', 'inherit'])) {
@@ -1011,19 +1032,28 @@ class FrontEndContent
                     $publishDate    = max(gmdate("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
                 }
 
-            ?>
-                <label>
-                    <h4>Publishing date</h4>
-                    <input type="date" min="<?php echo gmdate("Y-m-d"); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
-                    Define when the content should be published
-                </label>
-            <?php
+                ?>
+                <div class='expand-wrapper'>
+                    <h4>
+                        Publishing date
+                        <button class="button small expand" type='button'>&#9660;</button>
+                    </h4>
+
+                    <div class='hidden expandable'>
+                        Publish Date<br>
+                        <input type="date" min="<?php echo gmdate("Y-m-d"); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
+                    </div>
+                </div>
+                <?php
             }
 
             ?>
-            <div id="nonews" class="frontend-form">
-                <h4>News Gallery</h4>
-                <label>
+            <div id="nonews" class="frontend-form expand-wrapper">
+                <h4>
+                    News Gallery
+                    <button class="button small expand" type='button'>&#9660;</button>
+                </h4>
+                <label class='hidden expandable'>
                     <input
                         type='checkbox'
                         name='skipgallery'
@@ -1043,48 +1073,56 @@ class FrontEndContent
             do_action('tsjippy-frontend-content-post-after-content', $this);
 
             ?>
-            <h4>View Permissions</h4>
-            <label>
-                <input type='radio' name='permission-filter-type' id='permission-filter-type' value='block'>
-                Block this page
-            </label>
-            <label>
-                <input type='radio' name='permission-filter-type' id='permission-filter-type' value='allow'>
-                Allow this page
-            </label>
-            <br>
-            for accounts with one of the following roles:<br>
-            <?php
-            global $wp_roles;
+            <div class='expand-wrapper'>
+                <h4>
+                    View Permissions
+                    <button class="button small expand" type='button'>&#9660;</button>
+                </h4>
 
-            $userRoles    = $wp_roles->role_names;
-
-            $viewRoles    = [];
-
-            if (is_numeric($this->postId)) {
-                $viewRoles    = get_post_meta($this->postId, 'tsjippy_post_view_roles');
-            }
-
-            ?>
-            <select name='post-view-roles[]' multiple>
-                <option value=''>---</option>
-
-                <?php
-                foreach ($userRoles as $key => $roleName) {
-                    ?>
-                    <option 
-                    value='<?php echo esc_attr($key);?>'
+                <div class='hidden expandable'>
+                    <label>
+                        <input type='radio' name='permission-filter-type' id='permission-filter-type' value='block'>
+                        Block this page
+                    </label>
+                    <label>
+                        <input type='radio' name='permission-filter-type' id='permission-filter-type' value='allow'>
+                        Allow this page
+                    </label>
+                    <br>
+                    for accounts with one of the following roles:<br>
                     <?php
-                    if (in_array($key, $viewRoles)) {
-                        echo('selected');
+                    global $wp_roles;
+
+                    $userRoles    = $wp_roles->role_names;
+
+                    $viewRoles    = [];
+
+                    if (is_numeric($this->postId)) {
+                        $viewRoles    = get_post_meta($this->postId, 'tsjippy_post_view_roles');
                     }
-                    ?>>
-                        <?php echo esc_html($roleName);?>
-                    </option>
-                    <?php
-                }
-                ?>
-            </select>
+
+                    ?>
+                    <select name='post-view-roles[]' multiple>
+                        <option value=''>---</option>
+
+                        <?php
+                        foreach ($userRoles as $key => $roleName) {
+                            ?>
+                            <option 
+                            value='<?php echo esc_attr($key);?>'
+                            <?php
+                            if (in_array($key, $viewRoles)) {
+                                echo('selected');
+                            }
+                            ?>>
+                                <?php echo esc_html($roleName);?>
+                            </option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
         </div>
         <?php
     }
