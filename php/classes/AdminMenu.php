@@ -207,11 +207,4 @@ class AdminMenu extends ADMIN\SubAdminMenu
 
         return false;
     }
-
-    public function postActions()
-    {
-
-
-        return '';
-    }
 }

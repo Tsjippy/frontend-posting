@@ -106,9 +106,9 @@ class FrontEndContent
 
         $this->publishDate  = TSJIPPY\sanitize($_REQUEST['publish-date'] ?? null);
 
-        $this->author       = (int) $_REQUEST['post-author'] ?? null;
+        $this->author       = (int) ($_REQUEST['post-author'] ?? null);
 
-        $this->status       = TSJIPPY\sanitize($_REQUEST['post-status']);
+        $this->status       = TSJIPPY\sanitize($_REQUEST['post-status'] ?? '');
     }
 
     /**
@@ -1327,8 +1327,8 @@ class FrontEndContent
             $newPostData['post_status']     = $this->status;
         }
 
-        if (($this->author ?? '') != $post->post_author) {
-            $newPostData['post_author']        = $this->author ?? '';
+        if ($this->author != $post->post_author) {
+            $newPostData['post_author']        = $this->author;
         }
 
         //parent
@@ -1430,15 +1430,15 @@ class FrontEndContent
             'post_title'    => $this->postTitle,
             'post_content'  => $this->postContent,
             'post_status'   => $this->status,
-            'post-author'   => TSJIPPY\sanitize($this->author ?? '')
+            'post-author'   => $this->author
         );
 
         if ($this->postType == 'attachment') {
-            $this->postId     = TSJIPPY\addToLibrary(TSJIPPY\urlToPath(TSJIPPY\sanitize($request['attachment'][0] ?? '', 'url')), $this->postTitle, $this->postContent);
+            $this->postId     = TSJIPPY\addToLibrary(TSJIPPY\urlToPath($request['attachment'][0] ?? ''), $this->postTitle, $this->postContent);
             $post['ID']    = $this->postId;
         } else {
             if (isset($request["parent-$this->postType"])) {
-                $newPostData['post_parent']        = TSJIPPY\sanitize($request["parent-$this->postType"]);
+                $newPostData['post_parent']        = $request["parent-$this->postType"];
             }
 
             if (!empty(count($this->postCategories))) {
@@ -1447,7 +1447,7 @@ class FrontEndContent
 
             //Schedule the post if in the future
             if (($this->publishDate ?? '') != gmdate('Y-m-d')) {
-                $publishDate            = gmdate("Y-m-d 08:00:00", strtotime(TSJIPPY\sanitize($this->publishDate ?? '')));
+                $publishDate            = gmdate("Y-m-d 08:00:00", strtotime($this->publishDate));
 
                 $post['post_date']         = $publishDate;
                 $post['post_date_gmt']     = $publishDate;
@@ -1640,7 +1640,7 @@ class FrontEndContent
         } elseif ($this->status == 'draft') {
             $message    = "Succesfully $this->actionText the draft for this $this->postType";
         } elseif (($this->publishDate ?? '') > gmdate('Y-m-d') && $this->status == 'future') {
-            $message    = "Succesfully $this->actionText the $this->postType, it will be published on " . gmdate('d F Y', strtotime(TSJIPPY\sanitize($this->publishDate ?? ''))) . ' 8 AM';
+            $message    = "Succesfully $this->actionText the $this->postType, it will be published on " . gmdate('d F Y', strtotime($this->publishDate)) . ' 8 AM';
         } else {
             $message    = "Succesfully $this->actionText the $this->postType, it will be published after it has been reviewed";
         }
