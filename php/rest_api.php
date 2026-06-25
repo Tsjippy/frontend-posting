@@ -202,7 +202,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                => function () {
                 $frontEndContent    = new FrontEndContent();
-                return $frontEndContent->changePostType();
+                return $frontEndContent->changePostType(TSJIPPY\sanitize($_POST['post-type-selector']));
             },
             'permission_callback'     => function () {
                 $frontEndContent    = new FrontEndContent();
@@ -371,7 +371,7 @@ function submitPost()
     global $post;
 
     $frontEndContent    = new FrontEndContent();
-    $result             = $frontEndContent->submitPost();
+    $result             = $frontEndContent->submitPost(TSJIPPY\sanitize($_POST));
 
     if (is_wp_error($result)) {
         return $result;

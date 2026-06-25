@@ -35,7 +35,7 @@ class FrontEndContent
     public string|null $publishDate;
     public \WP_Post|array|null $oldPost;
     public \WP_Post|array|null $orgPost;
-    public int|null $author; 
+    public int|null $author;
 
     public function __construct()
     {
@@ -83,23 +83,24 @@ class FrontEndContent
         $this->postTypes    = apply_filters('tsjippy-frontend-content-post-types-and-tax', $postTypes, $this);
     }
 
-    private function processRequestParams(){
-        
+    private function processRequestParams()
+    {
+
         $this->postType     = TSJIPPY\sanitize($_REQUEST['type'] ?? 'post');
         $this->postType     = TSJIPPY\sanitize($_REQUEST['post-type'] ?? $this->postType);
 
         //show lite version of location by default
         if (str_contains($this->postType, '_lite')) {
             $this->lite         = true;
-        }else{
+        } else {
             $this->lite         = false;
         }
 
         $this->postId       = $_REQUEST['post-id'] ?? null;
-        if(!empty($this->postId)){
+        if (!empty($this->postId)) {
             $this->postId   = (int) $this->postId;
             $this->post     = get_post($this->postId);
-        }else{
+        } else {
             $this->post = $this->postId = null;
         }
 
@@ -152,7 +153,7 @@ class FrontEndContent
             //Show warning when post has been updated recently
             if ($secondsSinceUpdated < 3600 && $secondsSinceUpdated > -1) {
                 $minutes = intval($secondsSinceUpdated / 60);
-?>
+        ?>
                 <div class='warning'>
                     This <?php echo esc_html($this->postType); ?> has been updated <span id='minutes'><?php echo esc_html($minutes); ?></span> minutes ago.
                 </div>
@@ -180,7 +181,7 @@ class FrontEndContent
             <?php
             if (has_blocks($this->postContent)) {
                 $url    = get_edit_post_link($this->postId);
-                ?>
+            ?>
                 <div class='warning'>
                     This <?php echo esc_html($this->postType); ?> contains some Gutenberg blocks.<br>
                     Click <a href='<?php echo esc_url($url); ?>'>here</a> if you want to switch to the Gutenberg editor<br>
@@ -325,12 +326,12 @@ class FrontEndContent
                         add_action(
                             'media_buttons',
                             function () use ($text) {
-                            ?>
+                    ?>
                             <button type='button' name='add-featured-image' class='button add-media'>
                                 <span class='wp-media-buttons-icon'></span>
                                 <?php echo esc_html($text); ?> Featured Image
                             </button>
-                            <?php
+                    <?php
                             },
                             5
                         );
@@ -358,19 +359,19 @@ class FrontEndContent
                         <button type='button' class='button savedraft' name='draft-post'>
                             <?php
                             if ($this->postId == null) {
-                                ?>
-                                Save 
+                            ?>
+                                Save
                                 <span class='replace-post-type'>
-                                    <?php echo esc_html($this->postName);?>
+                                    <?php echo esc_html($this->postName); ?>
                                 </span> as draft
-                                <?php
+                            <?php
                             } else {
-                                ?>
-                                Update this 
+                            ?>
+                                Update this
                                 <span class='replace-post-type'>
-                                    <?php echo esc_html($this->postName);?>
+                                    <?php echo esc_html($this->postName); ?>
                                 </span> draft
-                                <?php
+                            <?php
                             }
                             ?>
                         </button>
@@ -405,13 +406,13 @@ class FrontEndContent
 
                 // Add delete button
                 if (!empty($this->post) && $this->post->post_status != 'trash') {
-                    ?>
+                ?>
                     <div class='submit-wrapper'>
                         <button type='button' class='button' name='delete-post' data-post-id='<?php echo esc_html($this->postId); ?>'>
                             Delete <?php echo esc_html($this->postName); ?>
                         </button>
                     </div>
-                    <?php
+                <?php
                 }
 
                 echo wp_kses_post(apply_filters('tsjippy-frontend-content-buttons', ob_get_clean(), $this));
@@ -672,15 +673,15 @@ class FrontEndContent
             </legend>
             <?php
             foreach ($result as $r) {
-                ?>
+            ?>
                 <h4>
-                    <?php echo esc_attr($r['name']);?>
+                    <?php echo esc_attr($r['name']); ?>
                 </h4>
-                <?php echo wp_kses_post($r['diff']);
+            <?php echo wp_kses_post($r['diff']);
             }
             ?>
         </fieldset>
-        <?php
+    <?php
     }
 
     /**
@@ -705,19 +706,19 @@ class FrontEndContent
             <input type="hidden" class="no-reset" name="user-id" value="<?php echo  esc_html($this->user->ID); ?>">
             <input type="hidden" class="no-reset" name="post-id" value="<?php echo  esc_html($this->postId); ?>">
             <h4>
-                <?php 
+                <?php
                 if ($this->postId == null) {
-                    ?>
+                ?>
                     Select the content type you want to create:
-                    <?php
+                <?php
                 } else {
-                    ?>
-                    You are editing a <?php echo esc_html($this->postType);?>, use selector below if you want to change the post type
-                    <?php
+                ?>
+                    You are editing a <?php echo esc_html($this->postType); ?>, use selector below if you want to change the post type
+                <?php
                 }
                 ?>
             </h4>
-            
+
             <select id='post-type-selector' name='post-type-selector' required>
                 <?php
                 foreach ($this->postTypes as $postType => $taxName) {
@@ -725,14 +726,16 @@ class FrontEndContent
                     if ($postType == 'attachment') {
                         $typeName = 'Picture/Video/Audio';
                     }
-                    ?>
-                    <option value='<?php echo esc_attr($postType);?>' <?php if ($this->postType == $postType) { echo  'selected="selected"';};?>>
-                        <?php echo esc_html($typeName);?>
+                ?>
+                    <option value='<?php echo esc_attr($postType); ?>' <?php if ($this->postType == $postType) {
+                                                                            echo  'selected="selected"';
+                                                                        }; ?>>
+                        <?php echo esc_html($typeName); ?>
                     </option>
-                    <?php
+                <?php
                 }
 
-            ?>
+                ?>
             </select>
         </form>
         <?php
@@ -776,14 +779,14 @@ class FrontEndContent
                             foreach ($categories as $category) {
                                 //Only ouptut categories without a parent
                                 if ($category->parent == 0) {
-                                    ?>
-                                    <option value='<?php echo esc_attr($category->cat_ID);?>'>
-                                        <?php esc_html($category->name);?>
-                                    </opton>
-                                    <?php
+                            ?>
+                                    <option value='<?php echo esc_attr($category->cat_ID); ?>'>
+                                        <?php esc_html($category->name); ?>
+                                        </opton>
+                                <?php
                                 }
                             }
-                            ?>
+                                ?>
                         </select>
 
                         <?php TSJIPPY\addSaveButton("add_{$postType}_type", "Add $postType category"); ?>
@@ -802,9 +805,9 @@ class FrontEndContent
     public function postSpecificFields()
     {
         ?>
-        <div 
-        id="post-attributes" 
-        class="property post
+        <div
+            id="post-attributes"
+            class="property post
         <?php if ($this->postType != 'post') {
             echo ' hidden';
         } ?>">
@@ -830,9 +833,9 @@ class FrontEndContent
     public function pageSpecificFields()
     {
     ?>
-        <div 
-        id="page-attributes" 
-        class="property page
+        <div
+            id="page-attributes"
+            class="property page
         <?php if ($this->postType != 'page') {
             echo ' hidden';
         } ?>">
@@ -858,13 +861,13 @@ class FrontEndContent
                     <button class="button small expand" type='button'>&#9660;</button>
                 </h4>
                 <label class='expandable hidden'>
-                    <input 
-                    type='checkbox' 
-                    name='static-content' 
-                    value='static-content' 
-                    <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) {
-                        echo 'checked';
-                    } ?>>
+                    <input
+                        type='checkbox'
+                        name='static-content'
+                        value='static-content'
+                        <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) {
+                            echo 'checked';
+                        } ?>>
                     Do not send update warnings for this page
                 </label>
             </div>
@@ -894,8 +897,8 @@ class FrontEndContent
             }
 
         ?>
-            <div 
-            class="property 
+            <div
+                class="property 
             <?php echo esc_attr($postType);
             if ($this->postType != $postType) {
                 echo ' hidden';
@@ -1009,7 +1012,7 @@ class FrontEndContent
         if (isset($this->post->post_author) && is_numeric($this->post->post_author)) {
             $authorId = $this->post->post_author;
         }
-        
+
         ?>
         <div class='expand-wrapper'>
             <h4>
@@ -1032,7 +1035,7 @@ class FrontEndContent
                 $publishDate    = max(gmdate("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
             }
 
-            ?>
+        ?>
             <div class='expand-wrapper'>
                 <h4>
                     Publishing date
@@ -1044,7 +1047,7 @@ class FrontEndContent
                     <input type="date" min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
                 </div>
             </div>
-            <?php
+        <?php
         }
 
         ?>
@@ -1107,23 +1110,23 @@ class FrontEndContent
 
                     <?php
                     foreach ($userRoles as $key => $roleName) {
-                        ?>
-                        <option 
-                        value='<?php echo esc_attr($key);?>'
-                        <?php
-                        if (in_array($key, $viewRoles)) {
-                            echo('selected');
-                        }
-                        ?>>
-                            <?php echo esc_html($roleName);?>
+                    ?>
+                        <option
+                            value='<?php echo esc_attr($key); ?>'
+                            <?php
+                            if (in_array($key, $viewRoles)) {
+                                echo ('selected');
+                            }
+                            ?>>
+                            <?php echo esc_html($roleName); ?>
                         </option>
-                        <?php
+                    <?php
                     }
                     ?>
                 </select>
             </div>
         </div>
-        <?php
+<?php
     }
 
     /**
@@ -1173,13 +1176,12 @@ class FrontEndContent
      * Store categories of custom post type
      *
      */
-    public function storeCustomCategories($post)
+    public function storeCustomCategories($post, $request)
     {
-        $postVars   = TSJIPPY\sanitize($_POST);
         foreach ($this->postTypes as $postType => $taxonomy) {
             $cats = [];
-            if (is_array($postVars[$taxonomy . '-ids'] ?? '')) {
-                foreach ($postVars[$taxonomy . '-ids'] as $catId) {
+            if (is_array($request[$taxonomy . '-ids'] ?? '')) {
+                foreach ($request[$taxonomy . '-ids'] as $catId) {
                     if (is_numeric($catId)) {
                         $cats[] = $catId;
                     }
@@ -1238,7 +1240,7 @@ class FrontEndContent
     /**
      * Update an existing post
      */
-    public function updateExistingPost()
+    public function updateExistingPost($request)
     {
         //Retrieve the old post data
         $post = get_post($this->postId);
@@ -1284,13 +1286,13 @@ class FrontEndContent
                 $posts    = get_posts($args);
 
                 // Remove the current post
-                foreach($posts as $index => $post){
-                    if($post->ID == $this->postId){
+                foreach ($posts as $index => $post) {
+                    if ($post->ID == $this->postId) {
                         unset($posts[$index]);
                     }
                 }
 
-                if(empty($posts)){
+                if (empty($posts)) {
                     break;
                 }
 
@@ -1312,7 +1314,7 @@ class FrontEndContent
             strtotime($post->post_date) > time()    &&                                // Current post date is in the future
             ($this->publishDate ?? '') != gmdate('Y-m-d', strtotime($post->post_date))    // it is not the same as before
         ) {
-            $publishDate                    = gmdate("Y-m-d 08:00:00", strtotime(TSJIPPY\sanitize($this->publishDate  ?? '')));
+            $publishDate                    = gmdate("Y-m-d 08:00:00", strtotime($this->publishDate  ?? ''));
             $newPostData['post_date']       = $publishDate;
             $newPostData['post_date_gmt']   = $publishDate;
         }
@@ -1326,12 +1328,12 @@ class FrontEndContent
         }
 
         if (($this->author ?? '') != $post->post_author) {
-            $newPostData['post_author']        = TSJIPPY\sanitize($this->author ?? '');
+            $newPostData['post_author']        = $this->author ?? '';
         }
 
         //parent
-        if (isset($_POST["parent-$post->post_type"])) {
-            $newPostData['post_parent']        = TSJIPPY\sanitize($_POST["parent-$post->post_type"] ?? '');
+        if (isset($request["parent-$post->post_type"])) {
+            $newPostData['post_parent']        = $request["parent-$post->post_type"] ?? '';
         }
 
         if ($this->postCategories != $post->post_category) {
@@ -1417,7 +1419,7 @@ class FrontEndContent
     /**
      * Create a new post
      */
-    public function createNewPost()
+    public function createNewPost($request)
     {
         $this->update        = false;
         $this->actionText    = 'created';
@@ -1432,11 +1434,11 @@ class FrontEndContent
         );
 
         if ($this->postType == 'attachment') {
-            $this->postId     = TSJIPPY\addToLibrary(TSJIPPY\urlToPath(TSJIPPY\sanitize($_POST['attachment'][0] ?? '', 'url')), $this->postTitle, $this->postContent);
+            $this->postId     = TSJIPPY\addToLibrary(TSJIPPY\urlToPath(TSJIPPY\sanitize($request['attachment'][0] ?? '', 'url')), $this->postTitle, $this->postContent);
             $post['ID']    = $this->postId;
         } else {
-            if (isset($_POST["parent-$this->postType"])) {
-                $newPostData['post_parent']        = TSJIPPY\sanitize($_POST["parent-$this->postType"]);
+            if (isset($request["parent-$this->postType"])) {
+                $newPostData['post_parent']        = TSJIPPY\sanitize($request["parent-$this->postType"]);
             }
 
             if (!empty(count($this->postCategories))) {
@@ -1453,7 +1455,7 @@ class FrontEndContent
 
             // Insert the post into the database.
             $this->postId     = wp_insert_post($post, true, false);
-            $post['ID']        = $this->postId;
+            $post['ID']       = $this->postId;
         }
 
         if (is_wp_error($this->postId)) {
@@ -1494,11 +1496,11 @@ class FrontEndContent
      *
      * Saves or publishes a new post or updates an existing one
      *
-     * @param    string     $status    Desired post status
-     * @return   array|WP_Error        Result message
+     * @param    array          $request    The sanitized request data
+     * @return   array|WP_Error             Result message
      *
      **/
-    public function submitPost()
+    public function submitPost($request)
     {
         if (
             $this->status    == 'publish'            &&
@@ -1509,7 +1511,7 @@ class FrontEndContent
         }
 
         //First letter should be capital in the title
-        $this->postTitle     = ucfirst(trim(TSJIPPY\sanitize($_POST['post-title'] ?? '')));
+        $this->postTitle     = ucfirst(trim($request['post-title'] ?? ''));
 
         $this->oldPost        = null;
         if (!empty($this->post)) {
@@ -1544,11 +1546,11 @@ class FrontEndContent
             }
         }
 
-        $this->postContent     = $this->preparePostContent(TSJIPPY\sanitize($_POST['post-content'] ?? ''));
+        $this->postContent     = $this->preparePostContent($request['post-content'] ?? '');
 
         $this->postCategories = [];
-        if (is_array($_POST['category-id'] ?? false)) {
-            foreach ($_POST['category-id'] as $categoryId) {
+        if (is_array($request['category-id'] ?? false)) {
+            foreach ($request['category-id'] as $categoryId) {
                 if (!empty($categoryId)) {
                     $this->postCategories[] = $categoryId;
                 }
@@ -1563,9 +1565,9 @@ class FrontEndContent
 
         //Check if editing an existing post
         if (is_numeric($this->postId)) {
-            $post    = $this->updateExistingPost();
+            $post    = $this->updateExistingPost($request);
         } else {
-            $post    = $this->createNewPost();
+            $post    = $this->createNewPost($request);
         }
 
         if (is_wp_error($post)) {
@@ -1573,14 +1575,14 @@ class FrontEndContent
         }
 
         //Set the featured image
-        if (($_POST['post-image-id'] ?? 0) != 0) {
-            set_post_thumbnail($this->postId, (int) $_POST['post-image-id']);
+        if (($request['post-image-id'] ?? 0) != 0) {
+            set_post_thumbnail($this->postId, (int) $request['post-image-id']);
         } elseif ($this->update) {
             delete_post_thumbnail($this->postId);
         }
 
         //Static content
-        if (isset($_POST['static-content'])) {
+        if (isset($request['static-content'])) {
             update_metadata('post', $this->postId, 'tsjippy_static_content', true);
         } else {
             delete_post_meta($this->postId, 'tsjippy_static_content');
@@ -1589,26 +1591,26 @@ class FrontEndContent
         // Role view rights
         delete_post_meta($this->postId, 'tsjippy_post_view_roles');
 
-        if (in_array(TSJIPPY\sanitize($_POST['permission-filter-type'] ?? ''), ['blobk', 'allow'])) {
-            update_metadata('post', $this->postId, 'tsjippy_permission_filter_type', $_POST['permission-filter-type']);
+        if (in_array($request['permission-filter-type'] ?? [], ['blobk', 'allow'])) {
+            update_metadata('post', $this->postId, 'tsjippy_permission_filter_type', $request['permission-filter-type']);
         }
 
-        foreach (TSJIPPY\sanitize($_POST['post-view-roles'] ?? []) as $role) {
+        foreach (($request['post-view-roles'] ?? []) as $role) {
             add_metadata('post', $this->postId, 'tsjippy_post_view_roles', $role);
         }
 
         //Expiry date
-        if (isset($_POST['expirydate'])) {
-            if (empty($_POST['expirydate'])) {
+        if (isset($request['expirydate'])) {
+            if (empty($request['expirydate'])) {
                 delete_post_meta($this->postId, 'tsjippy_expirydate');
             } else {
                 //Store expiry date
-                update_metadata('post', $this->postId, 'tsjippy_expirydate', TSJIPPY\sanitize($_POST['expirydate']));
+                update_metadata('post', $this->postId, 'tsjippy_expirydate', $request['expirydate']);
             }
         }
 
         // News Gallery
-        if (!isset($_POST['skipgallery'])) {
+        if (!isset($request['skipgallery'])) {
             delete_post_meta($this->postId, 'tsjippy_skipgallery');
         } else {
             update_metadata('post', $this->postId, 'tsjippy_skipgallery', true);
@@ -1619,11 +1621,18 @@ class FrontEndContent
         }
 
         //store attachment categories
-        $this->storeCustomCategories($post);
-
-        do_action('tsjippy-frontend-content-after-post-save', (object)$post, $this);
+        $this->storeCustomCategories($post, $request);
 
         wp_after_insert_post($post, $this->update, $this->oldPost);
+
+        /**
+         * Runs after a post is saved or updated
+         * 
+         * @param   \WP_Post    $post       The new or updated post
+         * @param   object      $object     FrontEndContent Instance
+         * @param   array       $request    The sanitized request data
+         */
+        do_action('tsjippy-frontend-content-after-post-save', (object)$post, $this, $request);
 
         //Return result
         if ($this->status == 'publish') {
@@ -1689,21 +1698,21 @@ class FrontEndContent
     /**
      *
      * Change the type of an existing post
+     * 
+     * @param   string  $newPostType    THe new Post type
      *
-     * @return   string|WP_Error             Result message
+     * @return   string|WP_Error        Result message
      *
      **/
-    public function changePostType()
+    public function changePostType($newPostType)
     {
-        $postType = TSJIPPY\sanitize($_POST['post-type-selector']);
-
-        $result   = set_post_type($this->postId, $postType);
+        $result   = set_post_type($this->postId, $newPostType);
 
         // remove the parent as parents need to be of the same type
         $this->removeParents($this->postId);
 
         if ($result) {
-            return "Succesfully changed the type to $postType";
+            return "Succesfully changed the type to $newPostType";
         } else {
             return new WP_Error('Update failed', "Could not change the type");
         }
