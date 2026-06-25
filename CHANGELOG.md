@@ -2,6 +2,7 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+- tsjippy-frontend-posting-allowed-to-edit to filter post edit rights
 
 ### Changed
 - change post type on select
