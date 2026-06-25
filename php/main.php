@@ -147,25 +147,27 @@ function allowedToEdit($post)
     if (is_numeric($post)) {
         $post    = get_post($post);
     }
-
-    $postId            = $post->ID;
-    $user             = wp_get_current_user();
-    $postAuthor     = $post->post_author;
-    $postCategory     = $post->post_category;
-    $userPageId     = TSJIPPY\maybeGetUserPageId($user->ID);
-    $ministries     = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
+    $user         = wp_get_current_user();
+    $postAuthor   = $post->post_author;
+    $postCategory = $post->post_category;
+    $ministries   = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
 
     if (
-        $postAuthor == $user->ID                                                             ||     // Own page
-        in_array($post->ID, array_keys($ministries))                                        ||    // ministry pafe
-        $userPageId == $postId                                                                ||    // pseronal user page
-        apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)                ||    // external filter
-        $user->has_cap('edit_others_posts')                                                    // user has permission to edit any post
+        $postAuthor == $user->ID                                                     ||    // Own page
+        in_array($post->ID, array_keys($ministries))                                 ||    // ministry pafe
+        apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)  ||    // external filter
+        $user->has_cap('edit_others_posts')                                                // user has permission to edit any post
     ) {
         return true;
     }
 
-    return false;
+    /**
+     * Filters if we are allowed to edit the given post
+     * 
+     * @param bool      $allowed    Default false
+     * @param \WP_Post  $post       The post to check permission for
+     */
+    return apply_filters('tsjippy-frontend-posting-allowed-to-edit', false, $post);
 }
 
 //Add post edit button
