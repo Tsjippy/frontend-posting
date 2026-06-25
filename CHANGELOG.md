@@ -5,6 +5,7 @@
 
 ### Changed
 - change post type on select
+- wrapped front-end options in a collapsible
 
 ### Fixed
 
