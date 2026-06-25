@@ -2,6 +2,17 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.4.3] - 2026-06-25
+
+
+### Added
 - tsjippy-frontend-posting-allowed-to-edit to filter post edit rights
 
 ### Changed
@@ -9,10 +20,6 @@
 - wrapped front-end options in a collapsible
 - options in collapsible wrappers
 - html update
-
-### Fixed
-
-### Updated
 
 ## [10.4.2] - 2026-06-24
 
