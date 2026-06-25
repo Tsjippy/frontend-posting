@@ -979,7 +979,7 @@ class FrontEndContent
                             </button>
                         </div>
 
-                        <label id='subcategorylabel' class='frontend-profile-label <?php echo $hidden ?>'>
+                        <label id='subcategorylabel' class='frontend-profile-label <?php echo esc_html($hidden); ?>'>
                             Sub-category
                         </label>
 
