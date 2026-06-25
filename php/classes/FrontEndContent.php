@@ -987,141 +987,123 @@ class FrontEndContent
      **/
     public function contentManagerOptions()
     {
+        // Show change author dropdown
+        $authorId = $this->user->ID;
+        if (isset($this->post->post_author) && is_numeric($this->post->post_author)) {
+            $authorId = $this->post->post_author;
+        }
+        
         ?>
-        <button type="button" class="button" id="advanced-publish-options-button" style='display:block; margin-top:15px;'>
-            <span>
-                <?php 
-                if ($this->fullrights) {
-                    echo('Hide');
-                }else{
-                    echo('Show');
-                }
-            ?>
-            </span> advanced options
-        </button>
+        <div class='expand-wrapper'>
+            <h4>
+                Author <button class="button small expand" type='button'>&#9660;</button>
+            </h4>
 
-        <div 
-            class="advanced-publish-options 
-            <?php if (!$this->fullrights) { echo 'hidden'; }  ?>">
-            <?php
-            // Show change author dropdown
-            $authorId = $this->user->ID;
-            if (isset($this->post->post_author) && is_numeric($this->post->post_author)) {
-                $authorId = $this->post->post_author;
+            <div class='hidden expandable'>
+                <?php
+                TSJIPPY\userSelect(onlyAdults: true, id: 'post-author', userId: $authorId, echo: true);
+                ?>
+            </div>
+        </div>
+        <?php
+
+        // Only show publish date if not yet published
+        if (empty($this->post->post_status) || !in_array($this->post->post_status, ['publish', 'inherit'])) {
+            if (empty($this->post)) {
+                $publishDate    = gmdate("Y-m-d");
+            } else {
+                $publishDate    = max(gmdate("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
             }
-            
+
             ?>
             <div class='expand-wrapper'>
                 <h4>
-                    Author <button class="button small expand" type='button'>&#9660;</button>
+                    Publishing date
+                    <button class="button small expand" type='button'>&#9660;</button>
                 </h4>
 
                 <div class='hidden expandable'>
-                    <?php
-                    TSJIPPY\userSelect(onlyAdults: true, id: 'post-author', userId: $authorId, echo: true);
-                    ?>
+                    Publish Date<br>
+                    <input type="date" min="<?php echo gmdate("Y-m-d"); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
                 </div>
             </div>
             <?php
+        }
 
-            // Only show publish date if not yet published
-            if (empty($this->post->post_status) || !in_array($this->post->post_status, ['publish', 'inherit'])) {
-                if (empty($this->post)) {
-                    $publishDate    = gmdate("Y-m-d");
-                } else {
-                    $publishDate    = max(gmdate("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
+        ?>
+        <div id="nonews" class="frontend-form expand-wrapper">
+            <h4>
+                News Gallery
+                <button class="button small expand" type='button'>&#9660;</button>
+            </h4>
+            <label class='hidden expandable'>
+                <input
+                    type='checkbox'
+                    name='skipgallery'
+                    value='skipgallery'
+                    <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) {
+                        echo 'checked';
+                    } ?>>
+                Do not add this <?php echo esc_attr($this->post->post_type ?? ''); ?> to the news gallery
+            </label>
+        </div>
+        <?php
+
+        $this->postSpecificFields();
+
+        $this->pageSpecificFields();
+
+        do_action('tsjippy-frontend-content-post-after-content', $this);
+
+        ?>
+        <div class='expand-wrapper'>
+            <h4>
+                View Permissions
+                <button class="button small expand" type='button'>&#9660;</button>
+            </h4>
+
+            <div class='hidden expandable'>
+                <label>
+                    <input type='radio' name='permission-filter-type' id='permission-filter-type' value='block'>
+                    Block this page
+                </label>
+                <label>
+                    <input type='radio' name='permission-filter-type' id='permission-filter-type' value='allow'>
+                    Allow this page
+                </label>
+                <br>
+                for accounts with one of the following roles:<br>
+                <?php
+                global $wp_roles;
+
+                $userRoles    = $wp_roles->role_names;
+
+                $viewRoles    = [];
+
+                if (is_numeric($this->postId)) {
+                    $viewRoles    = get_post_meta($this->postId, 'tsjippy_post_view_roles');
                 }
 
                 ?>
-                <div class='expand-wrapper'>
-                    <h4>
-                        Publishing date
-                        <button class="button small expand" type='button'>&#9660;</button>
-                    </h4>
+                <select name='post-view-roles[]' multiple>
+                    <option value=''>---</option>
 
-                    <div class='hidden expandable'>
-                        Publish Date<br>
-                        <input type="date" min="<?php echo gmdate("Y-m-d"); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
-                    </div>
-                </div>
-                <?php
-            }
-
-            ?>
-            <div id="nonews" class="frontend-form expand-wrapper">
-                <h4>
-                    News Gallery
-                    <button class="button small expand" type='button'>&#9660;</button>
-                </h4>
-                <label class='hidden expandable'>
-                    <input
-                        type='checkbox'
-                        name='skipgallery'
-                        value='skipgallery'
-                        <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) {
-                            echo 'checked';
-                        } ?>>
-                    Do not add this <?php echo esc_attr($this->post->post_type ?? ''); ?> to the news gallery
-                </label>
-            </div>
-            <?php
-
-            $this->postSpecificFields();
-
-            $this->pageSpecificFields();
-
-            do_action('tsjippy-frontend-content-post-after-content', $this);
-
-            ?>
-            <div class='expand-wrapper'>
-                <h4>
-                    View Permissions
-                    <button class="button small expand" type='button'>&#9660;</button>
-                </h4>
-
-                <div class='hidden expandable'>
-                    <label>
-                        <input type='radio' name='permission-filter-type' id='permission-filter-type' value='block'>
-                        Block this page
-                    </label>
-                    <label>
-                        <input type='radio' name='permission-filter-type' id='permission-filter-type' value='allow'>
-                        Allow this page
-                    </label>
-                    <br>
-                    for accounts with one of the following roles:<br>
                     <?php
-                    global $wp_roles;
-
-                    $userRoles    = $wp_roles->role_names;
-
-                    $viewRoles    = [];
-
-                    if (is_numeric($this->postId)) {
-                        $viewRoles    = get_post_meta($this->postId, 'tsjippy_post_view_roles');
-                    }
-
-                    ?>
-                    <select name='post-view-roles[]' multiple>
-                        <option value=''>---</option>
-
-                        <?php
-                        foreach ($userRoles as $key => $roleName) {
-                            ?>
-                            <option 
-                            value='<?php echo esc_attr($key);?>'
-                            <?php
-                            if (in_array($key, $viewRoles)) {
-                                echo('selected');
-                            }
-                            ?>>
-                                <?php echo esc_html($roleName);?>
-                            </option>
-                            <?php
-                        }
+                    foreach ($userRoles as $key => $roleName) {
                         ?>
-                    </select>
-                </div>
+                        <option 
+                        value='<?php echo esc_attr($key);?>'
+                        <?php
+                        if (in_array($key, $viewRoles)) {
+                            echo('selected');
+                        }
+                        ?>>
+                            <?php echo esc_html($roleName);?>
+                        </option>
+                        <?php
+                    }
+                    ?>
+                </select>
             </div>
         </div>
         <?php

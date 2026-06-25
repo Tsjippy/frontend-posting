@@ -118,7 +118,7 @@ function switchforms(target) {
 
   parent
     .querySelectorAll(
-      "#wp-post-content-media-buttons, .advanced-publish-options, #advanced-publish-options-button",
+      "#wp-post-content-media-buttons, .advanced-publish-options",
     )
     .forEach((el) => el.classList.remove("hidden"));
 
@@ -528,15 +528,6 @@ document.addEventListener("click", (event) => {
     addFeaturedImage(event);
   } else if (target.id == "show-all-fields") {
     showAllFields(target);
-  } else if (target.id == "advanced-publish-options-button") {
-    let div = target.closest("form").querySelector(".advanced-publish-options");
-    if (div.classList.contains("hidden")) {
-      div.classList.remove("hidden");
-      target.querySelector("span").textContent = "Hide";
-    } else {
-      div.classList.add("hidden");
-      target.querySelector("span").textContent = "Show";
-    }
   } else if (target.matches(".remove-featured-image")) {
     document.querySelector('[name="post-image-id"]').value = 0;
 
