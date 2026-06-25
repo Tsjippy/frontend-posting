@@ -349,24 +349,30 @@ class FrontEndContent
                 </div>
 
                 <?php
-                try {
-                    $this->contentManagerOptions();
-                } catch (\Exception $e) {
-                    TSJIPPY\printArray($e);
-                }
+                $this->metaOptions();
 
                 //Add a draft button for new posts
                 if ($this->postId == null || ($this->post->post_status != 'publish' && $this->post->post_status != 'inherit')) {
-                    if ($this->postId == null) {
-                        $buttonText = "Save <span class='replace-post-type'>{$this->postName}</span> as draft";
-                    } else {
-                        $buttonText = "Update this <span class='replace-post-type'>{$this->postName}</span> draft";
-                    }
-
                 ?>
                     <div class='submit-wrapper' style='display: flex;'>
                         <button type='button' class='button savedraft' name='draft-post'>
-                            <?php echo wp_kses_post($buttonText); ?>
+                            <?php
+                            if ($this->postId == null) {
+                                ?>
+                                Save 
+                                <span class='replace-post-type'>
+                                    <?php echo esc_html($this->postName);?>
+                                </span> as draft
+                                <?php
+                            } else {
+                                ?>
+                                Update this 
+                                <span class='replace-post-type'>
+                                    <?php echo esc_html($this->postName);?>
+                                </span> draft
+                                <?php
+                            }
+                            ?>
                         </button>
                     </div>
                 <?php
@@ -401,14 +407,14 @@ class FrontEndContent
                 if (!empty($this->post) && $this->post->post_status != 'trash') {
                     ?>
                     <div class='submit-wrapper'>
-                        <button type='button' class='button' name='delete-post' data-post-id='<?php echo  esc_html($this->postId); ?>'>
+                        <button type='button' class='button' name='delete-post' data-post-id='<?php echo esc_html($this->postId); ?>'>
                             Delete <?php echo esc_html($this->postName); ?>
                         </button>
                     </div>
                     <?php
                 }
 
-                echo apply_filters('tsjippy-frontend-content-buttons', ob_get_clean(), $this);
+                echo wp_kses_post(apply_filters('tsjippy-frontend-content-buttons', ob_get_clean(), $this));
                 ?>
             </form>
         </div>
@@ -701,9 +707,13 @@ class FrontEndContent
             <h4>
                 <?php 
                 if ($this->postId == null) {
-                    echo('Select the content type you want to create:');
+                    ?>
+                    Select the content type you want to create:
+                    <?php
                 } else {
-                    echo("You are editing a {$this->postType}, use selector below if you want to change the post type");
+                    ?>
+                    You are editing a <?php echo esc_html($this->postType);?>, use selector below if you want to change the post type
+                    <?php
                 }
                 ?>
             </h4>
@@ -747,6 +757,7 @@ class FrontEndContent
             <div id="add-<?php echo esc_attr($postType); ?>-type" class="modal hidden">
                 <!-- Modal content -->
                 <div class="modal-content">
+                    // phpcs:ignore
                     <?php echo TSJIPPY\addCloseButtton(); ?>
                     <form action="" method="post" id="add-<?php echo esc_attr($postType); ?>-type-form" class="add-category">
                         <p>Please fill in the form to add a new <?php echo esc_attr($postType); ?> category</p>
@@ -827,10 +838,10 @@ class FrontEndContent
         } ?>">
             <div id="parentpage" class="frontend-form expand-wrapper">
                 <h4>
-                    Select a parent page
+                    Parent page
                     <button class="button small expand" type='button'>&#9660;</button>
                 </h4>
-                <div class='expandable'>
+                <div class='expandable hidden'>
                     <?php
                     // phpcs:ignore
                     echo TSJIPPY\pageSelect('parent-page', $this->postParent, '', ['page'], false);
@@ -846,7 +857,7 @@ class FrontEndContent
                     Update warnings
                     <button class="button small expand" type='button'>&#9660;</button>
                 </h4>
-                <label class='expandable'>
+                <label class='expandable hidden'>
                     <input 
                     type='checkbox' 
                     name='static-content' 
@@ -963,10 +974,14 @@ class FrontEndContent
                             <?php
                             echo wp_kses_post($parentCategoryHtml);
                             ?>
-                            <button type='button' name='add-<?php echo esc_attr($postType); ?>-type-button' class='button add-cat' data-type='<?php echo esc_attr($postType); ?>'>Add category</button>
+                            <button type='button' name='add-<?php echo esc_attr($postType); ?>-type-button' class='button add-cat' data-type='<?php echo esc_attr($postType); ?>'>
+                                Add category
+                            </button>
                         </div>
 
-                        <label id='subcategorylabel' class='frontend-profile-label <?php echo $hidden ?>'>Sub-category</label>
+                        <label id='subcategorylabel' class='frontend-profile-label <?php echo $hidden ?>'>
+                            Sub-category
+                        </label>
 
                         <div id='<?php echo esc_attr($postType); ?>_childtypes' class='childtypes'>
                             <?php
@@ -982,11 +997,13 @@ class FrontEndContent
 
     /**
      *
-     * Adds options specific for content managers
+     * Adds extra options
      *
      **/
-    public function contentManagerOptions()
+    public function metaOptions()
     {
+        do_action('tsjippy-frontend-content-post-before-default-options-content', $this);
+
         // Show change author dropdown
         $authorId = $this->user->ID;
         if (isset($this->post->post_author) && is_numeric($this->post->post_author)) {
@@ -1024,7 +1041,7 @@ class FrontEndContent
 
                 <div class='hidden expandable'>
                     Publish Date<br>
-                    <input type="date" min="<?php echo gmdate("Y-m-d"); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
+                    <input type="date" min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
                 </div>
             </div>
             <?php
@@ -1256,20 +1273,30 @@ class FrontEndContent
 
             //check if name is unique as it used as slug
             $args    = array(
-                'post_type'        => get_post_types(),
-                'post_status'    => 'any',
-                'name'          => $postName,
-                'numberposts'    => -1,
-                'exclude'        => [$this->postId],
+                'post_type'   => get_post_types(),
+                'post_status' => 'any',
+                'name'        => $postName,
+                'numberposts' => -1
             );
-            $posts    = get_posts($args);
 
             $i = 1;
-            while (!empty($posts)) {
+            while (true) {
+                $posts    = get_posts($args);
+
+                // Remove the current post
+                foreach($posts as $index => $post){
+                    if($post->ID == $this->postId){
+                        unset($posts[$index]);
+                    }
+                }
+
+                if(empty($posts)){
+                    break;
+                }
+
                 $postName        = urldecode($this->postTitle . '_' . $i);
                 $args['name']    = $postName;
                 $i++;
-                $posts            = get_posts($args);
             }
 
             $newPostData['post_name']     = $postName;

@@ -38,7 +38,7 @@ function loadAssets()
 add_action('wp_enqueue_media', __NAMESPACE__ . '\loadMediaAssets');
 function loadMediaAssets()
 {
-    wp_enqueue_script('tsjippy_library_cat_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/library.min.js'), [], PLUGINVERSION);
+    wp_enqueue_script('tsjippy_library_cat_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/library.min.js'), [], PLUGINVERSION, true);
     wp_localize_script(
         'tsjippy_library_cat_script',
         'categories',
