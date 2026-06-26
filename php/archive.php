@@ -35,12 +35,10 @@ function addPostStatus()
     if (!isset($post)) return;
     if (!($post instanceof \WP_Post)) return;
 
-    $isSelected = $post->post_status == 'archived';
-
 ?>
     <script>
         jQuery(function() {
-            var archivedSelected = <?php echo $isSelected ? 1 : 0; ?>;
+            var archivedSelected = <?php echo $post->post_status == 'archived'; ?>;
             var $postStatus = jQuery("#post_status");
             var $postStatusDisplay = jQuery("#post-status-display");
 

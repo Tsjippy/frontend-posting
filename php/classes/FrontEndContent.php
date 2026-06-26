@@ -174,9 +174,7 @@ class FrontEndContent
         ?>
         <div
             id="frontend-upload-form"
-            <?php if ($hide) {
-                echo 'class="hidden"';
-            } ?>
+            <?php if ($hide) echo 'class="hidden"'; ?>
             style='margin-top: 10px;'>
             <?php
             if (has_blocks($this->postContent)) {
@@ -196,9 +194,7 @@ class FrontEndContent
             ?>
             <button
                 class='button tsjippy 
-                <?php if (!$this->lite) {
-                    echo 'hidden';
-                } ?> 
+                <?php if (!$this->lite) echo 'hidden'; ?> 
                 show'
                 id='show-all-fields'>
                 Show all fields
@@ -242,14 +238,14 @@ class FrontEndContent
                         </h4>
                     <?php
                         // phpcs:ignore
-                        echo apply_filters('tsjippy-frontend-content-attachment-preview', $image, $this->postId);
+                    echo apply_filters('tsjippy-frontend-content-attachment-preview', $image, $this->postId);
                     } else {
                     ?>
                         <h4>Upload your file</h4>
                     <?php
                         $uploader = new TSJIPPY\FILEUPLOAD\FileUploadHtml($this->user->ID);
                         // phpcs:ignore
-                        echo $uploader->getUploadHtml(inputName: 'attachment', targetDir: 'private', editBeforeUpload: true);
+                        $uploader->getUploadHtml(inputName: 'attachment', targetDir: 'private', editBeforeUpload: true, echo: true);
                     }
                     ?>
                 </div>
@@ -415,7 +411,7 @@ class FrontEndContent
                 <?php
                 }
 
-                echo wp_kses_post(apply_filters('tsjippy-frontend-content-buttons', ob_get_clean(), $this));
+                 echo wp_kses_post(apply_filters('tsjippy-frontend-content-buttons', ob_get_clean(), $this));
                 ?>
             </form>
         </div>
@@ -727,9 +723,7 @@ class FrontEndContent
                         $typeName = 'Picture/Video/Audio';
                     }
                 ?>
-                    <option value='<?php echo esc_attr($postType); ?>' <?php if ($this->postType == $postType) {
-                                                                            echo  'selected="selected"';
-                                                                        }; ?>>
+                    <option value='<?php echo esc_attr($postType); ?>' <?php if ($this->postType == $postType) echo  'selected="selected"';; ?>>
                         <?php echo esc_html($typeName); ?>
                     </option>
                 <?php
@@ -807,9 +801,7 @@ class FrontEndContent
         <div
             id="post-attributes"
             class="property post
-        <?php if ($this->postType != 'post') {
-            echo ' hidden';
-        } ?>">
+        <?php if ($this->postType != 'post') echo ' hidden'; ?>">
             <div id="expiry-date-div" class="frontend-form expand-wrapper">
                 <h4>
                     Expiry date
@@ -835,9 +827,7 @@ class FrontEndContent
         <div
             id="page-attributes"
             class="property page
-        <?php if ($this->postType != 'page') {
-            echo ' hidden';
-        } ?>">
+        <?php if ($this->postType != 'page') echo ' hidden'; ?>">
             <div id="parentpage" class="frontend-form expand-wrapper">
                 <h4>
                     Parent page
@@ -845,8 +835,7 @@ class FrontEndContent
                 </h4>
                 <div class='expandable hidden'>
                     <?php
-                    // phpcs:ignore
-                    echo TSJIPPY\pageSelect('parent-page', $this->postParent, '', ['page'], false);
+                    TSJIPPY\pageSelect(selectId: 'parent-page', pageId: $this->postParent, postTypes: ['page'], includeTax: false, echo: true);
                     ?>
                 </div>
             </div>
@@ -864,9 +853,7 @@ class FrontEndContent
                         type='checkbox'
                         name='static-content'
                         value='static-content'
-                        <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) {
-                            echo 'checked';
-                        } ?>>
+                        <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) echo 'checked'; ?>>
                     Do not send update warnings for this page
                 </label>
             </div>
@@ -897,11 +884,7 @@ class FrontEndContent
 
         ?>
             <div
-                class="property 
-            <?php echo esc_attr($postType);
-            if ($this->postType != $postType) {
-                echo ' hidden';
-            } ?>">
+                class="property <?php echo esc_attr($postType); if ($this->postType != $postType) echo ' hidden'; ?>">
                 <div class="frontend-form">
                     <h4>
                         <?php echo esc_html(ucfirst($postType)); ?> type
@@ -1060,9 +1043,7 @@ class FrontEndContent
                     type='checkbox'
                     name='skipgallery'
                     value='skipgallery'
-                    <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) {
-                        echo 'checked';
-                    } ?>>
+                    <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) echo 'checked'; ?>>
                 Do not add this <?php echo esc_attr($this->post->post_type ?? ''); ?> to the news gallery
             </label>
         </div>
@@ -1110,13 +1091,7 @@ class FrontEndContent
                     <?php
                     foreach ($userRoles as $key => $roleName) {
                     ?>
-                        <option
-                            value='<?php echo esc_attr($key); ?>'
-                            <?php
-                            if (in_array($key, $viewRoles)) {
-                                echo ('selected');
-                            }
-                            ?>>
+                        <option value='<?php echo esc_attr($key); ?>' <?php if (in_array($key, $viewRoles)) echo ('selected'); ?>>
                             <?php echo esc_html($roleName); ?>
                         </option>
                     <?php
