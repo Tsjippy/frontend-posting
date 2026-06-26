@@ -760,8 +760,7 @@ class FrontEndContent
             <div id="add-<?php echo esc_attr($postType); ?>-type" class="modal hidden">
                 <!-- Modal content -->
                 <div class="modal-content">
-                    // phpcs:ignore
-                    <?php echo TSJIPPY\addCloseButtton(); ?>
+                    <?php TSJIPPY\addCloseButtton(); ?>
                     <form action="" method="post" id="add-<?php echo esc_attr($postType); ?>-type-form" class="add-category">
                         <p>Please fill in the form to add a new <?php echo esc_attr($postType); ?> category</p>
                         <input type="hidden" class="no-reset" name="post-type" value="<?php echo esc_attr($postType); ?>">
