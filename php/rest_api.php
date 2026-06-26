@@ -358,6 +358,7 @@ function sendPost()
     $url     = get_the_post_thumbnail_url($postId, 'full');
 
     // Get  the content
+    // phpcs:ignore
     $content = apply_filters('the_content', get_the_content());
 
     return [
