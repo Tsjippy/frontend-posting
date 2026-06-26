@@ -22,19 +22,19 @@ function initBlocks()
     );
 
     // register custom meta tag field
-    register_post_meta('', 'expirydate', array(
-        'show_in_rest'         => true,
-        'single'             => true,
-        'type'                 => 'string',
-        'default'            => '',
+    register_post_meta('', "tsjippy_expirydate", array(
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
+        'default'           => '',
         'sanitize_callback' => 'sanitize_text_field'
     ));
 
-    register_post_meta('', 'static_content', array(
-        'show_in_rest'         => true,
-        'single'             => true,
-        'type'                 => 'boolean',
-        'default'            => false,
+    register_post_meta('', "tsjippy_static_content", array(
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'boolean',
+        'default'           => false,
         'sanitize_callback' => 'sanitize_text_field'
     ));
 }
