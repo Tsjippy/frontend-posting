@@ -3,6 +3,7 @@
 
 ### Added
 - attribute escaping
+- attribute escaping
 
 ### Changed
 - plugin tested up to 7.0
