@@ -18,8 +18,8 @@ registerPlugin("expiry-date", {
 
     const [meta, setMeta] = useEntityProp("postType", postType, "meta");
 
-    const expiryDate = meta["expirydate"];
-    const staticContent = meta["static_content"];
+    const expiryDate = meta["tsjippy_expirydate"];
+    const staticContent = meta["tsjippy_static_content"];
 
     const updateMetaValue = (value, key) => {
       let newMeta = { ...meta };
@@ -39,7 +39,7 @@ registerPlugin("expiry-date", {
           <DatePicker
             currentDate={expiryDate}
             value={expiryDate}
-            onChange={(value) => updateMetaValue(value, "expirydate")}
+            onChange={(value) => updateMetaValue(value, "tsjippy_expirydate")}
           />
         </PluginDocumentSettingPanel>
         <PluginDocumentSettingPanel
@@ -50,7 +50,7 @@ registerPlugin("expiry-date", {
           <ToggleControl
             label={__("Do not send update warnings for this page", "sim")}
             checked={staticContent}
-            onChange={(value) => updateMetaValue(value, "static_content")}
+            onChange={(value) => updateMetaValue(value, "tsjippy_static_content")}
           />
         </PluginDocumentSettingPanel>
       </>
