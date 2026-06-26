@@ -237,8 +237,7 @@ class FrontEndContent
                             Attachment preview
                         </h4>
                     <?php
-                        // phpcs:ignore
-                    echo apply_filters('tsjippy-frontend-content-attachment-preview', $image, $this->postId);
+                        echo wp_kses_post(apply_filters('tsjippy-frontend-content-attachment-preview', $image, $this->postId));
                     } else {
                     ?>
                         <h4>Upload your file</h4>
