@@ -283,13 +283,7 @@ class FrontEndContent
                     </button>
                 </div>
 
-                <div
-                    class='post-content-wrapper lite
-                    <?php
-                    if ($this->lite) {
-                        echo 'hidden';
-                    } ?>'>
-
+                <div class='post-content-wrapper lite <?php if ($this->lite) echo 'hidden'; ?>'>
                     <div class='title-wrapper'>
                         <?php
                         //Post content title
