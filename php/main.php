@@ -56,9 +56,8 @@ function sendPendingPostWarning(object $post, $update)
         return;
     }
 
-    $channels    = SETTINGS['pending-channels'] ?? ['email'];
 
-    $roles        = SETTINGS['content-manager-roles'] ?? [];
+    $roles    = SETTINGS['content-manager-roles'] ?? [];
 
     //get all the content managers
     $users = get_users(array(
@@ -85,13 +84,12 @@ function sendPendingPostWarning(object $post, $update)
     TSJIPPY\printArray($authorName);
 
     foreach ($users as $user) {
-        if (in_array('email', $channels)) {
-            $pendingPostEmail    = new PendingPostEmail($user, $authorName, $actionText, $type, $url);
-            $pendingPostEmail->filterMail();
+        $pendingPostEmail    = new PendingPostEmail($user, $authorName, $actionText, $type, $url);
+        $pendingPostEmail->filterMail();
 
-            //Send e-mail
-            wp_mail($user->user_email, $pendingPostEmail->subject, $pendingPostEmail->message);
-        }
+        //Send e-mail
+        wp_mail($user->user_email, $pendingPostEmail->subject, $pendingPostEmail->message);
+
     }
 
     //Mark warning as send
@@ -154,7 +152,7 @@ function allowedToEdit($post)
 
     if (
         $postAuthor == $user->ID                                                     ||    // Own page
-        in_array($post->ID, array_keys($ministries))                                 ||    // ministry pafe
+        isset($ministries[$post->ID])                                                ||    // ministry pafe
         apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)  ||    // external filter
         $user->has_cap('edit_others_posts')                                                // user has permission to edit any post
     ) {

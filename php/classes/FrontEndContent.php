@@ -935,7 +935,7 @@ class FrontEndContent
 
                             //Name of the category
                             $$html .= "<label class='option-label category-select'>";
-                            $$html .= "<input type='checkbox' class='$checkboxClass' name='{$taxonomy}-ids[]' value='$catId' $checked>";
+                            $$html .= "<input type='checkbox' class='$checkboxClass' name='{$taxonomy}-ids[$catId]' value='$catId' $checked>";
                             $$html .= $name;
                             $$html .= "</label>";
 
@@ -1003,7 +1003,7 @@ class FrontEndContent
         <?php
 
         // Only show publish date if not yet published
-        if (empty($this->post->post_status) || !in_array($this->post->post_status, ['publish', 'inherit'])) {
+        if (!isset(['publish' => 1, 'inherit' => 1][$this->post->post_status ?? ''])) {
             if (empty($this->post)) {
                 $publishDate    = gmdate("Y-m-d");
             } else {
@@ -1308,7 +1308,7 @@ class FrontEndContent
         }
 
         //we cannot change the post type here
-        if ($post->post_type != $this->postType && !in_array($post->post_type, ['revision', 'change'])) {
+        if ($post->post_type != $this->postType && !isset(['revision' => 1, 'change' => 1][$post->post_type])) {
             return new WP_Error('frontend_contend', 'You can not change the post type like that!');
         }
 
@@ -1487,7 +1487,7 @@ class FrontEndContent
             $this->postType   = $this->oldPost->post_type;
 
             // find the parent with a correct posttype
-            while (in_array($this->oldPost->post_type, ['change', 'revision'])) {
+            while (isset(['change' => 1, 'revision' => 1][$this->oldPost->post_type])) {
                 $this->oldPost = get_post($this->oldPost->post_parent);
             }
         } elseif (!empty($this->postTitle)) {
@@ -1558,7 +1558,7 @@ class FrontEndContent
         // Role view rights
         delete_post_meta($this->postId, 'tsjippy_post_view_roles');
 
-        if (in_array($request['permission-filter-type'] ?? [], ['blobk', 'allow'])) {
+        if (isset(['blobk' => 1, 'allow' => 1][$request['permission-filter-type'] ?? ''])) {
             update_metadata('post', $this->postId, 'tsjippy_permission_filter_type', $request['permission-filter-type']);
         }
 

@@ -40,10 +40,6 @@ class AdminMenu extends ADMIN\SubAdminMenu
             $this->settings['content-manager-roles']    = [];
         }
 
-        if (!isset($this->settings['pending-channels']) || !is_array($this->settings['pending-channels'])) {
-            $this->settings['pending-channels']    = [];
-        }
-
         addElement('label', $parent, [], 'Content manager role(s)');
 
         $select = addElement('select', $parent, ['name' => 'content-manager-roles[]', 'multiple' => 'multiple']);
