@@ -1192,7 +1192,7 @@ class FrontEndContent
         $postContent     = preg_replace_callback('/src="image\/(\w+);base64,([^"]*)"/is', array($this, 'uploadImages'), $postContent);
 
         //Find display names in content and replaces them with a link
-        $userPageLinks    = new TSJIPPY\UserPageLinks($postContent, true);
+        $userPageLinks  = new TSJIPPY\UserPageLinks($postContent, true);
 
         $postContent    = apply_filters('tsjippy-frontend-content-post-content', $userPageLinks->string);
 

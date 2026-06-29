@@ -201,9 +201,9 @@ function oldPages()
 
     foreach ($oldPages as $page) {
         $url                    = get_permalink($page);
-        $authorUrl                = TSJIPPY\maybeGetUserPageUrl($page->post_author);
-        $authorName                = get_userdata($page->post_author)->first_name;
-        $secondsSinceUpdated     = time() - get_post_modified_time('U', true, $page);
+        $authorUrl              = get_author_posts_url($page->post_author);
+        $authorName             = get_userdata($page->post_author)->first_name;
+        $secondsSinceUpdated    = time() - get_post_modified_time('U', true, $page);
         $pageAge                = round($secondsSinceUpdated / 60 / 60 / 24);
 
         $html    .= "<tr>";
