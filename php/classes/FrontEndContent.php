@@ -151,13 +151,13 @@ class FrontEndContent
             $secondsSinceUpdated = time() - get_post_modified_time('U', true, $this->post);
 
             //Show warning when post has been updated recently
-            if ($secondsSinceUpdated < 3600 && $secondsSinceUpdated > -1) {
+            if ($secondsSinceUpdated < HOUR_IN_SECONDS && $secondsSinceUpdated > -1) {
                 $minutes = intval($secondsSinceUpdated / 60);
-        ?>
+                ?>
                 <div class='warning'>
                     This <?php echo esc_html($this->postType); ?> has been updated <span id='minutes'><?php echo esc_html($minutes); ?></span> minutes ago.
                 </div>
-            <?php
+                <?php
             }
 
             //Show warning when post is in trash
