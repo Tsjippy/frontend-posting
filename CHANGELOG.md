@@ -11,6 +11,7 @@
 - use get_author_posts_url
 
 ### Fixed
+- missing echo call
 
 ### Updated
 
