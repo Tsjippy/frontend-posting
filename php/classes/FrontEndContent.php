@@ -767,7 +767,7 @@ class FrontEndContent
                                 if ($category->parent == 0) {
                             ?>
                                     <option value='<?php echo esc_attr($category->cat_ID); ?>'>
-                                        <?php esc_html($category->name); ?>
+                                        <?php echo esc_html($category->name); ?>
                                         </opton>
                                 <?php
                                 }
