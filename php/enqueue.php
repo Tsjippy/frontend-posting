@@ -9,12 +9,17 @@ if (! defined('ABSPATH')) {
 }
 
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\loadAssets');
+/**
+ * Load assets for the frontend posting form.
+ *
+ * @return void
+ */
 function loadAssets()
 {
     wp_register_style('tsjippy_frontend_style', TSJIPPY\pathToUrl(PLUGINPATH . 'css/frontend_posting.min.css'), array(), PLUGINVERSION);
 
     //Load js
-    wp_register_script('tsjippy_forms_script', TSJIPPY\pathToUrl(PLUGINPATH . ' ../tsjippy-forms/js/forms.min.js'), array('tsjippy_formsubmit_script'), PLUGINVERSION, true);
+    wp_register_script('tsjippy_forms_script', TSJIPPY\pathToUrl(PLUGINPATH . '../tsjippy-forms/js/forms.min.js'), array('tsjippy_formsubmit_script'), PLUGINVERSION, true);
 
     $dependables    = apply_filters('tsjippy-frontend-content-js', array('tsjippy_fileupload_script', 'tsjippy_forms_script'));
     wp_register_script('tsjippy_frontend_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/frontend_posting.min.js'), $dependables, PLUGINVERSION, true);
@@ -36,6 +41,11 @@ function loadAssets()
 }
 
 add_action('wp_enqueue_media', __NAMESPACE__ . '\loadMediaAssets');
+/**
+ * Load media assets for the frontend posting form.
+ *
+ * @return void
+ */
 function loadMediaAssets()
 {
     wp_enqueue_script('tsjippy_library_cat_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/library.min.js'), [], PLUGINVERSION, true);
