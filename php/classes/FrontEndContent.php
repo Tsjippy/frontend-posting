@@ -153,11 +153,11 @@ class FrontEndContent
             //Show warning when post has been updated recently
             if ($secondsSinceUpdated < HOUR_IN_SECONDS && $secondsSinceUpdated > -1) {
                 $minutes = intval($secondsSinceUpdated / 60);
-                ?>
+?>
                 <div class='warning'>
                     This <?php echo esc_html($this->postType); ?> has been updated <span id='minutes'><?php echo esc_html($minutes); ?></span> minutes ago.
                 </div>
-                <?php
+            <?php
             }
 
             //Show warning when post is in trash
@@ -217,7 +217,9 @@ class FrontEndContent
                 <input type="hidden" class="no-reset" name="update" value="<?php echo esc_attr($this->update); ?>">
                 <input type='hidden' class='no-reset' name='post-id' value='<?php echo esc_attr($this->postId); ?>'>
 
-                <h4>Title</h4>
+                <h4>
+                    Title
+                </h4>
                 <input type="text" name="post-title" class='block' value="<?php echo esc_attr($this->postTitle); ?>" required>
 
                 <?php
@@ -240,7 +242,9 @@ class FrontEndContent
                         echo wp_kses_post(apply_filters('tsjippy-frontend-content-attachment-preview', $image, $this->postId));
                     } else {
                     ?>
-                        <h4>Upload your file</h4>
+                        <h4>
+                            Upload your file
+                        </h4>
                     <?php
                         $uploader = new TSJIPPY\FILEUPLOAD\FileUploadHtml($this->user->ID);
                         // phpcs:ignore
@@ -404,7 +408,7 @@ class FrontEndContent
                 <?php
                 }
 
-                 echo wp_kses_post(apply_filters('tsjippy-frontend-content-buttons', ob_get_clean(), $this));
+                echo wp_kses_post(apply_filters('tsjippy-frontend-content-buttons', ob_get_clean(), $this));
                 ?>
             </form>
         </div>
@@ -658,7 +662,9 @@ class FrontEndContent
         <button type='button' class='button small show-diff'>Show what is changed</button>
         <fieldset class='post-diff-wrapper hidden'>
             <legend>
-                <h4>Change list</h4>
+                <h4>
+                    Change list
+                </h4>
             </legend>
             <?php
             foreach ($result as $r) {
@@ -690,7 +696,7 @@ class FrontEndContent
             return;
         }
 
-        ?>
+    ?>
         <form action="" method="post" name="change-post-type">
             <input type="hidden" class="no-reset" name="user-id" value="<?php echo  esc_html($this->user->ID); ?>">
             <input type="hidden" class="no-reset" name="post-id" value="<?php echo  esc_html($this->postId); ?>">
@@ -754,11 +760,15 @@ class FrontEndContent
                         <input type="hidden" class="no-reset" name="user-id" value="<?php echo esc_attr($this->user->ID); ?>">
 
                         <label>
-                            <h4>Category name<span class="required">*</span></h4>
+                            <h4>
+                                Category name<span class="required">*</span>
+                            </h4>
                             <input type="text" name="cat-name" class='wide' required>
                         </label>
 
-                        <h4>Parent category</h4>
+                        <h4>
+                            Parent category
+                        </h4>
                         <select class="" name='cat-parent'>
                             <option value=''>---</option>
                             <?php
@@ -877,7 +887,8 @@ class FrontEndContent
 
         ?>
             <div
-                class="property <?php echo esc_attr($postType); if ($this->postType != $postType) echo ' hidden'; ?>">
+                class="property <?php echo esc_attr($postType);
+                                if ($this->postType != $postType) echo ' hidden'; ?>">
                 <div class="frontend-form">
                     <h4>
                         <?php echo esc_html(ucfirst($postType)); ?> type

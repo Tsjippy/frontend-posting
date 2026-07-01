@@ -109,7 +109,7 @@ class AdminMenu extends ADMIN\SubAdminMenu
     }
 
     public function emails($parent)
-    
+
     {
         $tab      = 'post-out-of-date-email';
         if (isset($_GET['second-tab'])) {
@@ -134,7 +134,9 @@ class AdminMenu extends ADMIN\SubAdminMenu
         </div>
 
         <div id="post-out-of-date-email" class="tabcontent <?php echo $tab != 'post-out-of-date-email' ? 'hidden' : ''; ?>">
-            <h4>E-mail send to people when a page is out of date</h4>
+            <h4>
+                E-mail send to people when a page is out of date
+            </h4>
             <label>
                 Define the e-mail people get when they are responsible for a page which is out of date.<br>
                 You can use placeholders in your inputs.<br>
@@ -161,7 +163,9 @@ class AdminMenu extends ADMIN\SubAdminMenu
         </div>
 
         <div id="pending-post-email" class="tabcontent <?php echo $tab != 'pending-post-email' ? 'hidden' : ''; ?>">
-            <h4>E-mail send to content managers when a post is pending</h4>
+            <h4>
+                E-mail send to content managers when a post is pending
+            </h4>
             <label>
                 Define the e-mail content managers get when someone has submitted a post or post update for review<br>
             </label>
@@ -173,7 +177,9 @@ class AdminMenu extends ADMIN\SubAdminMenu
         </div>
 
         <div id="post-approved-email" class="tabcontent <?php echo $tab != 'post-approved-email' ? 'hidden' : ''; ?>">
-            <h4>E-mail send to authors when their content is approved</h4>
+            <h4>
+                E-mail send to authors when their content is approved
+            </h4>
             <label>
                 Define the e-mail authors when their post is approved<br>
             </label>
