@@ -6,6 +6,7 @@
 
 ### Changed
 - wrapped frontend posting options in rbody
+- dropdown layout
 
 ### Fixed
 
