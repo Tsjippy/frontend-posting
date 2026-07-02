@@ -159,7 +159,7 @@ class FrontEndContent
             //Show warning when post has been updated recently
             if ($secondsSinceUpdated < HOUR_IN_SECONDS && $secondsSinceUpdated > -1) {
                 $minutes = intval($secondsSinceUpdated / 60);
-?>
+                ?>
                 <div class='warning'>
                     This <?php echo esc_html($this->postType); ?> has been updated <span id='minutes'><?php echo esc_html($minutes); ?></span> minutes ago.
                 </div>
@@ -261,11 +261,7 @@ class FrontEndContent
 
                 <div
                     id="featured-image-div"
-                    <?php if ($this->postImageId == 0) {
-                    ?>
-                    class="hidden"
-                    <?php
-                    } ?>>
+                    <?php if ($this->postImageId == 0) echo 'class="hidden"';?>>
                     <h4 name="post-image-label">
                         Featured image:
                     </h4>
@@ -419,7 +415,7 @@ class FrontEndContent
             </form>
         </div>
 
-    <?php
+        <?php
 
         return ob_get_clean();
     }
@@ -664,8 +660,10 @@ class FrontEndContent
             );
         }
 
-    ?>
-        <button type='button' class='button small show-diff'>Show what is changed</button>
+        ?>
+        <button type='button' class='button small show-diff'>
+            Show what is changed
+        </button>
         <fieldset class='post-diff-wrapper hidden'>
             <legend>
                 <h4>
@@ -682,7 +680,7 @@ class FrontEndContent
             }
             ?>
         </fieldset>
-    <?php
+        <?php
     }
 
     /**
@@ -807,22 +805,28 @@ class FrontEndContent
     public function postSpecificFields()
     {
         ?>
-        <div
-            id="post-attributes"
-            class="property post
-        <?php if ($this->postType != 'post') echo ' hidden'; ?>">
-            <div id="expiry-date-div" class="frontend-form expand-wrapper">
-                <h4>
-                    Expiry date
-                    <button class="button small expand" type='button'>&#9660;</button>
-                </h4>
-                <label class='hidden expandable'>
-                    Expiry date<br>
-                    <input type='date' class='' name='expirydate' min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'tsjippy_expirydate', true)); ?>" style="display: unset; width:unset;">
-                </label>
+        <tbody id="expiry-date-div" class="frontend-form expand-wrapper">
+            <div id="post-attributes" class="property post <?php if ($this->postType != 'post') echo ' hidden'; ?>">
+            
+                <tr>
+                    <td>
+                        <h4>
+                            Expiry date
+                        </h4>
+                    </td>
+                    <td>
+                        <button class="button small expand" type='button'>&#9660;</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='hidden expandable' collspan=2>
+                        Expiry date<br>
+                        <input type='date' class='' name='expirydate' min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'tsjippy_expirydate', true)); ?>" style="display: unset; width:unset;">
+                    </td>
+                </tr>
             </div>
-        </div>
-    <?php
+        </tbody
+        <?php
     }
 
     /**
@@ -834,38 +838,52 @@ class FrontEndContent
     {
     ?>
         <div
-            id="page-attributes"
-            class="property page
-        <?php if ($this->postType != 'page') echo ' hidden'; ?>">
-            <div id="parentpage" class="frontend-form expand-wrapper">
-                <h4>
-                    Parent page
-                    <button class="button small expand" type='button'>&#9660;</button>
-                </h4>
-                <div class='expandable hidden'>
-                    <?php
-                    TSJIPPY\pageSelect(selectId: 'parent-page', pageId: $this->postParent, postTypes: ['page'], includeTax: false, echo: true);
-                    ?>
-                </div>
-            </div>
+            id="page-attributes" class="property page <?php if ($this->postType != 'page') echo ' hidden'; ?>">
+            <tbody id="parentpage" class="frontend-form expand-wrapper">
+                <tr>
+                    <td>
+                        <h4>
+                            Parent page
+                        </h4>
+                    </td>
+                    <td>
+                        <button class="button small expand" type='button'>&#9660;</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='expandable hidden' collspan=2>
+                        <?php
+                        TSJIPPY\pageSelect(selectId: 'parent-page', pageId: $this->postParent, postTypes: ['page'], includeTax: false, echo: true);
+                        ?>
+                    </td>
+                </tr>
+            </tbody>
 
             <?php
             do_action('tsjippy-frontend-content-page-specific-fields', $this->postId);
             ?>
-            <div id="static-content" class="frontend-form expand-wrapper">
-                <h4>
-                    Update warnings
-                    <button class="button small expand" type='button'>&#9660;</button>
-                </h4>
-                <label class='expandable hidden'>
-                    <input
-                        type='checkbox'
-                        name='static-content'
-                        value='static-content'
-                        <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) echo 'checked'; ?>>
-                    Do not send update warnings for this page
-                </label>
-            </div>
+            <tbody id="static-content" class="frontend-form expand-wrapper">
+                <tr>
+                    <td>
+                        <h4>
+                            Update warnings
+                        </h4>
+                    </td>
+                    <td>
+                        <button class="button small expand" type='button'>&#9660;</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='expandable hidden' collspan=2>
+                        <input
+                            type='checkbox'
+                            name='static-content'
+                            value='static-content'
+                            <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) echo 'checked'; ?>>
+                        Do not send update warnings for this page
+                    </td>
+                </tr>
+            </tbody>
         </div>
         <?php
     }
@@ -1006,110 +1024,147 @@ class FrontEndContent
         }
 
         ?>
-        <div class='expand-wrapper'>
-            <h4>
-                Author <button class="button small expand" type='button'>&#9660;</button>
-            </h4>
+        <table style='border:none;'>
+            <tbody class="expand-wrapper">
+                <tr>
+                    <td>
+                        <h4>
+                            Author
+                        </h4>
+                    </td>
 
-            <div class='hidden expandable'>
-                <?php
-                TSJIPPY\userSelect(onlyAdults: true, id: 'post-author', userId: $authorId, echo: true);
-                ?>
-            </div>
-        </div>
-        <?php
+                    <td>
+                        <button class="button small expand" type='button'>&#9660;</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='hidden expandable' collspan=2>
+                        <?php
+                        TSJIPPY\userSelect(onlyAdults: true, id: 'post-author', userId: $authorId, echo: true);
+                        ?>
+                    </td>
+                </tr>
+            </tbody>
+            <?php
 
-        // Only show publish date if not yet published
-        if (!isset(['publish' => 1, 'inherit' => 1][$this->post->post_status ?? ''])) {
-            if (empty($this->post)) {
-                $publishDate    = gmdate("Y-m-d");
-            } else {
-                $publishDate    = max(gmdate("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
-            }
-
-        ?>
-            <div class='expand-wrapper'>
-                <h4>
-                    Publishing date
-                    <button class="button small expand" type='button'>&#9660;</button>
-                </h4>
-
-                <div class='hidden expandable'>
-                    Publish Date<br>
-                    <input type="date" min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
-                </div>
-            </div>
-        <?php
-        }
-
-        ?>
-        <div id="nonews" class="frontend-form expand-wrapper">
-            <h4>
-                News Gallery
-                <button class="button small expand" type='button'>&#9660;</button>
-            </h4>
-            <label class='hidden expandable'>
-                <input
-                    type='checkbox'
-                    name='skipgallery'
-                    value='skipgallery'
-                    <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) echo 'checked'; ?>>
-                Do not add this <?php echo esc_attr($this->post->post_type ?? ''); ?> to the news gallery
-            </label>
-        </div>
-        <?php
-
-        $this->postSpecificFields();
-
-        $this->pageSpecificFields();
-
-        do_action('tsjippy-frontend-content-post-after-content', $this);
-
-        ?>
-        <div class='expand-wrapper'>
-            <h4>
-                View Permissions
-                <button class="button small expand" type='button'>&#9660;</button>
-            </h4>
-
-            <div class='hidden expandable'>
-                <label>
-                    <input type='radio' name='permission-filter-type' id='permission-filter-type' value='block'>
-                    Block this page
-                </label>
-                <label>
-                    <input type='radio' name='permission-filter-type' id='permission-filter-type' value='allow'>
-                    Allow this page
-                </label>
-                <br>
-                for accounts with one of the following roles:<br>
-                <?php
-                global $wp_roles;
-
-                $userRoles    = $wp_roles->role_names;
-
-                $viewRoles    = [];
-
-                if (is_numeric($this->postId)) {
-                    $viewRoles    = get_post_meta($this->postId, 'tsjippy_post_view_roles');
+            // Only show publish date if not yet published
+            if (!isset(['publish' => 1, 'inherit' => 1][$this->post->post_status ?? ''])) {
+                if (empty($this->post)) {
+                    $publishDate    = gmdate("Y-m-d");
+                } else {
+                    $publishDate    = max(gmdate("Y-m-d", strtotime($this->post->post_date)), gmdate("Y-m-d"));
                 }
 
-                ?>
-                <select name='post-view-roles[]' multiple>
-                    <option value=''>---</option>
+            ?>
+                <tbody class='expand-wrapper'>
+                    <tr>
+                        <td>
+                            <h4>
+                                Publishing date
+                            </h4>
+                        <td>
+                            <button class="button small expand" type='button'>&#9660;</button>
+                        </td>
 
-                    <?php
-                    foreach ($userRoles as $key => $roleName) {
-                    ?>
-                        <option value='<?php echo esc_attr($key); ?>' <?php if (in_array($key, $viewRoles)) echo ('selected'); ?>>
-                            <?php echo esc_html($roleName); ?>
-                        </option>
-                    <?php
-                    }
-                    ?>
-                </select>
-            </div>
-        </div>
+                    <tr>
+                        <td class='hidden expandable' collspan=2>
+                            Publish Date<br>
+                            <input type="date" min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" name="publish-date" value="<?php echo esc_attr($publishDate); ?>">
+                        </td>
+                    </tr>
+                </tbody>
+            <?php
+            }
+
+            ?>
+            <tbody id="nonews" class="frontend-form expand-wrapper">
+                <tr>
+                    <td>
+                        <h4>
+                            News Gallery
+                        </h4>
+                    </td>
+
+                    <td>
+                        <button class="button small expand" type='button'>&#9660;</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='hidden expandable' collspan=2>
+                        <input
+                            type='checkbox'
+                            name='skipgallery'
+                            value='skipgallery'
+                            <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) echo 'checked'; ?>>
+                        Do not add this <?php echo esc_attr($this->post->post_type ?? ''); ?> to the news gallery
+                    </td>
+                </tr>
+            </tbody>
+            <?php
+
+            $this->postSpecificFields();
+
+            $this->pageSpecificFields();
+
+            do_action('tsjippy-frontend-content-post-after-content', $this);
+
+            ?>
+            <tbody class='expand-wrapper'>
+                <tr>
+                    <td>
+                        <h4>
+                            View Permissions
+                        </h4>
+                    </td>
+
+                    <td>
+                        <button class="button small expand" type='button'>
+                            &#9660;
+                        </button>
+                    </td>
+                </tr>
+
+                <tr class='hidden expandable'>
+                    <td collspan=2>
+                        <label>
+                            <input type='radio' name='permission-filter-type' id='permission-filter-type' value='block'>
+                            Block this page
+                        </label>
+                        <label>
+                            <input type='radio' name='permission-filter-type' id='permission-filter-type' value='allow'>
+                            Allow this page
+                        </label>
+                        <br>
+                        for accounts with one of the following roles:<br>
+                        <?php
+                        global $wp_roles;
+
+                        $userRoles    = $wp_roles->role_names;
+
+                        $viewRoles    = [];
+
+                        if (is_numeric($this->postId)) {
+                            $viewRoles    = get_post_meta($this->postId, 'tsjippy_post_view_roles');
+                        }
+
+                        ?>
+                        <select name='post-view-roles[]' multiple>
+                            <option value=''>---</option>
+
+                            <?php
+                            foreach ($userRoles as $key => $roleName) {
+                            ?>
+                                <option value='<?php echo esc_attr($key); ?>' <?php if (in_array($key, $viewRoles)) echo ('selected'); ?>>
+                                    <?php echo esc_html($roleName); ?>
+                                </option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 <?php
     }
 
@@ -1752,7 +1807,7 @@ class FrontEndContent
             $value    =  get_post_meta($this->orgPost->ID, "tsjippy_$key", true);
         }
 
-        if(!$value){
+        if (!$value) {
             $value  = $defaultValue;
         }
 
