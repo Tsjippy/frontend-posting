@@ -159,7 +159,7 @@ class FrontEndContent
             //Show warning when post has been updated recently
             if ($secondsSinceUpdated < HOUR_IN_SECONDS && $secondsSinceUpdated > -1) {
                 $minutes = intval($secondsSinceUpdated / 60);
-                ?>
+?>
                 <div class='warning'>
                     This <?php echo esc_html($this->postType); ?> has been updated <span id='minutes'><?php echo esc_html($minutes); ?></span> minutes ago.
                 </div>
@@ -261,7 +261,7 @@ class FrontEndContent
 
                 <div
                     id="featured-image-div"
-                    <?php if ($this->postImageId == 0) echo 'class="hidden"';?>>
+                    <?php if ($this->postImageId == 0) echo 'class="hidden"'; ?>>
                     <h4 name="post-image-label">
                         Featured image:
                     </h4>
@@ -415,7 +415,7 @@ class FrontEndContent
             </form>
         </div>
 
-        <?php
+    <?php
 
         return ob_get_clean();
     }
@@ -660,7 +660,7 @@ class FrontEndContent
             );
         }
 
-        ?>
+    ?>
         <button type='button' class='button small show-diff'>
             Show what is changed
         </button>
@@ -680,7 +680,7 @@ class FrontEndContent
             }
             ?>
         </fieldset>
-        <?php
+    <?php
     }
 
     /**
@@ -702,8 +702,8 @@ class FrontEndContent
 
     ?>
         <form action="" method="post" name="change-post-type">
-            <input type="hidden" class="no-reset" name="user-id" value="<?php echo  esc_html($this->user->ID); ?>">
-            <input type="hidden" class="no-reset" name="post-id" value="<?php echo  esc_html($this->postId); ?>">
+            <input type="hidden" class="no-reset" name="user-id" value="<?php echo esc_html($this->user->ID); ?>">
+            <input type="hidden" class="no-reset" name="post-id" value="<?php echo esc_html($this->postId); ?>">
             <h4>
                 <?php
                 if ($this->postId == null) {
@@ -805,28 +805,27 @@ class FrontEndContent
     public function postSpecificFields()
     {
         ?>
-        <tbody id="expiry-date-div" class="frontend-form expand-wrapper">
-            <div id="post-attributes" class="property post <?php if ($this->postType != 'post') echo ' hidden'; ?>">
-            
-                <tr>
-                    <td>
-                        <h4>
-                            Expiry date
-                        </h4>
-                    </td>
-                    <td>
-                        <button class="button small expand" type='button'>&#9660;</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class='hidden expandable' collspan=2>
-                        Expiry date<br>
-                        <input type='date' class='' name='expirydate' min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'tsjippy_expirydate', true)); ?>" style="display: unset; width:unset;">
-                    </td>
-                </tr>
-            </div>
-        </tbody
-        <?php
+        <tbody class="frontend-form expand-wrapper property post <?php if ($this->postType != 'post') echo ' hidden'; ?>">
+            <tr>
+                <td>
+                    <h4>
+                        Expiry date
+                    </h4>
+                </td>
+                <td>
+                    <button class="button small expand" type='button'>
+                        &#9660;
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td class='hidden expandable' collspan=2>
+                    Expiry date<br>
+                    <input type='date' class='' name='expirydate' min="<?php echo esc_attr(gmdate("Y-m-d")); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'tsjippy_expirydate', true)); ?>" style="display: unset; width:unset;">
+                </td>
+            </tr>
+        </tbody>
+    <?php
     }
 
     /**
@@ -837,54 +836,51 @@ class FrontEndContent
     public function pageSpecificFields()
     {
     ?>
-        <div
-            id="page-attributes" class="property page <?php if ($this->postType != 'page') echo ' hidden'; ?>">
-            <tbody id="parentpage" class="frontend-form expand-wrapper">
-                <tr>
-                    <td>
-                        <h4>
-                            Parent page
-                        </h4>
-                    </td>
-                    <td>
-                        <button class="button small expand" type='button'>&#9660;</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class='expandable hidden' collspan=2>
-                        <?php
-                        TSJIPPY\pageSelect(selectId: 'parent-page', pageId: $this->postParent, postTypes: ['page'], includeTax: false, echo: true);
-                        ?>
-                    </td>
-                </tr>
-            </tbody>
+        <tbody class="frontend-form expand-wrapper property page <?php if ($this->postType != 'page') echo ' hidden'; ?>">
+            <tr>
+                <td>
+                    <h4>
+                        Parent page
+                    </h4>
+                </td>
+                <td>
+                    <button class="button small expand" type='button'>&#9660;</button>
+                </td>
+            </tr>
+            <tr>
+                <td class='expandable hidden' collspan=2>
+                    <?php
+                    TSJIPPY\pageSelect(selectId: 'parent-page', pageId: $this->postParent, postTypes: ['page'], includeTax: false, echo: true);
+                    ?>
+                </td>
+            </tr>
+        </tbody>
 
-            <?php
-            do_action('tsjippy-frontend-content-page-specific-fields', $this->postId);
-            ?>
-            <tbody id="static-content" class="frontend-form expand-wrapper">
-                <tr>
-                    <td>
-                        <h4>
-                            Update warnings
-                        </h4>
-                    </td>
-                    <td>
-                        <button class="button small expand" type='button'>&#9660;</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class='expandable hidden' collspan=2>
-                        <input
-                            type='checkbox'
-                            name='static-content'
-                            value='static-content'
-                            <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) echo 'checked'; ?>>
-                        Do not send update warnings for this page
-                    </td>
-                </tr>
-            </tbody>
-        </div>
+        <?php
+        do_action('tsjippy-frontend-content-page-specific-fields', $this->postId);
+        ?>
+        <tbody id="static-content" class="frontend-form expand-wrapper property page <?php if ($this->postType != 'page') echo ' hidden'; ?>">
+            <tr>
+                <td>
+                    <h4>
+                        Update warnings
+                    </h4>
+                </td>
+                <td>
+                    <button class="button small expand" type='button'>&#9660;</button>
+                </td>
+            </tr>
+            <tr>
+                <td class='expandable hidden' collspan=2>
+                    <input
+                        type='checkbox'
+                        name='static-content'
+                        value='static-content'
+                        <?php if (get_post_meta($this->postId, 'tsjippy_static_content', true)) echo 'checked'; ?>>
+                    Do not send update warnings for this page
+                </td>
+            </tr>
+        </tbody>
         <?php
     }
 
@@ -1086,7 +1082,9 @@ class FrontEndContent
                     </td>
 
                     <td>
-                        <button class="button small expand" type='button'>&#9660;</button>
+                        <button class="button small expand" type='button'>
+                            &#9660;
+                        </button>
                     </td>
                 </tr>
                 <tr>
