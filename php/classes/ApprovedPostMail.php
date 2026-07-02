@@ -12,10 +12,17 @@ if (! defined('ABSPATH')) {
 class ApprovedPostMail extends ADMIN\MailSetting
 {
 
-    public $authorName;
-    public $postType;
-    public $url;
+    public string $authorName;
+    public string $postType;
+    public string $url;
 
+    /**
+     * ApprovedPostMail constructor.
+     *
+     * @param string $authorName The name of the author
+     * @param string $postType The type of the post
+     * @param string $url The URL of the approved post
+     */
     public function __construct($authorName = '', $postType = '', $url = '')
     {
         // call parent constructor

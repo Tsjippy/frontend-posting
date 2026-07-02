@@ -10,6 +10,11 @@ if (! defined('ABSPATH')) {
 
 add_shortcode('tsjippy_your_posts', __NAMESPACE__ . '\yourPosts');
 
+/**
+ * Shortcode to display all posts and pages submitted by the current user.
+ *
+ * @return string The HTML table of the user's posts and pages.
+ */
 function yourPosts()
 {
     //load js
@@ -81,7 +86,11 @@ function yourPosts()
 
 //Shortcode to display all pages and post who are pending
 add_shortcode("tsjippy_pending-pages", __NAMESPACE__ . '\pendingPages');
-
+/**
+ * Shortcode to display all pages and posts that are pending.
+ *
+ * @return string The HTML content of the pending pages and posts.
+ */
 function pendingPages()
 {
     //Get all the posts with a pending status
@@ -146,6 +155,11 @@ function pendingPages()
 
 //Shortcode to display number of pending posts and pages
 add_shortcode('tsjippy_pending_post_icon', __NAMESPACE__ . '\pendingPostIcon');
+/**
+ * Shortcode to display the number of pending posts and pages.
+ *
+ * @return string The HTML content of the pending post icon.
+ */
 function pendingPostIcon()
 {
     //Get all the posts with a pending status
@@ -174,6 +188,11 @@ function pendingPostIcon()
 
 //Add shortcode for the post edit form
 add_shortcode("tsjippy_front_end_post", __NAMESPACE__ . '\fontEndPost');
+/**
+ * Shortcode to display the frontend post form.
+ *
+ * @return string The HTML content of the frontend post form.
+ */
 function fontEndPost()
 {
     $frontEndContent    = new FrontEndContent();
@@ -182,6 +201,11 @@ function fontEndPost()
 
 //Add shortcode for the post edit form
 add_shortcode("tsjippy_old-pages", __NAMESPACE__ . '\oldPages');
+/**
+ * Shortcode to display all pages that have not been updated for a long time.
+ *
+ * @return string The HTML content of the old pages.
+ */
 function oldPages()
 {
     $oldPages    = getOldPages();

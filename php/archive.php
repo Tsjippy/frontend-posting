@@ -10,6 +10,9 @@ if (! defined('ABSPATH')) {
 
 // Registering custom post status
 add_action('init', __NAMESPACE__ . '\initPostStatus');
+/**
+ * Register a custom post status called "archived"
+ */
 function initPostStatus()
 {
     register_post_status('archived', array(
@@ -106,6 +109,12 @@ function addPostStatus()
 // Display "— Archived" after post name on the dashobard, like you would see "— Draft" for draft posts.
 // Not shown when viewing only archived posts because that would be redundant.
 add_filter('display_post_states', __NAMESPACE__ . '\displayPostStatus');
+/**
+ * Display the custom post status "archived" in the post list table.
+ *
+ * @param array $statuses The existing post statuses.
+ * @return array The modified post statuses.
+ */
 function displayPostStatus($statuses)
 {
     global $post; // we need it to check current post status

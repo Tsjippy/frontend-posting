@@ -10,6 +10,13 @@ if (! defined('ABSPATH')) {
 
 // filter library if needed
 add_filter('ajax_query_attachments_args',  __NAMESPACE__ . '\attachmentArgs');
+/**
+ * Filter the query arguments for attachments in the media library.
+ *
+ * @param array $query The original query arguments.
+ *
+ * @return array The modified query arguments.
+ */
 function attachmentArgs($query)
 {
     if (!empty($_REQUEST['query']['category'])) {
@@ -28,6 +35,14 @@ function attachmentArgs($query)
 }
 
 add_action('init', __NAMESPACE__ . '\initTaxonomies');
+/**
+ * Initialize custom taxonomies for attachments and pages.
+ *
+ * This function registers the 'attachment_cat' taxonomy for attachments and ensures that
+ * the 'category' and 'post_tag' taxonomies are available for pages.
+ *
+ * @return void
+ */
 function initTaxonomies()
 {
 
@@ -47,6 +62,14 @@ function initTaxonomies()
  */
 
 add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\attachmentFieldsToEdit', 10, 2);
+/**
+ * Modify the attachment fields to include a category selection.
+ *
+ * @param array   $formFields The original form fields for the attachment.
+ * @param \WP_Post $post       The attachment post object.
+ *
+ * @return array The modified form fields with category selection.
+ */
 function attachmentFieldsToEdit($formFields, $post)
 {
     $categories    = get_categories(array(
@@ -103,6 +126,13 @@ function attachmentFieldsToEdit($formFields, $post)
 }
 
 add_action('tsjippy-before-archive', __NAMESPACE__ . '\beforeArchive');
+/**
+ * Display a button to add a new post or event before the archive.
+ *
+ * @param string $type The type of content (e.g., 'post', 'event').
+ *
+ * @return void
+ */
 function beforeArchive($type)
 {
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
@@ -123,6 +153,14 @@ function beforeArchive($type)
 }
 
 add_filter('tsjippy-empty-description', __NAMESPACE__ . '\emptyDescription', 10, 2);
+/**
+ * Display a message and a button to add a description for a post or page that lacks one.
+ *
+ * @param string  $message The original message.
+ * @param \WP_Post $post    The post object.
+ *
+ * @return string The modified message with a button to add a description.
+ */
 function emptyDescription($message, $post)
 {
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
@@ -139,6 +177,14 @@ function emptyDescription($message, $post)
 }
 
 add_filter('tsjippy-empty-taxonomy', __NAMESPACE__ . '\emptyTax', 10, 2);
+/**
+ * Display a message and a button to add a taxonomy term for a post or page that lacks one.
+ *
+ * @param string  $message The original message.
+ * @param string  $type    The type of taxonomy (e.g., 'category', 'tag').
+ *
+ * @return string The modified message with a button to add a taxonomy term.
+ */
 function emptyTax($message, $type)
 {
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');

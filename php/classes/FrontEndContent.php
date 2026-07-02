@@ -37,6 +37,9 @@ class FrontEndContent
     public \WP_Post|array|null $orgPost;
     public int|null $author;
 
+    /**
+     * FrontEndContent constructor.
+     */
     public function __construct()
     {
         $this->processRequestParams();
@@ -83,6 +86,9 @@ class FrontEndContent
         $this->postTypes    = apply_filters('tsjippy-frontend-content-post-types-and-tax', $postTypes, $this);
     }
 
+    /**
+     * Process the request parameters and set the class properties accordingly
+     */
     private function processRequestParams()
     {
 
@@ -1153,6 +1159,8 @@ class FrontEndContent
     /**
      * Store categories of custom post type
      *
+     * @param    object     $post       Post object
+     * @param    array      $request    Request data
      */
     public function storeCustomCategories($post, $request)
     {
@@ -1176,6 +1184,9 @@ class FrontEndContent
 
     /**
      * Several checks and adjustments to the post contents
+     * 
+     * @param    string     $postContent    The post content
+     * @return   string                     The adjusted post content
      */
     public function preparePostContent($postContent)
     {
@@ -1217,6 +1228,9 @@ class FrontEndContent
 
     /**
      * Update an existing post
+     * 
+     * @param    array     $request    Request data
+     * @return   int|WP_Error          Post ID on success, WP_Error on failure
      */
     public function updateExistingPost($request)
     {
@@ -1396,6 +1410,9 @@ class FrontEndContent
 
     /**
      * Create a new post
+     * 
+     * @param    array     $request    Request data
+     * @return   object|WP_Error        Post object on success, WP_Error on failure
      */
     public function createNewPost($request)
     {
@@ -1720,6 +1737,10 @@ class FrontEndContent
 
     /**
      * Get the meta value of the revision or parent post if empty
+     * 
+     * @param    string     $key    The meta key
+     * 
+     * @return   mixed              The meta value
      */
     public function getPostMeta($key)
     {

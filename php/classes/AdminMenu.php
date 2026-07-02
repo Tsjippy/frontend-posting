@@ -26,6 +26,12 @@ class AdminMenu extends ADMIN\SubAdminMenu
         parent::__construct($settings, $name);
     }
 
+    /**
+     * Add the settings page to the admin menu
+     *
+     * @param string $parent The parent menu slug
+     * @return void
+     */
     public function settings($parent)
     {
         global $wp_roles;
@@ -108,6 +114,12 @@ class AdminMenu extends ADMIN\SubAdminMenu
         return true;
     }
 
+    /**
+     * Add the e-mail settings page to the admin menu
+     *
+     * @param string $parent The parent menu slug
+     * @return void
+     */
     public function emails($parent)
 
     {
@@ -189,13 +201,19 @@ class AdminMenu extends ADMIN\SubAdminMenu
             $email->printInputs();
             ?>
         </div>
-<?php
+        <?php
 
         addRawHtml(ob_get_clean(), $parent);
 
         return true;
     }
 
+    /**
+     * Add the data page to the admin menu
+     *
+     * @param string $parent The parent menu slug
+     * @return void
+     */
     public function data($parent = '')
     {
 
@@ -203,6 +221,12 @@ class AdminMenu extends ADMIN\SubAdminMenu
         return false;
     }
 
+    /**
+     * Add the functions page to the admin menu
+     *
+     * @param string $parent The parent menu slug
+     * @return void
+     */
     public function functions($parent)
     {
 

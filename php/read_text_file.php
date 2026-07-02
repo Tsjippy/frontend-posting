@@ -8,6 +8,13 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Read the contents of a text file and return it as a string.
+ *
+ * @param string $path The path to the text file.
+ *
+ * @return string The contents of the text file.
+ */
 function readTextFile($path)
 {
     $wpFileSystem   = TSJIPPY\loadWpFileSystem();

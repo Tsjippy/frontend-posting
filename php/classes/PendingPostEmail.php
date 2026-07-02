@@ -12,13 +12,22 @@ if (! defined('ABSPATH')) {
 class PendingPostEmail extends ADMIN\MailSetting
 {
 
-    public $user;
-    public $authorName;
-    public $actionText;
-    public $postType;
-    public $url;
+    public \WP_User $user;
+    public string $authorName;
+    public string $actionText;
+    public string $postType;
+    public string $url;
 
-    public function __construct($user, $authorName = '', $actionText = '', $postType = '', $url = '')
+    /**
+     * PendingPostEmail constructor.
+     *
+     * @param \WP_User $user The user object
+     * @param string $authorName The name of the author
+     * @param string $actionText The action text (e.g., "submitted", "updated")
+     * @param string $postType The type of the post
+     * @param string $url The URL of the pending post
+     */
+    public function __construct(\WP_User $user, string $authorName = '', string $actionText = '', string $postType = '', string $url = '')
     {
         // call parent constructor
         parent::__construct('pending_post', PLUGINSLUG);

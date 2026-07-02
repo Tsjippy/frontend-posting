@@ -12,12 +12,20 @@ if (! defined('ABSPATH')) {
 class PostOutOfDateEmail extends ADMIN\MailSetting
 {
 
-    public $user;
-    public $postTitle;
-    public $pageAge;
-    public $url;
+    public \WP_User $user;
+    public string $postTitle;
+    public string $pageAge;
+    public string $url;
 
-    public function __construct($user, $postTitle = '', $pageAge = '', $url = '')
+    /**
+     * PostOutOfDateEmail constructor.
+     *
+     * @param \WP_User $user The user object
+     * @param string $postTitle The title of the post
+     * @param string $pageAge The age of the page in days
+     * @param string $url The URL of the post
+     */
+    public function __construct(\WP_User $user, string $postTitle = '', string $pageAge = '', string $url = '')
     {
         // call parent constructor
         parent::__construct('page_age', PLUGINSLUG);

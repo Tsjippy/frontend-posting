@@ -9,6 +9,11 @@ if (! defined('ABSPATH')) {
 }
 
 add_action('init', __NAMESPACE__ . '\scheduleTasks');
+/**
+ * Schedule tasks for frontend posting.
+ *
+ * @return void
+ */
 function scheduleTasks()
 {
     TSJIPPY\scheduleTask('tsjippy-frontend-posting-expired-posts-check', 'daily', __NAMESPACE__, 'expiredPostsCheck');
@@ -134,6 +139,8 @@ function pageAgeWarning()
 
 /**
  * Function to check who the recipients should be for the page update mail
+ * 
+ * @param   object  $page   The page object
  */
 function getPageRecipients($page)
 {

@@ -9,6 +9,11 @@ if (! defined('ABSPATH')) {
 }
 
 add_action('rest_api_init', __NAMESPACE__ . '\restApiInit');
+/**
+ * Initializes the REST API routes for frontend posting.
+ *
+ * @return void
+ */
 function restApiInit()
 {
     // get_attachment_contents
@@ -367,6 +372,9 @@ function sendPost()
     ];
 }
 
+/**
+ * Submits a post
+ */
 function submitPost()
 {
     global $post;
@@ -439,6 +447,9 @@ function submitPost()
     return $result;
 }
 
+/**
+ * Checks for duplicate posts with the same title
+ */
 function checkForDuplicate(\WP_REST_Request $request)
 {
     global $wpdb;
