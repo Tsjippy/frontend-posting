@@ -1738,17 +1738,22 @@ class FrontEndContent
     /**
      * Get the meta value of the revision or parent post if empty
      * 
-     * @param    string     $key    The meta key
+     * @param   string      $key            The meta key
+     * @param   mixed       $defaultValue   The default value when not found
      * 
-     * @return   mixed              The meta value
+     * @return   mixed                      The meta value
      */
-    public function getPostMeta($key)
+    public function getPostMeta($key, $defaultValue)
     {
         $value  = get_post_meta($this->postId, "tsjippy_$key", true);
 
         // use parent value if the revision value is non existing
         if (empty($value) && !empty($this->orgPost)) {
             $value    =  get_post_meta($this->orgPost->ID, "tsjippy_$key", true);
+        }
+
+        if(!$value){
+            $value  = $defaultValue;
         }
 
         return $value;
