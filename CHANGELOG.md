@@ -2,15 +2,22 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.4.6] - 2026-07-02
+
+
+### Added
 - default meta value
 
 ### Changed
 - wrapped frontend posting options in rbody
 - dropdown layout
-
-### Fixed
-
-### Updated
 
 ## [10.4.5] - 2026-07-02
 
