@@ -5,6 +5,7 @@
 - default meta value
 
 ### Changed
+- wrapped frontend posting options in rbody
 
 ### Fixed
 
