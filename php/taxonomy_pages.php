@@ -135,7 +135,7 @@ add_action('tsjippy-before-archive', __NAMESPACE__ . '\beforeArchive');
  */
 function beforeArchive($type)
 {
-    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
+    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
     if (is_numeric($url)) {
         if ($type == 'event') {
             $text    = "Add an event to the calendar";
@@ -163,7 +163,7 @@ add_filter('tsjippy-empty-description', __NAMESPACE__ . '\emptyDescription', 10,
  */
 function emptyDescription($message, $post)
 {
-    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
+    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
     if (!$url) {
         $url    = '';
     }
@@ -187,7 +187,7 @@ add_filter('tsjippy-empty-taxonomy', __NAMESPACE__ . '\emptyTax', 10, 2);
  */
 function emptyTax($message, $type)
 {
-    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
+    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-pagee'));
     $message    .= "<br><a href='$url?type=$type' class='button'>Add a $type</a>";
     return $message;
 }

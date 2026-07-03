@@ -73,10 +73,7 @@ function sendPendingPostWarning(object $post, $update)
     $type = $post->post_type;
 
     //send notification to all content managers
-    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
-    if (!$url) {
-        return;
-    }
+    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
 
     $url            = add_query_arg(['post-id' => $post->ID], $url);
     TSJIPPY\printArray($post);
@@ -274,9 +271,9 @@ add_filter('display_post_states', __NAMESPACE__ . '\postStatus', 10, 2);
  */
 function postStatus($states, $post)
 {
-    if ($post->ID == (SETTINGS['front-end-post-page'] ?? '')) {
+    if ($post->ID == (SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'))) {
         $states[] = __('Frontend posting page', '%TEXTDOMAIN%');
-    } elseif ($post->ID == (SETTINGS['pending-posts-page'] ?? '')) {
+    } elseif ($post->ID == (SETTINGS['pending-posts-page'] ?? createDefaultPages('pending-posts-page'))) {
         $states[] = __('Pending posts page', '%TEXTDOMAIN%');
     }
 

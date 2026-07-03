@@ -31,7 +31,7 @@ define(__NAMESPACE__ . '\PLUGIN', plugin_basename(__FILE__));
 define(__NAMESPACE__ . '\PLUGINPATH', __DIR__ . '/');
 define(__NAMESPACE__ . '\PLUGINSLUG', str_replace('tsjippy-', '', basename(__FILE__, '.php')));
 define(__NAMESPACE__ . '\PLUGINVERSION', get_plugin_data(__FILE__, false, false)['Version']);
-define(__NAMESPACE__ . '\SETTINGS', get_option('tsjippy_frontendposting_settings', []));
+define(__NAMESPACE__ . '\SETTINGS', get_option('tsjippy_frontend-posting_settings', []));
 
 // run right before activation
 register_activation_hook(__FILE__, function () {
@@ -39,13 +39,7 @@ register_activation_hook(__FILE__, function () {
         require_once(__DIR__  . '/shared-functionality/loader.php');
     }
 
-    // Create frontend posting page
-    $settings                           = SETTINGS;
-    $settings['front-end-post-page']    = TSJIPPY\ADMIN\createDefaultPage('Add content', '[tsjippy_front_end_post]');
-
-    $settings['pending-posts-page']     = TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '[tsjippy_pending-pages]');
-
-    update_option('tsjippy_frontendposting_settings', $settings);
+    createDefaultPages();
 
     if(function_exists('TSJIPPY\activate')){
         \TSJIPPY\activate();
@@ -68,4 +62,31 @@ register_deactivation_hook(__FILE__, function () {
 // Load shared code
 if(file_exists(__DIR__  . '/shared-functionality/loader.php')){
     require_once(__DIR__  . '/shared-functionality/loader.php');
+}
+
+/**
+ * Creates default pages if needed
+ * 
+ * @param string    $returnKey  The key to return a value for, default empty
+ */
+function createDefaultPages($returnKey=''){
+    /**
+     *  Default pages
+     */
+    $settings    = SETTINGS;
+
+    // Create frontend posting page
+    if(!isset($settings['front-end-post-page'])){
+        $settings['front-end-post-page']    = TSJIPPY\ADMIN\createDefaultPage('Add content', '[tsjippy_front_end_post]');
+    }
+    
+    if(!isset($settings['pending-posts-page'])){
+        $settings['pending-posts-page']     = TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '[tsjippy_pending-pages]');
+    }
+
+    update_option('tsjippy_frontend-posting_settings', $settings);
+
+    if(!empty($returnKey) && isset($settings[$returnKey])){
+        return $settings[$returnKey];
+    }
 }

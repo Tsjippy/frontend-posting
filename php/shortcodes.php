@@ -59,10 +59,8 @@ function yourPosts()
         }
 
         $url         = get_permalink($post);
-        $editUrl    = get_permalink(SETTINGS['front-end-post-page'] ?? '');
-        if (!$editUrl) {
-            $editUrl = '';
-        }
+        $editUrl    = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
+
         $editUrl     = add_query_arg(['post-id' => $post->ID], $editUrl);
         if ($post->post_status == 'publish') {
             $view = 'View';
@@ -112,7 +110,7 @@ function pendingPages()
 
     );
 
-    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
+    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
     if (!$url) {
         return '';
     }

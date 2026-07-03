@@ -454,10 +454,7 @@ function checkForDuplicate(\WP_REST_Request $request)
 {
     global $wpdb;
 
-    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? '');
-    if (!$url) {
-        return;
-    }
+    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
 
     $title   = $request->get_param('title');
     $type    = $request->get_param('type');
