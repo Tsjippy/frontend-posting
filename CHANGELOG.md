@@ -4,9 +4,16 @@
 ### Added
 
 ### Changed
-- block namespace
 
 ### Fixed
+
+### Updated
+
+## [10.4.8] - 2026-07-06
+
+
+### Changed
+- block namespace
 
 ### Updated
 - blocks js
