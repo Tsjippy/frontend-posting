@@ -1,5 +1,5 @@
-const { __ } = wp.i18n;
-const { registerPlugin } = wp.plugins;
+import { __ } from "@wordpress/i18n";
+import { registerPlugin } from "@wordpress/plugins";
 import { DatePicker, ToggleControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { PluginDocumentSettingPanel } from '@wordpress/editor';
@@ -33,7 +33,7 @@ registerPlugin("expiry-date", {
       <>
         <PluginDocumentSettingPanel
           name="expiry-dates"
-          title={__("Expiry date", "sim")}
+          title={__("Expiry date", "tsjippy")}
           className="expiry-date"
         >
           <DatePicker
@@ -44,11 +44,11 @@ registerPlugin("expiry-date", {
         </PluginDocumentSettingPanel>
         <PluginDocumentSettingPanel
           name="static_content"
-          title={__("Static content", "sim")}
+          title={__("Static content", "tsjippy")}
           className="static_content"
         >
           <ToggleControl
-            label={__("Do not send update warnings for this page", "sim")}
+            label={__("Do not send update warnings for this page", "tsjippy")}
             checked={staticContent}
             onChange={(value) => updateMetaValue(value, "tsjippy_static_content")}
           />

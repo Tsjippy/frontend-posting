@@ -40,18 +40,18 @@ function addPostStatus()
 
 ?>
     <script>
-        jQuery(function() {
-            var archivedSelected = <?php echo $post->post_status == 'archived'; ?>;
-            var $postStatus = jQuery("#post_status");
-            var $postStatusDisplay = jQuery("#post-status-display");
+        var archivedSelected    = <?php echo $post->post_status == 'archived' ? 1 : 0; ?>;
+        var $postStatus         = document.getElementById("post_status");
+        var $postStatusDisplay  = document.getElementById("post-status-display");
 
+        if($postStatus != null){
             $postStatus.append('<option value="archived">Archived</option>');
 
             if (archivedSelected) {
                 $postStatus.val('archived');
                 $postStatusDisplay.text('Archived');
             }
-        });
+        }
 
         // Post listing screen: Add quick edit functionality:
         jQuery(function() {
