@@ -35,51 +35,78 @@ function yourPosts()
         )
     );
 
-    $html = "<h2 class='table-title'>Content submitted by you</h2>";
-    $html .= "<table class='tsjippy table' id='user-posts'>";
-    $html .= "<thead>";
-    $html .= "<tr>";
-    $html .= "<th>Date</th>";
-    $html .= "<th>Type</th>";
-    $html .= "<th>Title</th>";
-    $html .= "<th>Status</th>";
-    $html .= "<th>Actions</th>";
-    $html .= "</tr>";
-    $html .= "</thead>";
-    foreach ($userUserPosts as $post) {
-        $date         = get_the_modified_date('d F Y', $post);
+    ob_start();
 
-        $type        = ucfirst($post->post_type);
+    ?>
+    <h2 class="table-title">
+        Content submitted by you
+    </h2>
+    <table class="tsjippy table" id="user-posts">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($userUserPosts as $post):
+                $date   = get_the_modified_date('d F Y', $post);
+                $type   = ucfirst($post->post_type);
+                $title  = $post->post_title;
+                $status = ucfirst($post->post_status);
+                if ($status == 'Publish') {
+                    $status = 'Published';
+                }
+                $url        = get_permalink($post);
+                $editUrl    = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
+                $editUrl    = add_query_arg(['post-id' => $post->ID], $editUrl);
+                $view       = ($post->post_status == 'publish') ? 'View' : 'Preview';
+            ?>
+                <tr class="table-row">
+                    <td>
+                        <?php echo esc_html($date); ?>
+                    </td>
+                    <td>
+                        <?php echo esc_html($type); ?>
+                    </td>
+                    <td>
+                        <?php echo esc_html($title); ?>
+                    </td>
+                    <td>
+                        <?php echo esc_html($status); ?>
+                    </td>
+                    <td>
+                        <span>
+                            <a href='<?php echo esc_url($url); ?>'>
+                                <?php echo esc_html($view); ?>
+                            </a>
+                        </span>
+                        <span style='margin-left:20px;'>
+                            <a href='<?php echo esc_url($editUrl); ?>'>
+                                Edit
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php
 
-        $title         = $post->post_title;
-
-        $status        = ucfirst($post->post_status);
-        if ($status == 'Publish') {
-            $status = 'Published';
-        }
-
-        $url         = get_permalink($post);
-        $editUrl    = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
-
-        $editUrl     = add_query_arg(['post-id' => $post->ID], $editUrl);
-        if ($post->post_status == 'publish') {
-            $view = 'View';
-        } else {
-            $view = 'Preview';
-        }
-        $actions = "<span><a href='$url'>$view</a></span><span style='margin-left:20px;'> <a href='$editUrl'>Edit</a></span>";
-
-        $html .= "<tr class='table-row'>";
-        $html .= "<td>$date</td>";
-        $html .= "<td>$type</td>";
-        $html .= "<td>$title</td>";
-        $html .= "<td>$status</td>";
-        $html .= "<td>$actions</td>";
-        $html .= "</tr>";
-    }
-    $html .= "</table>";
-
-    return $html;
+    return ob_get_clean();
 }
 
 //Shortcode to display all pages and post who are pending
@@ -115,73 +142,85 @@ function pendingPages()
         return '';
     }
 
-    $html = '';
-    //Only if there are any pending posts
-    if ($pendingPosts) {
-        $html .= "<strong>Pending content:</strong><br>";
-        $html .= "<ul>";
-        //For each pending post add a link to edit the post
-        foreach ($pendingPosts as $post) {
-            $url = add_query_arg(['post-id' => $post->ID], $url);
-            if (strtotime($post->post_date_gmt) > time()) {
-                $date    = gmdate(TSJIPPY\DATEFORMAT, strtotime($post->post_date_gmt));
-                $html .= "<li>$post->post_title (scheduled for $date) <a href='$url'>Publish now</a></li>";
-            } else {
-                $html .= "<li>$post->post_title <a href='$url' target='_blank'>Review and publish</a></li>";
-            }
+    ob_start();
+    ?>
+    <p>
+        <?php
+        //Only if there are any pending posts
+        if ($pendingPosts) {
+        ?>
+            <strong>
+                Pending content:
+            </strong>
+            <br>
+            <ul>
+                <?php
+                    //For each pending post add a link to edit the post
+                    foreach ($pendingPosts as $post) {
+                        $url = add_query_arg(['post-id' => $post->ID], $url);
+                        if (strtotime($post->post_date_gmt) > time()) {
+                            $date    = gmdate(TSJIPPY\DATEFORMAT, strtotime($post->post_date_gmt));
+                ?>
+                        <li>
+                            <?php echo wp_kses_post($post->post_title); ?> (scheduled for <?php echo esc_attr($date); ?>)
+                            <a href='<?php echo esc_url($url); ?>'>
+                                Publish now
+                            </a>
+                        </li>
+                    <?php
+                        } else {
+                    ?>
+                        <li>
+                            <?php echo wp_kses_post($post->post_title); ?>
+                            <a href='<?php echo esc_url($url); ?>' target='_blank'>
+                                Review and publish
+                            </a>
+                        </li>
+                <?php
+                        }
+                    }
+                ?>
+            </ul>
+            <?php
+                }
+
+                if ($pendingRevisions) {
+            ?>
+            <br>
+            <br>
+            <strong>
+                Pending content revisions:
+            </strong>
+            <br>
+            <ul>
+                <?php
+                    //For each pendingRevisions post add a link to edit the post
+                    foreach ($pendingRevisions as $post) {
+                        $url = add_query_arg(['post-id' => $post->ID], $url);
+                ?>
+                    <li>
+                        <?php echo wp_kses_post($post->post_title); ?>
+                        <a href='<?php echo esc_url($url); ?>'>
+                            Review changes
+                        </a>
+                    </li>
+                <?php
+                    }
+                ?>
+            </ul>
+            <?php
         }
-        $html .= "</ul>";
-    }
-
-    if ($pendingRevisions) {
-        $html .= "<br><br><strong>Pending content revisions:</strong><br>";
-        $html .= "<ul>";
-        //For each pendingRevisions post add a link to edit the post
-        foreach ($pendingRevisions as $post) {
-            $url = add_query_arg(['post-id' => $post->ID], $url);
-            $html .= "<li>$post->post_title <a href='$url'>Review changes</a></li>";
-        }
-        $html .= "</ul>";
-    }
-
-    if (!empty($html)) {
-        return "<p>$html</p>";
-    }
-
-    return "<p>No pending posts or pages found</p>";
-}
-
-//Shortcode to display number of pending posts and pages
-add_shortcode('tsjippy_pending_post_icon', __NAMESPACE__ . '\pendingPostIcon');
-/**
- * Shortcode to display the number of pending posts and pages.
- *
- * @return string The HTML content of the pending post icon.
- */
-function pendingPostIcon()
-{
-    //Get all the posts with a pending status
-    $pendingPosts     = get_posts(
-        array(
-            'post_status'    => 'pending',
-            'post_type'        => 'any',
-            'numberposts'    => -1
-        )
-    );
-
-    //Get all the posts with a pending revision
-    $pendingRevisions     = get_posts(
-        array(
-            'post_status'    => 'inherit',
-            'post_type'        => 'change',
-            'numberposts'    => -1
-        )
-    );
+        ?>
+    </p>
+    <?php
 
     if ($pendingPosts || $pendingRevisions) {
-        $pendingTotal = count($pendingPosts) + count($pendingRevisions);
-        return "<span class='numberCircle'>$pendingTotal</span>";
+        return ob_get_clean();
     }
+
+    ob_end_clean();
+
+    return "<p>No pending posts or pages found</p>";
 }
 
 //Add shortcode for the post edit form
@@ -208,39 +247,90 @@ function oldPages()
 {
     $oldPages    = getOldPages();
 
-    $html    = '<table class="tsjippy table">';
-    $html    .= "<tr>";
-    $html    .= "<th>";
-    $html    .= "Title";
-    $html    .= "</th>";
-    $html    .= "<th>";
-    $html    .= "Last Modified";
-    $html    .= "</th>";
-    $html    .= "<th>";
-    $html    .= "Author";
-    $html    .= "</th>";
-    $html    .= "</tr>";
+    ob_start();
+    ?>
+    <table class="tsjippy table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Last Modified
+            </th>
+            <th>
+                Author
+            </th>
+        </tr>
 
-    foreach ($oldPages as $page) {
-        $url                    = get_permalink($page);
-        $authorUrl              = get_author_posts_url($page->post_author);
-        $authorName             = get_userdata($page->post_author)->first_name;
-        $secondsSinceUpdated    = time() - get_post_modified_time('U', true, $page);
-        $pageAge                = round($secondsSinceUpdated / 60 / 60 / 24);
+        <?php
+        foreach ($oldPages as $page) {
+            $url                 = get_permalink($page);
+            $authorUrl           = get_author_posts_url($page->post_author);
+            $authorName          = get_userdata($page->post_author)->first_name;
+            $secondsSinceUpdated = time() - get_post_modified_time('U', true, $page);
+            $pageAge             = round($secondsSinceUpdated / 60 / 60 / 24);
+        ?>
+            <tr>
+                <td>
+                    <a href="<?php echo esc_url($url); ?>">
+                        <?php echo esc_html($page->post_title); ?>
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo esc_url($url); ?>">
+                        <?php echo esc_html($pageAge); ?> days
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo esc_url($authorUrl); ?>">
+                        <?php echo esc_html($authorName); ?>
+                    </a>
+                </td>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+    <?php
 
-        $html    .= "<tr>";
-        $html    .= "<td>";
-        $html    .= "<a href='$url'>$page->post_title</a>";
-        $html    .= "</td>";
-        $html    .= "<td>";
-        $html    .= "<a href='$url'>$pageAge days</a>";
-        $html    .= "</td>";
-        $html    .= "<td>";
-        $html    .= "<a href='$authorUrl'>$authorName</a>";
-        $html    .= "</td>";
-        $html    .= "</tr>";
-    }
-    $html    .= '</table>';
-
-    return $html;
+    return ob_get_clean();
 }
+
+/**
+ * Adds an indicator to the menu item for the pending posts page
+ */
+add_filter( 'nav_menu_item_title', function($title, $menu){
+    
+    $targetId   = get_post_meta( $menu->ID, '_menu_item_object_id', true );
+
+    if($targetId != SETTINGS['pending-posts-page']){
+        return $title;
+    }
+
+    //Get all the posts with a pending status
+    $pendingPosts     = get_posts(
+        array(
+            'post_status'    => 'pending',
+            'post_type'        => 'any',
+            'numberposts'    => -1
+        )
+    );
+
+    //Get all the posts with a pending revision
+    $pendingRevisions     = get_posts(
+        array(
+            'post_status'    => 'inherit',
+            'post_type'        => 'change',
+            'numberposts'    => -1
+        )
+    );
+
+    $pendingPosts = [1,2,3,4];
+
+    if ($pendingPosts || $pendingRevisions) {
+        $pendingTotal = count($pendingPosts) + count($pendingRevisions);
+        return "$title <span class='numberCircle'>$pendingTotal</span>";
+    }
+
+    return $title;
+}, 10, 2 );
