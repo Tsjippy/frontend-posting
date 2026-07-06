@@ -297,21 +297,14 @@ function oldPages()
 }
 
 /**
- * Adds an indicator to the menu item for the pending posts page
+ * Adds an indicator to the menu item for the pending posts page and its parents
  */
-add_filter( 'nav_menu_item_title', function($title, $menu){
-    
-    $targetId   = get_post_meta( $menu->ID, '_menu_item_object_id', true );
-
-    if($targetId != SETTINGS['pending-posts-page']){
-        return $title;
-    }
-
+add_filter( 'wp_nav_menu_objects', function($items, $args ){
     //Get all the posts with a pending status
     $pendingPosts     = get_posts(
         array(
             'post_status'    => 'pending',
-            'post_type'        => 'any',
+            'post_type'      => 'any',
             'numberposts'    => -1
         )
     );
@@ -320,17 +313,19 @@ add_filter( 'nav_menu_item_title', function($title, $menu){
     $pendingRevisions     = get_posts(
         array(
             'post_status'    => 'inherit',
-            'post_type'        => 'change',
+            'post_type'      => 'change',
             'numberposts'    => -1
         )
     );
 
-    $pendingPosts = [1,2,3,4];
-
-    if ($pendingPosts || $pendingRevisions) {
-        $pendingTotal = count($pendingPosts) + count($pendingRevisions);
-        return "$title <span class='numberCircle'>$pendingTotal</span>";
+    // No Pending Posts
+    if (empty($pendingPosts) && empty($pendingRevisions)) {
+        return $items;
     }
 
-    return $title;
-}, 10, 2 );
+    $pendingTotal   = count($pendingPosts) + count($pendingRevisions);
+
+    TSJIPPY\addMenuIcon($pendingTotal, SETTINGS['pending-posts-page'], $items);
+
+    return $items;
+}, 10, 2);
