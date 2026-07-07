@@ -279,3 +279,37 @@ function postStatus($states, $post)
 
     return $states;
 }
+
+/**
+ * Adds an indicator to the menu item for the pending posts page and its parents
+ */
+add_filter( 'wp_nav_menu_objects', function($items, $args ){
+    //Get all the posts with a pending status
+    $pendingPosts     = get_posts(
+        array(
+            'post_status'    => 'pending',
+            'post_type'      => 'any',
+            'numberposts'    => -1
+        )
+    );
+
+    //Get all the posts with a pending revision
+    $pendingRevisions     = get_posts(
+        array(
+            'post_status'    => 'inherit',
+            'post_type'      => 'change',
+            'numberposts'    => -1
+        )
+    );
+
+    // No Pending Posts
+    if (empty($pendingPosts) && empty($pendingRevisions)) {
+        return $items;
+    }
+
+    $pendingTotal   = count($pendingPosts) + count($pendingRevisions);
+
+    TSJIPPY\addMenuIcon($pendingTotal, SETTINGS['pending-posts-page'], $items);
+
+    return $items;
+}, 10, 2);
