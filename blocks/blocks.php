@@ -11,7 +11,7 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/your-posts',
         array(
-            'title'           => __( 'User Posts', 'tsjippy' ),
+            'title'           => __('User Posts', 'tsjippy'),
             'render_callback' => __NAMESPACE__ . '\yourPosts',
             'supports'        => array(
                 'autoRegister' => true,
@@ -23,11 +23,23 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/pending-posts',
         array(
-            'title'           => __( 'Pending Posts', 'tsjippy' ),
+            'title'           => __('Pending Posts', 'tsjippy'),
+            'attributes'      => array(
+                'amount'   => array(
+                    'label'   => __('Post Amount', 'tsjippy'),
+                    'type'    => 'integer',
+                    'default' => 10,
+                ),
+                'hide-on-empty'   => array(
+                    'label'   => __('Hide when there are no posts to show', 'tsjippy'),
+                    'type'    => 'boolean',
+                    'default' => false,
+                )
+            ),
             'render_callback' => __NAMESPACE__ . '\pendingPages',
             'supports'        => array(
                 'autoRegister' => true,
-            ),
+            )
         ),
     );
 
@@ -35,14 +47,14 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/front-end-posting',
         array(
-            'title'           => __( 'Frontend Posting Block', 'tsjippy' ),
-            'render_callback' => function ( $attributes ) {
+            'title'           => __('Frontend Posting Block', 'tsjippy'),
+            'render_callback' => function ($attributes) {
                 $frontEndContent    = new FrontEndContent();
                 return $frontEndContent->frontendPost();
             },
             'supports'        => array(
                 'autoRegister' => true,
-            ),
+            )
         )
     );
 
@@ -50,19 +62,19 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/old-posts',
         array(
-            'title'           => __( 'Frontend Posting Block', 'tsjippy' ),
+            'title'           => __('Frontend Posting Block', 'tsjippy'),
             'attributes'      => array(
                 'post_types'   => array(
-                    'label'   => __( 'Post Types', 'tsjippy' ),
+                    'label'   => __('Post Types', 'tsjippy'),
                     'type'    => 'string',
                     'enum'    => get_post_types(['public' => true]),
                     'default' => 'page',
                 )
             ),
-            'render_callback' => __NAMESPACE__.'/oldPages',
+            'render_callback' => __NAMESPACE__ . '/oldPages',
             'supports'        => array(
                 'autoRegister' => true,
-            ),
+            )
         )
     );
 
@@ -120,18 +132,18 @@ function yourPosts()
 
     $userUserPosts = get_posts(
         array(
-            'post_type'        => $postTypes,
-            'post_status'    => 'any',
-            'author'        => get_current_user_id(),
-            'orderby'        => 'post_date',
-            'order'            => 'ASC',
-            'numberposts'    => -1,
+            'post_type'   => $postTypes,
+            'post_status' => 'any',
+            'author'      => get_current_user_id(),
+            'orderby'     => 'post_date',
+            'order'       => 'ASC',
+            'numberposts' => -1,
         )
     );
 
     ob_start();
 
-    ?>
+?>
     <h2 class="table-title">
         Content submitted by you
     </h2>
@@ -204,27 +216,29 @@ function yourPosts()
 }
 
 /**
- * Display all pages and posts that are pending.
+ * Display all posts that are pending.
+ * 
+ * @param   array   $attributes The block attributes
  *
- * @return string The HTML content of the pending pages and posts.
+ * @return string The HTML content of the pending posts.
  */
-function pendingPages()
+function pendingPages($attributes)
 {
     //Get all the posts with a pending status
     $pendingPosts     = get_posts(
         array(
-            'post_status'    => 'pending',
-            'post_type'        => 'any',
-            'numberposts'    => -1
+            'post_status' => 'pending',
+            'post_type'   => 'any',
+            'numberposts' => $attributes['amount']
         )
     );
 
     //Get all the posts with a pending revision
     $pendingRevisions     = get_posts(
         array(
-            'post_status'    => 'inherit',
-            'post_type'        => 'change',
-            'numberposts'    => -1
+            'post_status' => 'inherit',
+            'post_type'   => 'change',
+            'numberposts' => $attributes['amount']
         )
 
     );
@@ -240,43 +254,43 @@ function pendingPages()
         <?php
         //Only if there are any pending posts
         if ($pendingPosts) {
-        ?>
+            ?>
             <strong>
                 Pending content:
             </strong>
             <br>
             <ul>
                 <?php
-                    //For each pending post add a link to edit the post
-                    foreach ($pendingPosts as $post) {
-                        $url = add_query_arg(['post-id' => $post->ID], $url);
-                        if (strtotime($post->post_date_gmt) > time()) {
-                            $date    = gmdate(TSJIPPY\DATEFORMAT, strtotime($post->post_date_gmt));
-                ?>
-                        <li>
-                            <?php echo wp_kses_post($post->post_title); ?> (scheduled for <?php echo esc_attr($date); ?>)
-                            <a href='<?php echo esc_url($url); ?>'>
-                                Publish now
-                            </a>
-                        </li>
-                    <?php
-                        } else {
+                //For each pending post add a link to edit the post
+                foreach ($pendingPosts as $post) {
+                    $url = add_query_arg(['post-id' => $post->ID], $url);
+                    if (strtotime($post->post_date_gmt) > time()) {
+                        $date    = gmdate(TSJIPPY\DATEFORMAT, strtotime($post->post_date_gmt));
                     ?>
-                        <li>
-                            <?php echo wp_kses_post($post->post_title); ?>
-                            <a href='<?php echo esc_url($url); ?>' target='_blank'>
-                                Review and publish
-                            </a>
-                        </li>
-                <?php
-                        }
+                    <li>
+                        <?php echo wp_kses_post($post->post_title); ?> (scheduled for <?php echo esc_attr($date); ?>)
+                        <a href='<?php echo esc_url($url); ?>'>
+                            Publish now
+                        </a>
+                    </li>
+                        <?php
+                    } else {
+                    ?>
+                    <li>
+                        <?php echo wp_kses_post($post->post_title); ?>
+                        <a href='<?php echo esc_url($url); ?>' target='_blank'>
+                            Review and publish
+                        </a>
+                    </li>
+                    <?php
                     }
+                }
                 ?>
             </ul>
             <?php
-                }
+        }
 
-                if ($pendingRevisions) {
+        if ($pendingRevisions) {
             ?>
             <br>
             <br>
@@ -300,9 +314,9 @@ function pendingPages()
                     }
                 ?>
             </ul>
-            <?php
+        <?php
         }
-        ?>
+    ?>
     </p>
     <?php
 
@@ -312,7 +326,13 @@ function pendingPages()
 
     ob_end_clean();
 
-    return "<p>No pending posts or pages found</p>";
+    if($attributes['hide-on-empty'] ?? false){
+        if(($_REQUEST['context'] ?? '') == "edit"){
+            return "<div class='warning'>No pending posts or pages found, this block will not be visible outside the block editor</div>";
+        }
+        return '';
+    }
+    return "<div>No pending posts or pages found</div>";
 }
 
 /**
@@ -325,50 +345,50 @@ function oldPages()
     $oldPages    = getOldPages();
 
     ob_start();
-    ?>
-    <table class="tsjippy table">
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Last Modified
-            </th>
-            <th>
-                Author
-            </th>
-        </tr>
+?>
+<table class="tsjippy table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Last Modified
+        </th>
+        <th>
+            Author
+        </th>
+    </tr>
 
-        <?php
-        foreach ($oldPages as $page) {
-            $url                 = get_permalink($page);
-            $authorUrl           = get_author_posts_url($page->post_author);
-            $authorName          = get_userdata($page->post_author)->first_name;
-            $secondsSinceUpdated = time() - get_post_modified_time('U', true, $page);
-            $pageAge             = round($secondsSinceUpdated / 60 / 60 / 24);
-        ?>
-            <tr>
-                <td>
-                    <a href="<?php echo esc_url($url); ?>">
-                        <?php echo esc_html($page->post_title); ?>
-                    </a>
-                </td>
-                <td>
-                    <a href="<?php echo esc_url($url); ?>">
-                        <?php echo esc_html($pageAge); ?> days
-                    </a>
-                </td>
-                <td>
-                    <a href="<?php echo esc_url($authorUrl); ?>">
-                        <?php echo esc_html($authorName); ?>
-                    </a>
-                </td>
-            </tr>
-        <?php
-        }
-        ?>
-    </table>
     <?php
+    foreach ($oldPages as $page) {
+        $url                 = get_permalink($page);
+        $authorUrl           = get_author_posts_url($page->post_author);
+        $authorName          = get_userdata($page->post_author)->first_name;
+        $secondsSinceUpdated = time() - get_post_modified_time('U', true, $page);
+        $pageAge             = round($secondsSinceUpdated / 60 / 60 / 24);
+    ?>
+        <tr>
+            <td>
+                <a href="<?php echo esc_url($url); ?>">
+                    <?php echo esc_html($page->post_title); ?>
+                </a>
+            </td>
+            <td>
+                <a href="<?php echo esc_url($url); ?>">
+                    <?php echo esc_html($pageAge); ?> days
+                </a>
+            </td>
+            <td>
+                <a href="<?php echo esc_url($authorUrl); ?>">
+                    <?php echo esc_html($authorName); ?>
+                </a>
+            </td>
+        </tr>
+    <?php
+    }
+    ?>
+</table>
+<?php
 
     return ob_get_clean();
 }
