@@ -2,6 +2,7 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+- indicator icon to menu item of pending osts
 
 ### Changed
 - better html
