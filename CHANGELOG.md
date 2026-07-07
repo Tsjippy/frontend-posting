@@ -6,6 +6,7 @@
 
 ### Changed
 - better html
+- conerted some block and all shortcodes to php only blocks
 
 ### Fixed
 
