@@ -3,6 +3,7 @@
 
 ### Added
 - indicator icon to menu item of pending osts
+- some blocks
 
 ### Changed
 - better html
