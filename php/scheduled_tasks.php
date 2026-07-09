@@ -78,7 +78,7 @@ function pageAgeWarning()
     $emails                    = [];
 
     //Loop over all the pages
-    foreach (getOldPages() as $page) {
+    foreach (getOldPages(['page', 'location']) as $page) {
         //Get the ID of the current page
         $postId    = $page->ID;
 

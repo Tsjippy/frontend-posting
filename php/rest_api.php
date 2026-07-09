@@ -400,7 +400,7 @@ function submitPost()
 
     $GLOBALS['wp_query'] = $posts;
     $post                = $posts->post;
-    $GLOBALS['post']    = $post;
+    $GLOBALS['post']     = $post;
 
     if ('page' == $post->post_type) {
         $type = 'page';
@@ -408,8 +408,8 @@ function submitPost()
         $type = 'single';
     }
     // Find the the correct template
-    $baseTemplate    = locate_template(["content-{$type}.php", 'content.php']);
-    $template         = apply_filters("content_template", $baseTemplate, 'content');
+    $baseTemplate = locate_template(["content-{$type}.php", 'content.php']);
+    $template     = apply_filters("content_template", $baseTemplate, 'content');
 
     if (empty($template)) {
         $html    = false;

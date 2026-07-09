@@ -62,16 +62,23 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/old-posts',
         array(
-            'title'           => __('Frontend Posting Block', 'tsjippy'),
+            'title'           => __('Old Posts  ', 'tsjippy'),
             'attributes'      => array(
                 'post_types'   => array(
                     'label'   => __('Post Types', 'tsjippy'),
                     'type'    => 'string',
                     'enum'    => get_post_types(['public' => true]),
                     'default' => 'page',
+                ),
+                'max_age'   => array(
+                    'label'   => __('Not modifified since months', 'tsjippy'),
+                    'type'    => 'int',
+                    'default' => 6,
                 )
             ),
-            'render_callback' => __NAMESPACE__ . '/oldPages',
+            'render_callback' => function($attributes){
+                return oldPages($attributes);
+            },
             'supports'        => array(
                 'autoRegister' => true,
             )
@@ -337,58 +344,60 @@ function pendingPages($attributes)
 
 /**
  * Shortcode to display all pages that have not been updated for a long time.
+ * 
+ * @param   array   $attributes Block Attributes
  *
  * @return string The HTML content of the old pages.
  */
-function oldPages()
+function oldPages($attributes)
 {
-    $oldPages    = getOldPages();
+    $oldPages    = getOldPages($attributes['post_types'] ?? [], $attributes['max_age'] ?? 6);
 
     ob_start();
-?>
-<table class="tsjippy table">
-    <tr>
-        <th>
-            Title
-        </th>
-        <th>
-            Last Modified
-        </th>
-        <th>
-            Author
-        </th>
-    </tr>
-
-    <?php
-    foreach ($oldPages as $page) {
-        $url                 = get_permalink($page);
-        $authorUrl           = get_author_posts_url($page->post_author);
-        $authorName          = get_userdata($page->post_author)->first_name;
-        $secondsSinceUpdated = time() - get_post_modified_time('U', true, $page);
-        $pageAge             = round($secondsSinceUpdated / 60 / 60 / 24);
     ?>
+    <table class="tsjippy table">
         <tr>
-            <td>
-                <a href="<?php echo esc_url($url); ?>">
-                    <?php echo esc_html($page->post_title); ?>
-                </a>
-            </td>
-            <td>
-                <a href="<?php echo esc_url($url); ?>">
-                    <?php echo esc_html($pageAge); ?> days
-                </a>
-            </td>
-            <td>
-                <a href="<?php echo esc_url($authorUrl); ?>">
-                    <?php echo esc_html($authorName); ?>
-                </a>
-            </td>
+            <th>
+                Title
+            </th>
+            <th>
+                Last Modified
+            </th>
+            <th>
+                Author
+            </th>
         </tr>
+
+        <?php
+        foreach ($oldPages as $page) {
+            $url                 = get_permalink($page);
+            $authorUrl           = get_author_posts_url($page->post_author);
+            $authorName          = get_userdata($page->post_author)->first_name;
+            $secondsSinceUpdated = time() - get_post_modified_time('U', true, $page);
+            $pageAge             = round($secondsSinceUpdated / 60 / 60 / 24);
+            ?>
+            <tr>
+                <td>
+                    <a href="<?php echo esc_url($url); ?>">
+                        <?php echo esc_html($page->post_title); ?>
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo esc_url($url); ?>">
+                        <?php echo esc_html($pageAge); ?> days
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo esc_url($authorUrl); ?>">
+                        <?php echo esc_html($authorName); ?>
+                    </a>
+                </td>
+            </tr>
+            <?php
+        }
+        ?>
+    </table>
     <?php
-    }
-    ?>
-</table>
-<?php
 
     return ob_get_clean();
 }
