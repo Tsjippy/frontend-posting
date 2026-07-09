@@ -4,6 +4,7 @@
 ### Added
 - indicator icon to menu item of pending osts
 - some blocks
+- age param to old posts block
 
 ### Changed
 - better html
