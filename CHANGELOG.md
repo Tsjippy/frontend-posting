@@ -2,6 +2,17 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.4.9] - 2026-07-10
+
+
+### Added
 - indicator icon to menu item of pending osts
 - some blocks
 - age param to old posts block
@@ -10,10 +21,6 @@
 ### Changed
 - better html
 - conerted some block and all shortcodes to php only blocks
-
-### Fixed
-
-### Updated
 
 ## [10.4.8] - 2026-07-06
 
