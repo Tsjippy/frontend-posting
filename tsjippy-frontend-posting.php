@@ -77,11 +77,11 @@ function createDefaultPages($returnKey=''){
 
     // Create frontend posting page
     if(!isset($settings['front-end-post-page'])){
-        $settings['front-end-post-page']    = TSJIPPY\ADMIN\createDefaultPage('Add content', '[tsjippy_front_end_post]');
+        $settings['front-end-post-page']    = TSJIPPY\ADMIN\createDefaultPage('Add content', '<!-- wp:tsjippy-frontend-posting/front-end-posting /-->');
     }
     
     if(!isset($settings['pending-posts-page'])){
-        $settings['pending-posts-page']     = TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '[tsjippy_pending-pages]');
+        $settings['pending-posts-page']     = TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '<!-- wp:tsjippy-frontend-posting/pending-posts /-->');
     }
 
     update_option('tsjippy_frontend-posting_settings', $settings);
