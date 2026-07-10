@@ -16,6 +16,7 @@ function initBlocks()
             'supports'        => array(
                 'autoRegister' => true,
             ),
+            'icon'  => 'unordered list'
         ),
     );
 
@@ -39,7 +40,8 @@ function initBlocks()
             'render_callback' => __NAMESPACE__ . '\pendingPages',
             'supports'        => array(
                 'autoRegister' => true,
-            )
+            ),
+            'icon'  => 'edit'
         ),
     );
 
@@ -54,7 +56,8 @@ function initBlocks()
             },
             'supports'        => array(
                 'autoRegister' => true,
-            )
+            ),
+            'icon'  => 'edit'
         )
     );
 
@@ -81,7 +84,8 @@ function initBlocks()
             },
             'supports'        => array(
                 'autoRegister' => true,
-            )
+            ),
+            'icon'  => 'page'
         )
     );
 
@@ -150,7 +154,7 @@ function yourPosts()
 
     ob_start();
 
-?>
+    ?>
     <h2 class="table-title">
         Content submitted by you
     </h2>
