@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- submitting posts
 
 ### Updated
 
