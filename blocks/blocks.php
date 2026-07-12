@@ -11,7 +11,7 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/your-posts',
         array(
-            'title'           => __('User Posts', 'tsjippy'),
+            'title'           => __('User Posts', '%TEXTDOMAIN%'),
             'render_callback' => __NAMESPACE__ . '\yourPosts',
             'supports'        => array(
                 'autoRegister' => true,
@@ -24,15 +24,15 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/pending-posts',
         array(
-            'title'           => __('Pending Posts', 'tsjippy'),
+            'title'           => __('Pending Posts', '%TEXTDOMAIN%'),
             'attributes'      => array(
                 'amount'   => array(
-                    'label'   => __('Post Amount', 'tsjippy'),
+                    'label'   => __('Post Amount', '%TEXTDOMAIN%'),
                     'type'    => 'integer',
                     'default' => 10,
                 ),
                 'hide-on-empty'   => array(
-                    'label'   => __('Hide when there are no posts to show', 'tsjippy'),
+                    'label'   => __('Hide when there are no posts to show', '%TEXTDOMAIN%'),
                     'type'    => 'boolean',
                     'default' => false,
                 )
@@ -49,7 +49,7 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/front-end-posting',
         array(
-            'title'           => __('Frontend Posting Block', 'tsjippy'),
+            'title'           => __('Frontend Posting Block', '%TEXTDOMAIN%'),
             'render_callback' => function ($attributes) {
                 $frontEndContent    = new FrontEndContent();
                 return $frontEndContent->frontendPost();
@@ -65,16 +65,16 @@ function initBlocks()
     register_block_type(
         'tsjippy-frontend-posting/old-posts',
         array(
-            'title'           => __('Old Posts  ', 'tsjippy'),
+            'title'           => __('Old Posts  ', '%TEXTDOMAIN%'),
             'attributes'      => array(
                 'post_types'   => array(
-                    'label'   => __('Post Types', 'tsjippy'),
+                    'label'   => __('Post Types', '%TEXTDOMAIN%'),
                     'type'    => 'string',
                     'enum'    => get_post_types(['public' => true]),
                     'default' => 'page',
                 ),
                 'max_age'   => array(
-                    'label'   => __('Not modifified since months', 'tsjippy'),
+                    'label'   => __('Not modifified since months', '%TEXTDOMAIN%'),
                     'type'    => 'int',
                     'default' => 6,
                 )
