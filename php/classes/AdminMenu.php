@@ -216,8 +216,6 @@ class AdminMenu extends ADMIN\SubAdminMenu
      */
     public function data($parent = '')
     {
-
-
         return false;
     }
 
@@ -225,12 +223,11 @@ class AdminMenu extends ADMIN\SubAdminMenu
      * Add the functions page to the admin menu
      *
      * @param string $parent The parent menu slug
-     * @return void
+     * 
+     * @return bool True if the functions page was added, false otherwise
      */
     public function functions($parent)
     {
-
-
         return false;
     }
 }
