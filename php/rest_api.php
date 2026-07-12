@@ -380,7 +380,7 @@ function submitPost()
     global $post;
 
     $frontEndContent    = new FrontEndContent();
-    $result             = $frontEndContent->submitPost(TSJIPPY\sanitize($_POST));
+    $result             = $frontEndContent->submitPost(TSJIPPY\sanitize($_POST, 'wp_kses_post'));
 
     if (is_wp_error($result)) {
         return $result;

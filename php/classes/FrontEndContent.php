@@ -1282,8 +1282,8 @@ class FrontEndContent
     /**
      * Update an existing post
      * 
-     * @param    array     $request    Request data
-     * @return   int|WP_Error          Post ID on success, WP_Error on failure
+     * @param    array          $request    Request data
+     * @return   int|WP_Error               Post ID on success, WP_Error on failure
      */
     public function updateExistingPost($request)
     {
