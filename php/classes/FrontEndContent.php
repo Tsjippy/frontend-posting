@@ -1445,9 +1445,9 @@ class FrontEndContent
 
                 // If we publish a post which was pending before send an notification to the author
                 if ($post->post_status == 'pending') {
-                    $author        = get_userdata($post->post_author);
-                    $url        = get_permalink($post->ID);
-                    $email        = new ApprovedPostMail($author->display_name, $post->post_type, $url);
+                    $author = get_userdata($post->post_author);
+                    $url    = get_permalink($post->ID);
+                    $email  = new ApprovedPostMail($author->display_name, $post->post_type, $url);
                     $email->filterMail();
 
                     //Send e-mail
