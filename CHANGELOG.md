@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- skip news gallery to news gallery plugin
 
 ### Fixed
 
 ### Updated
+
+## [10.5.6] - 2026-07-13
+
+
+### Changed
+- skip news gallery to news gallery plugin
 
 ## [10.5.5] - 2026-07-12
 
