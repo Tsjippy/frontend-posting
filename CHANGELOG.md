@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- skip news gallery to news gallery plugin
 
 ### Fixed
 
