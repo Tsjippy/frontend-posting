@@ -1072,34 +1072,6 @@ class FrontEndContent
             <?php
             }
 
-            ?>
-            <tbody id="nonews" class="frontend-form expand-wrapper">
-                <tr>
-                    <td>
-                        <h4>
-                            News Gallery
-                        </h4>
-                    </td>
-
-                    <td>
-                        <button class="button small expand" type='button'>
-                            &#9660;
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class='hidden expandable' collspan=2>
-                        <input
-                            type='checkbox'
-                            name='skipgallery'
-                            value='skipgallery'
-                            <?php if (get_post_meta($this->postId, 'tsjippy_skipgallery', true)) echo 'checked'; ?>>
-                        Do not add this <?php echo esc_attr($this->post->post_type ?? ''); ?> to the news gallery
-                    </td>
-                </tr>
-            </tbody>
-            <?php
-
             $this->postSpecificFields();
 
             $this->pageSpecificFields();
