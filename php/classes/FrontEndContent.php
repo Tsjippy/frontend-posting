@@ -1076,6 +1076,11 @@ class FrontEndContent
 
             $this->pageSpecificFields();
 
+            /**
+             * Runs after the main content input area
+             * 
+             * @param   object    $object    The FrontEndContent instance
+             */
             do_action('tsjippy-frontend-content-post-after-content', $this);
 
             ?>
