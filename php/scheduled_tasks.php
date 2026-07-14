@@ -37,21 +37,20 @@ function expiredPostsCheck()
     $posts = get_posts(array(
         'numberposts' => -1,
         'meta_query'  => array(
-            'relation' => 'AND',
             array(
                 'key'     => 'tsjippy_expirydate',
                 'compare' => 'EXISTS'
-            ),
-            array(
-                'key'     => 'tsjippy_expirydate',
-                'value'   => gmdate("Y-m-d"),
-                'compare' => '<=',
-                'type'    => 'DATE'
-            ),
+            )
         )
     ));
 
     foreach ($posts as $post) {
+        $expiryDate = get_post_meta($post->ID, 'tsjippy_expirydate', true);
+        
+        if($expiryDate >= gmdate("Y-m-d")){
+            continue;
+        }
+        
         $status    = SETTINGS['expired-post-type'] ?? 'trash';
 
         if ($status == 'trash') {
