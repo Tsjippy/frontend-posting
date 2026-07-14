@@ -27,20 +27,14 @@ function getOldPages($postTypes, $maxAge='')
         'post_type'   => $postTypes,
         'orderby'     => 'modified',
         'meta_query' => array(
-            'relation' => 'OR',
             array(
                 'key'     => 'tsjippy_static_content',
                 'compare' => 'NOT EXISTS'
-            ),
-            array(
-                'key'     => 'tsjippy_static_content',
-                'compare' => '!=',
-                'value'   => true
-            ),
+            )
         ),
         'date_query' => [
             'column' => 'post_modified',
-            'before' => "$maxAge months ago",
+            'before' => "$maxAge months ago at midnight",
         ],
     ));
 }
