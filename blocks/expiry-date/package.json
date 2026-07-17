@@ -18,5 +18,13 @@
 		"@wordpress/blocks": "^15.20.0",
 		"@wordpress/i18n": "^6.20.0",
 		"@wordpress/scripts": "^32.3.0"
+	},
+	"dependencies": {
+		"@wordpress/i18n": "latest",
+		"@wordpress/plugins": "latest",
+		"@wordpress/components": "latest",
+		"@wordpress/data": "latest",
+		"@wordpress/editor": "latest",
+		"@wordpress/core-data": "latest"
 	}
 }
