@@ -185,12 +185,9 @@ class FrontEndContent
             <?php
             if (has_blocks($this->postContent)) {
                 $url    = get_edit_post_link($this->postId);
-            ?>
-                <div class='warning'>
-                    This <?php echo esc_html($this->postType); ?> contains some Gutenberg blocks.<br>
-                    Click <a href='<?php echo esc_url($url); ?>'>here</a> if you want to switch to the Gutenberg editor<br>
-                </div>
-            <?php
+            
+                wp_safe_redirect($url);
+                exit;
             }
 
             $this->update    = false;
