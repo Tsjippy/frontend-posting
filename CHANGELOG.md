@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- edit posts button when it has gutenberg blocks
 
 ### Fixed
 
