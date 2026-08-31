@@ -159,21 +159,21 @@ class FrontEndContent
             //Show warning when post has been updated recently
             if ($secondsSinceUpdated < HOUR_IN_SECONDS && $secondsSinceUpdated > -1) {
                 $minutes = intval($secondsSinceUpdated / 60);
-?>
+                ?>
                 <div class='warning'>
                     This <?php echo esc_html($this->postType); ?> has been updated <span id='minutes'><?php echo esc_html($minutes); ?></span> minutes ago.
                 </div>
-            <?php
+                <?php
             }
 
             //Show warning when post is in trash
             if ($this->post->post_status == 'trash') {
-            ?>
+                ?>
                 <div class='warning'>
                     This <?php echo esc_html($this->postType); ?> has been deleted.<br>
                     You can republish if that should not be the case.
                 </div>
-        <?php
+                <?php
             }
         }
 
@@ -183,12 +183,6 @@ class FrontEndContent
             <?php if ($hide) echo 'class="hidden"'; ?>
             style='margin-top: 10px;'>
             <?php
-            if (has_blocks($this->postContent)) {
-                $url    = get_edit_post_link($this->postId);
-            
-                wp_safe_redirect($url);
-                exit;
-            }
 
             $this->update    = false;
             if (is_numeric($this->postId) && $this->post->post_status == 'publish') {
