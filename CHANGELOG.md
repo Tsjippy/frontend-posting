@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- edit posts button when it has gutenberg blocks
 
 ### Fixed
 
 ### Updated
+
+## [10.6.6] - 2026-08-31
+
+
+### Changed
+- edit posts button when it has gutenberg blocks
 
 ## [10.6.4] - 2026-08-23
 
