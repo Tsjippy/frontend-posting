@@ -244,7 +244,7 @@ class FrontEndContent
                         </h4>
                     <?php
                         $uploader = new TSJIPPY\FILEUPLOAD\FileUploadHtml($this->user->ID);
-                        // phpcs:ignore
+                        
                         $uploader->getUploadHtml(inputName: 'attachment', targetDir: 'private', editBeforeUpload: true, echo: true);
                     }
                     ?>
