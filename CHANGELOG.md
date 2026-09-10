@@ -4,12 +4,19 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [10.7.6] - 2026-09-10
+
+
+### Changed
 - renamed ministries to jobs
 
 ### Fixed
 - bug in edit rights
-
-### Updated
 
 ## [10.7.2] - 2026-09-07
 
