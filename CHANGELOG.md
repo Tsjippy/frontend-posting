@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- nonce check
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [10.7.8] - 2026-09-12
+
+
+### Added
+- nonce check
 
 ## [10.7.7] - 2026-09-11
 
