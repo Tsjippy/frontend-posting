@@ -67,7 +67,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\submitPost',
             'permission_callback'     => function () {
-                return current_user_can('edit_posts', (int) $_POST['post-id']) && allowedToEdit((int) $_POST['post-id']);
+                return allowedToEdit((int) $_POST['post-id']);
             },
             'args'                    => array(
                 'post-type'        => array(
@@ -236,7 +236,7 @@ function restApiInit()
         '/post_edit',
         array(
             'methods'                 => 'POST',
-            'callback'                 => __NAMESPACE__ . '\sendForm',
+            'callback'                => __NAMESPACE__ . '\sendForm',
             'permission_callback'     => function () {
                 return allowedToEdit($_REQUEST['post-id']);
             },

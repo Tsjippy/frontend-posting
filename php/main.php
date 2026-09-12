@@ -131,6 +131,10 @@ function safeStyles($styles)
  */
 function allowedToEdit($post)
 {
+    if(isset($_POST['_wpnonce']) && !TSJIPPY\verifyNonce('wp_rest', '_wpnonce')){
+        return false;
+    }
+
     if (empty($post)) {
         return true;
     }
