@@ -12,7 +12,7 @@ use TSJIPPY;
  * AuthorURI:            harmseninnigeria.nl
  * Requires at least:    6.3
  * Requires PHP:         8.3
- * Plugin URI:            https://github.com/Tsjippy/frontendposting/
+ * Plugin URI:           https://github.com/Tsjippy/frontendposting/
  * Tested:               7.1
  * TextDomain:           tsjippy
  * Requires Plugins:    
