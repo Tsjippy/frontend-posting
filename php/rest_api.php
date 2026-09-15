@@ -24,7 +24,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\getAttachmentContents',
             'permission_callback'     => function () {
-                return current_user_can('read', (int) $_POST['attachment-id']);
+                return current_user_can('read_post', (int) $_POST['attachment-id']);
             },
             'args'                    => array(
                 'attachment-id'        => array(
@@ -44,8 +44,12 @@ function restApiInit()
         array(
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\addCategory',
-            'permission_callback'     => function () {
-                return current_user_can('manage_terms');
+            'permission_callback'     => function ($request) {
+                $postType    = $request->get_param('post-type');
+                $taxes       = get_object_taxonomies($postType);
+                $taxonomy    = get_taxonomy(end($taxes));
+
+                return current_user_can( $taxonomy->cap->manage_terms ?? false);
             },
             'args'                    => array(
                 'cat-name'        => array('required'    => true),
@@ -162,7 +166,7 @@ function restApiInit()
                 }
             },
             'permission_callback'     => function () {
-                return current_user_can('read');
+                return allowedToEdit((int) $_POST['post-id']);
             },
             'args'                    => array(
                 'post-id'        => array(
@@ -186,7 +190,7 @@ function restApiInit()
                 return 'Succes';
             },
             'permission_callback'     => function () {
-                return current_user_can( 'edit_post', (int) $_POST['post-id'] ) && allowedToEdit((int) $_POST['post-id']);
+                return allowedToEdit((int) $_POST['post-id']);
             },
             'args'                    => array(
                 'post-id'        => array(
@@ -259,7 +263,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\checkForDuplicate',
             'permission_callback'     => function () {
-                return current_user_can('read');
+                return current_user_can('edit_post');
             },
             'args'                    => array(
                 'title'        => array(
@@ -290,9 +294,9 @@ function getAttachmentContents(\WP_REST_Request $request)
 function addCategory(\WP_REST_Request $request)
 {
     $name        = $request->get_param('cat-name');
-    $parent        = $request->get_param('cat-parent');
+    $parent      = $request->get_param('cat-parent');
     $postType    = $request->get_param('post-type');
-    $taxes        = get_object_taxonomies($postType);
+    $taxes       = get_object_taxonomies($postType);
     $taxonomy    = end($taxes);
 
     $args         = ['slug' => strtolower($name)];
