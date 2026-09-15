@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- increased rest api security
 
 ### Fixed
 
