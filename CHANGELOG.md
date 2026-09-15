@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- increased rest api security
 
 ### Fixed
 
 ### Updated
+
+## [10.8.0] - 2026-09-15
+
+
+### Changed
+- increased rest api security
 
 ## [10.7.9] - 2026-09-13
 
