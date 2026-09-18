@@ -1488,6 +1488,20 @@ class FrontEndContent
             $this->status    = 'future';
         }
 
+        if (
+            $this->status    == 'publish'            &&
+            !$this->fullrights
+        ) {
+            return new WP_Error('tsjippy-frontend-posting', 'No Permission to publish this post!');
+        }
+
+        if (
+            $this->author != $this->user->ID          &&
+            !$this->fullrights
+        ) {
+            return new WP_Error('tsjippy-frontend-posting', 'No Permission to change the author!');
+        }
+
         //First letter should be capital in the title
         $this->postTitle     = ucfirst(trim($request['post-title'] ?? ''));
 

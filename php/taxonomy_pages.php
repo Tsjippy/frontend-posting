@@ -24,7 +24,7 @@ function attachmentArgs($query)
 
         $query['tax_query'] = array(
             array(
-                'taxonomy'     => 'attachment_cat',
+                'taxonomy'  => 'attachment_cat',
                 'field'     => 'slug',
                 'terms'     => $category,
             )
@@ -66,63 +66,61 @@ add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\attachmentFieldsToEdit
  * Modify the attachment fields to include a category selection.
  *
  * @param array   $formFields The original form fields for the attachment.
- * @param \WP_Post $post       The attachment post object.
+ * @param \WP_Post $post      The attachment post object.
  *
  * @return array The modified form fields with category selection.
  */
 function attachmentFieldsToEdit($formFields, $post)
 {
     $categories    = get_categories(array(
-        'orderby'         => 'name',
-        'order'           => 'ASC',
-        'taxonomy'        => 'attachment',
-        'hide_empty'     => false,
+        'orderby'    => 'name',
+        'order'      => 'ASC',
+        'taxonomy'   => 'attachment_cat',
+        'hide_empty' => false,
     ));
 
-    $checkboxes        = '';
-    $catNames            = '';
-    foreach ($categories as $category) {
-        $name                 = str_replace('-', ' ', ucfirst($category->slug));
-        $catId                 = $category->cat_ID;
-        $checked            = '';
-        $taxonomy            = $category->taxonomy;
+    ob_start();
+    ?>
+    <div class='attachment-cat-wrapper'>
+        <?php
+        foreach ($categories as $category) {
+            $name     = str_replace('-', ' ', ucfirst($category->slug));
+            $catId    = $category->cat_ID;
+            $taxonomy = $category->taxonomy;
 
-        //if this cat belongs to this post
-        if (has_term($catId, $taxonomy, $post->ID)) {
-            $checked      = 'checked';
-            if (!empty($catNames)) {
-                $catNames    .= ',';
-            }
-            $catNames        .= $category->slug;
+        ?>
+            <label>
+                <input type='checkbox' 
+                    name='attachment-categories[]' 
+                    <?php echo has_term($catId, $taxonomy, $post->ID) ? 'checked' : '' ?> 
+                    style='width: initial' 
+                    class='attachment-cat-checkbox' 
+                    value='<?php echo esc_attr($catId); ?>' 
+                >
+                <?php echo esc_attr($name); ?>
+            </label><br>
+        <?php
         }
+        ?>
+    </div>
+    <?php
 
-        $checkboxes    .= "<label>";
-        $checkboxes    .= "<input $checked style='width: initial' type='checkbox' class='attachment-cat-checkbox' value='{$category->slug}' onchange='attachmentChanged(this)'>";
-        $checkboxes    .= $name;
-        $checkboxes    .= "</label><br>";
-    }
-
-    $html   = "<div class='attachment-cat-wrapper'>";
-        $html    .= "<script>";
-            $html    .= "function attachmentChanged(element) {";
-                $html    .= "let val        = element.value;";
-                $html    .= "let catEl    = document.getElementById('attachments[{$post->ID}][attachment-cat]');";
-                $html    .= "if (element.checked) {";
-                    $html    .= "catEl.value    = catEl.value + ','+val;";
-                $html    .= "} else{";
-                    $html    .= "catEl.value    = catEl.value.replace(','+val, '').replace(val, '');";
-                $html    .= "}";
-            $html    .= "}";
-        $html    .= "</script>";
-        $html    .= "<input type='hidden' class='no-reset' name='attachments[{$post->ID}][attachment-cat]' id='attachments[{$post->ID}][attachment-cat]' value='$catNames'>";
-        $html   .= $checkboxes;
-    $html   .= "</div>";
-
-    $formFields['attachment-cat']['input']    = 'html';
-    $formFields['attachment-cat']['html']    = $html;
-    $formFields['attachment-cat']['label']    = 'Categories';
+    $formFields['attachment-cat']['input'] = 'html';
+    $formFields['attachment-cat']['html']  = ob_get_clean();
+    $formFields['attachment-cat']['label'] = 'Categories';
 
     return $formFields;
+}
+
+add_action('edit_attachment', __NAMESPACE__ . '\storeCategory');
+/**
+ * Stores or removes the visibility
+ * 
+ * @param   int $attachmentId   The id to store visibility for
+ */
+function storeCategory($attachmentId)
+{
+    wp_set_object_terms( $attachmentId, array_map('intval', $_REQUEST['attachment-categories']), 'attachment_cat', true );
 }
 
 add_action('tsjippy-before-archive', __NAMESPACE__ . '\beforeArchive');
@@ -143,12 +141,12 @@ function beforeArchive($type)
             $text    = "Add a new $type";
         }
 
-        ?>
-        <a href='<?php echo esc_url("$url?type=$type");?>' class='button'>
-            <?php echo esc_html($text);?>
+    ?>
+        <a href='<?php echo esc_url("$url?type=$type"); ?>' class='button'>
+            <?php echo esc_html($text); ?>
         </a>
         <br>
-        <?php
+<?php
     }
 }
 
@@ -187,7 +185,7 @@ add_filter('tsjippy-empty-taxonomy', __NAMESPACE__ . '\emptyTax', 10, 2);
  */
 function emptyTax($message, $type)
 {
-    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-pagee'));
+    $url         = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-pagee'));
     $message    .= "<br><a href='$url?type=$type' class='button'>Add a $type</a>";
     return $message;
 }

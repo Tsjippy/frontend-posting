@@ -134,8 +134,7 @@ function restApiInit()
                 return $frontEndContent->archivePost();
             },
             'permission_callback'     => function () {
-                $frontEndContent    = new FrontEndContent();
-                return $frontEndContent->fullrights;
+                allowedToEdit($_REQUEST['post-id']);
             },
             'args'                    => array(
                 'post-id'        => array(
@@ -263,7 +262,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\checkForDuplicate',
             'permission_callback'     => function () {
-                return current_user_can('edit_post');
+                return current_user_can('edit_posts');
             },
             'args'                    => array(
                 'title'        => array(
