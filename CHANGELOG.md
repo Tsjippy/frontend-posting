@@ -5,6 +5,7 @@
 
 ### Changed
 - js to modules
+- improved security
 
 ### Fixed
 
