@@ -124,7 +124,7 @@ class FrontEndContent
 
         //Load js
         wp_enqueue_style('tsjippy_frontend_style');
-        wp_enqueue_script('tsjippy_frontend_script');
+        wp_enqueue_script_module('@tsjippy/frontend_script');
         wp_enqueue_media();
 
         ob_start();

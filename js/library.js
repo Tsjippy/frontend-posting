@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.wp = window.wp || {};
 
+    const data   = JSON.parse(
+      document.getElementById(
+          'wp-script-module-data-@tsjippy/library_cat_script'
+      ).textContent
+    );
+
     // filters attachment on their public or private apperance
     var CategoryFilter = wp.media.view.AttachmentFilters.extend({
       id: "category-filter",
@@ -21,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         filters["all"]["props"] = {};
         filters["all"]["props"]["category"] = "";
 
-        tsjippy_library_categories.forEach((cat) => {
+        data.library_categories.forEach((cat) => {
           filters[cat.slug] = {
             text: cat.name,
           };

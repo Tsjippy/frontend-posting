@@ -1,5 +1,11 @@
 import { addStyles } from "../../tsjippy-shared-functionality/js/partials/load_assets.js";
 
+import{
+  submitForm,
+  fetchRestApi
+} from "../../tsjippy-forms/js/form_submit_functions.js";
+
+
 console.log("Frontendposting.js loaded");
 
 async function confirmPostDelete(event, type = "delete") {
@@ -41,7 +47,7 @@ async function confirmPostDelete(event, type = "delete") {
       url = "frontend_posting/archive_post";
     }
 
-    response = await FormSubmit.fetchRestApi(url, formData);
+    response = await fetchRestApi(url, formData);
 
     if (response) {
       Main.displayMessage(response);
@@ -58,7 +64,7 @@ async function refreshPostLock() {
   if (postId != null && postId.value != "") {
     var formData = new FormData();
     formData.append("post-id", postId.value);
-    FormSubmit.fetchRestApi("frontend_posting/refresh_post_lock", formData);
+    fetchRestApi("frontend_posting/refresh_post_lock", formData);
   }
 }
 
@@ -68,7 +74,7 @@ async function deletePostLock() {
   if (postId != null && postId.value != "") {
     var formData = new FormData();
     formData.append("post-id", postId.value);
-    await FormSubmit.fetchRestApi(
+    await fetchRestApi(
       "frontend_posting/delete_post_lock",
       formData,
     );
@@ -84,7 +90,7 @@ async function changePostType(target) {
 
   let formData = new FormData(target.closest('form'));
 
-  let response = await FormSubmit.fetchRestApi("frontend_posting/change_post_type", formData);
+  let response = await fetchRestApi("frontend_posting/change_post_type", formData);
 }
 
 // Switches the available fields on post type change
@@ -261,7 +267,7 @@ function catChanged(target) {
 
 async function addCatType(target) {
   let parentDiv, parentData;
-  let response = await FormSubmit.submitForm(
+  let response = await submitForm(
     target,
     "frontend_posting/add_category",
   );
@@ -314,7 +320,7 @@ async function submitPost(target) {
   // make sure we save the latest plain text edits
   tinymce.triggerSave(true, true);
 
-  let response = await FormSubmit.submitForm(
+  let response = await submitForm(
     target,
     "frontend_posting/submit_post",
   );
@@ -370,7 +376,7 @@ async function readFileContents(attachmentId) {
   let formData = new FormData();
   formData.append("attachment-id", attachmentId);
 
-  let response = await FormSubmit.fetchRestApi(
+  let response = await fetchRestApi(
     "frontend_posting/get_attachment_contents",
     formData,
   );
@@ -448,7 +454,7 @@ async function checkForDuplicate(target) {
     target.closest("form").querySelector('[name="post-id"]').value,
   );
 
-  let response = await FormSubmit.fetchRestApi(
+  let response = await fetchRestApi(
     "frontend_posting/check_duplicate",
     formData,
   );

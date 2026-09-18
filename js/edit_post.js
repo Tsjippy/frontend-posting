@@ -1,5 +1,10 @@
 import { addStyles } from "../../tsjippy-shared-functionality/js/partials/load_assets.js";
 
+import{
+  fetchRestApi
+} from "../../tsjippy-forms/js/form_submit_functions.js";
+
+
 console.log("Edit post.js loaded");
 
 let editPostSwitch = async function (event) {
@@ -11,14 +16,20 @@ let editPostSwitch = async function (event) {
   let postId = button.dataset.postId;
   formData.append("post-id", postId);
 
-  const url = new URL(edit_post_url);
+  const data   = JSON.parse(
+    document.getElementById(
+        'wp-script-module-data-@tsjippy/library_cat_script'
+    ).textContent
+  );
+
+  const url = new URL(data.url);
   url.searchParams.set("post-id", postId);
 
   window.history.pushState({}, "", url);
 
   let loader = Main.showLoader(wrapper, true, 50, "Requesting form...");
 
-  let response = await FormSubmit.fetchRestApi(
+  let response = await fetchRestApi(
     "frontend_posting/post_edit",
     formData,
   );

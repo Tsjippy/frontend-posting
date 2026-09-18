@@ -117,9 +117,9 @@ function loadBlockAssets()
 {
     TSJIPPY\registerScripts();
 
-    wp_enqueue_script('tsjippy_table_script');
+    wp_enqueue_script_module('@tsjippy/table_script');
 
-    wp_enqueue_script(
+    wp_enqueue_script_module(
         'tsjippy-expiry-date-block',
         TSJIPPY\pathToUrl(PLUGINPATH . 'blocks/expiry-date/build/index.js'),
         ['wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post'],
@@ -135,7 +135,7 @@ function loadBlockAssets()
 function yourPosts()
 {
     //load js
-    wp_enqueue_script('tsjippy_table_script');
+    wp_enqueue_script_module('@tsjippy/table_script');
 
     //Get all posts for the current user
     $postTypes    = get_post_types(['public' => true]);
