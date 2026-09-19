@@ -91,11 +91,11 @@ function attachmentFieldsToEdit($formFields, $post)
         ?>
             <label>
                 <input type='checkbox' 
-                    name='attachment-categories[]' 
                     <?php echo has_term($catId, $taxonomy, $post->ID) ? 'checked' : '' ?> 
                     style='width: initial' 
                     class='attachment-cat-checkbox' 
-                    value='<?php echo esc_attr($catId); ?>' 
+                    value='<?php echo esc_attr($category->slug); ?>'
+                    onChange = 'document.querySelector(`[id$=-attachment_cat`).value = Array.from(document.querySelectorAll(`.attachment-cat-wrapper :checked`)).map(input => input.value).join(", ");'
                 >
                 <?php echo esc_attr($name); ?>
             </label><br>
@@ -110,17 +110,6 @@ function attachmentFieldsToEdit($formFields, $post)
     $formFields['attachment-cat']['label'] = 'Categories';
 
     return $formFields;
-}
-
-add_action('edit_attachment', __NAMESPACE__ . '\storeCategory');
-/**
- * Stores or removes the visibility
- * 
- * @param   int $attachmentId   The id to store visibility for
- */
-function storeCategory($attachmentId)
-{
-    wp_set_object_terms( $attachmentId, array_map('intval', $_REQUEST['attachment-categories']), 'attachment_cat', true );
 }
 
 add_action('tsjippy-before-archive', __NAMESPACE__ . '\beforeArchive');
