@@ -6,6 +6,7 @@
 ### Changed
 - js to modules
 - improved security
+- category upding attachments
 
 ### Fixed
 
