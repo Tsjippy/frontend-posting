@@ -5,6 +5,22 @@ import{
   fetchRestApi
 } from "../../tsjippy-forms/js/form_submit_functions.js";
 
+import { 
+  showLoader 
+} from "../../tsjippy-shared-functionality/js/partials/show_loader.js";
+
+
+import { 
+  displayMessage 
+} from "../../tsjippy-shared-functionality/js/partials/display_message.js";
+
+import { 
+  hideModals 
+} from "../../tsjippy-shared-functionality/js/partials/modals.js";
+
+import { 
+  Alert 
+} from "../../tsjippy-shared-functionality/js/partials/alert.js";
 
 console.log("Frontendposting.js loaded");
 
@@ -20,7 +36,7 @@ async function confirmPostDelete(event, type = "delete") {
     CancelButtonText: "Cancel",
   };
 
-  let alerter = new Main.Alert(
+  let alerter = new Alert(
     `Are you sure you want to ${type} this ${document.querySelector('[name="post-type"]').value}?`,
     "warning",
     options,
@@ -35,7 +51,7 @@ async function confirmPostDelete(event, type = "delete") {
     // Show loader in button
     let text = buttonText.split(" ")[0];
     text = text.substring(0, text.length - 1) + "ing...";
-    target.innerHTML = Main.showLoader(null, false, 20, text, true, true);
+    target.innerHTML = showLoader(null, false, 20, text, true, true);
 
     // Submit the delete request
     var formData = new FormData();
@@ -50,7 +66,7 @@ async function confirmPostDelete(event, type = "delete") {
     response = await fetchRestApi(url, formData);
 
     if (response) {
-      Main.displayMessage(response);
+      displayMessage(response);
     }
 
     // restore button text
@@ -310,9 +326,9 @@ async function addCatType(target) {
         </div>
         `;
     parentDiv.insertAdjacentHTML("afterBegin", html);
-    Main.hideModals();
+    hideModals();
 
-    Main.displayMessage(`Succesfully added the ${catName} category`);
+    displayMessage(`Succesfully added the ${catName} category`);
   }
 }
 
@@ -333,7 +349,7 @@ async function submitPost(target) {
       if (response.data != undefined) {
         message = message + " " + response.data;
       }
-      Main.displayMessage(message);
+      displayMessage(message);
 
       location.href = response.url;
       return;
@@ -355,7 +371,7 @@ async function submitPost(target) {
     }
 
     // Close any modals to restore scrolling
-    Main.hideModals();
+    hideModals();
 
     // Replace the main content with the returned html
     document.querySelector("main").innerHTML = response.html;
@@ -367,7 +383,7 @@ async function submitPost(target) {
 
     document.querySelector(".page-edit").classList.remove("hidden");
 
-    Main.displayMessage(response.message);
+    displayMessage(response.message);
   }
 }
 
@@ -409,7 +425,7 @@ async function insertMediaContents() {
           CancelButtonText: "No thanks",
         };
 
-        let alerter = new Main.Alert(
+        let alerter = new Alert(
           `Do you want to insert the contents of this file into the post?`,
           "question",
           options,
@@ -421,7 +437,7 @@ async function insertMediaContents() {
             title: `Please wait...`,
           };
 
-          let alerter = new Main.Alert(
+          let alerter = new Alert(
             "Reading file contents",
             "loader",
             options,
@@ -461,7 +477,7 @@ async function checkForDuplicate(target) {
 
   if (response) {
     target.insertAdjacentHTML("afterEnd", response["html"]);
-    Main.displayMessage(response["warning"], "warning");
+    displayMessage(response["warning"], "warning");
   }
 }
 

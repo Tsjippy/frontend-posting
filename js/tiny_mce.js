@@ -1,3 +1,9 @@
+
+
+import { 
+  attachNiceSelect 
+} from "../../tsjippy-shared-functionality/js/main.js";
+
 var dialog;
 /*
     SELECT USER DATA
@@ -74,7 +80,7 @@ tinymce.create(
         let select = document.querySelector(
           '.wp-editor-help [name="user-selection"]',
         );
-        Main.attachNiceSelect(select);
+        attachNiceSelect(select);
         let niceSelect = select._niceSelect.dropdown;
         niceSelect.style.position = "relative";
         niceSelect.style.width = "200px";

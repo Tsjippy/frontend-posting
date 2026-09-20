@@ -4,6 +4,13 @@ import{
   fetchRestApi
 } from "../../tsjippy-forms/js/form_submit_functions.js";
 
+import { 
+  showLoader 
+} from "../../tsjippy-shared-functionality/js/partials/show_loader.js";
+
+import { 
+  hideModals 
+} from "../../tsjippy-shared-functionality/js/partials/modals.js";
 
 console.log("Edit post.js loaded");
 
@@ -27,7 +34,7 @@ let editPostSwitch = async function (event) {
 
   window.history.pushState({}, "", url);
 
-  let loader = Main.showLoader(wrapper, true, 50, "Requesting form...");
+  let loader = showLoader(wrapper, true, 50, "Requesting form...");
 
   let response = await fetchRestApi(
     "frontend_posting/post_edit",
@@ -36,7 +43,7 @@ let editPostSwitch = async function (event) {
 
   if (response) {
     // Close any modals to restore scrolling
-    Main.hideModals();
+    hideModals();
 
     let div = document.createElement("div");
     div.classList.add("content-wrapper");
