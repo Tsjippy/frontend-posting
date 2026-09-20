@@ -2,7 +2,7 @@
 
 import { 
   attachNiceSelect 
-} from "../../tsjippy-shared-functionality/js/main.js";
+} from "../../tsjippy-shared-functionality/js/partials/nice_select.js";
 
 var dialog;
 /*
