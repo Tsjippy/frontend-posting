@@ -8,6 +8,7 @@
 - improved security
 - category upding attachments
 - js update
+- load minification js depending on SCRIPT_DEBUG constant
 
 ### Fixed
 
