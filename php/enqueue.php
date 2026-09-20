@@ -19,9 +19,9 @@ function loadAssets()
     wp_register_style('tsjippy_frontend_style', TSJIPPY\pathToUrl(PLUGINPATH . 'css/frontend_posting.min.css'), array(), PLUGINVERSION);
 
     $dependables    = apply_filters('tsjippy-frontend-content-js', array('@tsjippy/fileupload_script', '@tsjippy/forms_script'));
-    wp_register_script_module('@tsjippy/frontend_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/frontend_posting.min.js'), $dependables, PLUGINVERSION);
+    wp_register_script_module('@tsjippy/frontend_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/frontend_posting' . TSJIPPY\JSEXTENSION), $dependables, PLUGINVERSION);
 
-    wp_enqueue_script_module('@tsjippy/edit_post_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/edit_post.min.js'), array('@tsjippy/formsubmit_script'), PLUGINVERSION);
+    wp_enqueue_script_module('@tsjippy/edit_post_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/edit_post' . TSJIPPY\JSEXTENSION), array('@tsjippy/formsubmit_script'), PLUGINVERSION);
 
     add_filter( 'script_module_data_@tsjippy/edit_post_script', function($data){
         $frontEndPostPage   = SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page');
@@ -47,7 +47,7 @@ add_action('wp_enqueue_media', __NAMESPACE__ . '\loadMediaAssets');
  */
 function loadMediaAssets()
 {
-    wp_enqueue_script_module('@tsjippy/library_cat_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/library.min.js'), [], PLUGINVERSION);
+    wp_enqueue_script_module('@tsjippy/library_cat_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/library' . TSJIPPY\JSEXTENSION), [], PLUGINVERSION);
 
     add_filter( 'script_module_data_@tsjippy/library_cat_script', function($data){
         $data['library_categories'] = get_categories(array(
