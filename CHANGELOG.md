@@ -4,15 +4,20 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [10.8.3] - 2026-09-20
+
+
+### Changed
 - js to modules
 - improved security
 - category upding attachments
 - js update
 - load minification js depending on SCRIPT_DEBUG constant
-
-### Fixed
-
-### Updated
 
 ## [10.8.2] - 2026-09-16
 
