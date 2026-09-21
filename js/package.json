@@ -4,10 +4,9 @@
   "description": "frontend_posting",
   "main": "./frontend_posting.js",
   "scripts": {
-    "frontend": "webpack --entry ./frontend_posting.js --output-path . --output-filename frontend_posting.min.js --progress --mode=production --devtool source-map",
-    "edit": "webpack --entry ./edit_post.js --output-path . --output-filename edit_post.min.js --progress --mode=production --devtool source-map",
-    "library": "webpack --entry ./library.js --output-path . --output-filename library.min.js --progress --mode=production --devtool source-map",
-    "all": "run-p frontend edit library"
+    "build": "webpack --progress",
+    "watch": "webpack --watch --progress",
+    "all": "npm run build"
   },
   "author": "Ewald Harmsen",
   "license": "ISC",

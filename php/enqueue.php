@@ -16,12 +16,42 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\loadAssets');
  */
 function loadAssets()
 {
+    /**
+     * CSS
+     */
     wp_register_style('tsjippy_frontend_style', TSJIPPY\pathToUrl(PLUGINPATH . 'css/frontend_posting.min.css'), array(), PLUGINVERSION);
 
-    $dependables    = apply_filters('tsjippy-frontend-content-js', array('@tsjippy/fileupload_script', '@tsjippy/forms_script'));
-    wp_register_script_module('@tsjippy/frontend_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/frontend_posting' . TSJIPPY\JSEXTENSION), $dependables, PLUGINVERSION);
+    $frontEndPostPage   = SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page');
+    if (is_numeric(get_the_ID()) && get_the_ID() == $frontEndPostPage) {
+        wp_enqueue_style('tsjippy_frontend_style');
+    }
 
-    wp_enqueue_script_module('@tsjippy/edit_post_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/edit_post' . TSJIPPY\JSEXTENSION), array('@tsjippy/formsubmit_script'), PLUGINVERSION);
+    /**
+     * Scripts
+     */
+    //edit_post_script
+    $deps   = SCRIPT_DEBUG ? [  
+        '@tsjippy/form_submit_functions', 
+        "@tsjippy/load_assets", 
+        "@tsjippy/show_loader", 
+        "@tsjippy/modals"
+    ] :
+    [];
+    wp_enqueue_script_module('@tsjippy/edit_post_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/edit_post' . TSJIPPY\JSEXTENSION), $deps, PLUGINVERSION);
+
+    // frontend_script
+    $deps   = SCRIPT_DEBUG ? [  
+        '@tsjippy/form_submit_functions', 
+        "@tsjippy/load_assets", 
+        "@tsjippy/show_loader", 
+        "@tsjippy/display_message", 
+        "@tsjippy/modals",
+        "@tsjippy/alert"
+    ] :
+    [];
+
+    $dependables    = array_merge($deps, apply_filters('tsjippy-frontend-content-js', array('@tsjippy/fileupload_script', '@tsjippy/forms_script')));
+    wp_register_script_module('@tsjippy/frontend_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/frontend_posting' . TSJIPPY\JSEXTENSION), $dependables, PLUGINVERSION);
 
     add_filter( 'script_module_data_@tsjippy/edit_post_script', function($data){
         $frontEndPostPage   = SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page');
@@ -32,11 +62,6 @@ function loadAssets()
         }
         return $data; 
     } );
-
-    $frontEndPostPage   = SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page');
-    if (is_numeric(get_the_ID()) && get_the_ID() == $frontEndPostPage) {
-        wp_enqueue_style('tsjippy_frontend_style');
-    }
 }
 
 add_action('wp_enqueue_media', __NAMESPACE__ . '\loadMediaAssets');

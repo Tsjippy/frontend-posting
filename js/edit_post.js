@@ -1,16 +1,16 @@
-import { addStyles } from "../../tsjippy-shared-functionality/js/partials/load_assets.js";
+import { addStyles } from "@tsjippy/load_assets";
 
 import{
   fetchRestApi
-} from "../../tsjippy-forms/js/form_submit_functions.js";
+} from "@tsjippy/form_submit_functions";
 
 import { 
   showLoader 
-} from "../../tsjippy-shared-functionality/js/partials/show_loader.js";
+} from "@tsjippy/show_loader";
 
 import { 
   hideModals 
-} from "../../tsjippy-shared-functionality/js/partials/modals.js";
+} from "@tsjippy/modals";
 
 console.log("Edit post.js loaded");
 

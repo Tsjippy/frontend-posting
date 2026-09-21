@@ -1,26 +1,26 @@
-import { addStyles } from "../../tsjippy-shared-functionality/js/partials/load_assets.js";
+import { addStyles } from "@tsjippy/load_assets";
 
 import{
   submitForm,
   fetchRestApi
-} from "../../tsjippy-forms/js/form_submit_functions.js";
+} from "@tsjippy/form_submit_functions";
 
 import { 
   showLoader 
-} from "../../tsjippy-shared-functionality/js/partials/show_loader.js";
+} from "@tsjippy/show_loader";
 
 
 import { 
   displayMessage 
-} from "../../tsjippy-shared-functionality/js/partials/display_message.js";
+} from "@tsjippy/display_message";
 
 import { 
   hideModals 
-} from "../../tsjippy-shared-functionality/js/partials/modals.js";
+} from "@tsjippy/modals";
 
 import { 
   Alert 
-} from "../../tsjippy-shared-functionality/js/partials/alert.js";
+} from "@tsjippy/alert";
 
 console.log("Frontendposting.js loaded");
 
