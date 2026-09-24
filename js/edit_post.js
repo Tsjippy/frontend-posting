@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("click", function (ev) {
   if (ev.target.matches(".page-edit")) {
-    ev.stopImmediatePropagation();
+    ev.stopPropagation();
     editPostSwitch(ev);
   }
 });

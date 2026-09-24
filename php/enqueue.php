@@ -37,7 +37,19 @@ function loadAssets()
         "@tsjippy/modals"
     ] :
     [];
+
+    $deps[] = "@tsjippy/nonce_script";
     wp_enqueue_script_module('@tsjippy/edit_post_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/edit_post' . TSJIPPY\JSEXTENSION), $deps, PLUGINVERSION);
+    
+    add_filter( 'script_module_data_@tsjippy/edit_post_script', function($data){
+        $frontEndPostPage   = SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page');
+
+        $url    = TSJIPPY\getValidPageLink($frontEndPostPage);
+        if ($url) {
+            $data['url'] = $url;
+        }
+        return $data; 
+    } );
 
     // frontend_script
     $deps   = SCRIPT_DEBUG ? [  
@@ -49,19 +61,10 @@ function loadAssets()
         "@tsjippy/alert"
     ] :
     [];
-
+    $deps[] = "@tsjippy/nonce_script";
+    
     $dependables    = array_merge($deps, apply_filters('tsjippy-frontend-content-js', array('@tsjippy/fileupload_script', '@tsjippy/forms_script')));
     wp_register_script_module('@tsjippy/frontend_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/frontend_posting' . TSJIPPY\JSEXTENSION), $dependables, PLUGINVERSION);
-
-    add_filter( 'script_module_data_@tsjippy/edit_post_script', function($data){
-        $frontEndPostPage   = SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page');
-
-        $url    = TSJIPPY\getValidPageLink($frontEndPostPage);
-        if ($url) {
-            $data['url'] = $url;
-        }
-        return $data; 
-    } );
 }
 
 add_action('wp_enqueue_media', __NAMESPACE__ . '\loadMediaAssets');

@@ -5,6 +5,9 @@ namespace TSJIPPY\FRONTENDPOSTING;
 use TSJIPPY;
 
 add_action('init', __NAMESPACE__ . '\initBlocks');
+/**
+ * Registeres the blocks
+ */
 function initBlocks()
 {
     // Your posts block
