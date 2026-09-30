@@ -1,4 +1,6 @@
-import { addStyles } from "@tsjippy/load_assets";
+import { 
+  addStyles 
+ } from "@tsjippy/load_assets";
 
 import{
   submitForm,

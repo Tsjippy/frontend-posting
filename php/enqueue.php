@@ -34,7 +34,9 @@ function loadAssets()
         '@tsjippy/form_submit_functions', 
         "@tsjippy/load_assets", 
         "@tsjippy/show_loader", 
-        "@tsjippy/modals"
+        "@tsjippy/modals",
+        "@tsjippy/display_message",
+        "@tsjippy/alert"
     ] :
     [];
 
@@ -62,8 +64,10 @@ function loadAssets()
     ] :
     [];
     $deps[] = "@tsjippy/nonce_script";
+    $deps[] = '@tsjippy/fileupload_script';
+    $deps[] = '@tsjippy/forms_script';
     
-    $dependables    = array_merge($deps, apply_filters('tsjippy-frontend-content-js', array('@tsjippy/fileupload_script', '@tsjippy/forms_script')));
+    $dependables    = apply_filters('tsjippy-frontend-content-js', $deps);
     wp_register_script_module('@tsjippy/frontend_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/frontend_posting' . TSJIPPY\JSEXTENSION), $dependables, PLUGINVERSION);
 }
 
