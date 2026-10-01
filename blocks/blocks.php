@@ -238,6 +238,10 @@ function yourPosts()
  */
 function pendingPages($attributes)
 {
+    if ( !current_user_can( 'edit_others_posts' ) ) {
+        return "<div class='warning'>No permission</div>";
+    }
+    
     //Get all the posts with a pending status
     $pendingPosts     = get_posts(
         array(
