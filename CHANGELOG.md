@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- js dependables
 
 ### Updated
+
+## [10.9.2] - 2026-10-01
+
+
+### Fixed
+- js dependables
 
 ## [10.9.1] - 2026-09-27
 
