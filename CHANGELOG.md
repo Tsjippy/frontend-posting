@@ -4,12 +4,19 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [10.9.3] - 2026-10-01
+
+
+### Changed
 - improved security checks
 
 ### Fixed
 - pending posts block permission check
-
-### Updated
 
 ## [10.9.2] - 2026-10-01
 
