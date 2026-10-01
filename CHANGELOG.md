@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- improved security checks
 
 ### Fixed
 
