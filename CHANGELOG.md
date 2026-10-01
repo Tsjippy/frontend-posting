@@ -7,6 +7,7 @@
 - improved security checks
 
 ### Fixed
+- pending posts block permission check
 
 ### Updated
 
