@@ -58,7 +58,7 @@ class FrontEndContent
         $this->oldPost        = null;
         $this->orgPost        = null;
 
-        if ($this->user->has_cap('edit_others_posts')) {
+        if ($this->user->has_cap('edit_others_posts', $this->postId)) {
             $this->fullrights = true;
         } else {
             $this->fullrights = false;
@@ -417,7 +417,7 @@ class FrontEndContent
         if (!isset($this->editRight)) {
             //Check if allowed to edit this
             if (
-                !allowedToEdit($this->post)                                        &&
+                !allowedToEdit($this->post)  &&
                 !$this->fullrights
             ) {
                 $this->editRight    = false;

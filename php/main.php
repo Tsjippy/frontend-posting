@@ -125,17 +125,16 @@ function safeStyles($styles)
 /**
  * Checks if the current user is allowed to edit a post
  *
- * @param object|int $post The post object or post ID to check
+ * @param object|int $post      The post object or post ID to check pass false for new post
  *
  * @return    boolean            True if allowed
  */
 function allowedToEdit($post)
 {
     if(
-        empty($post)    ||
         (
             isset($_POST['_wpnonce']) && 
-            !TSJIPPY\verifyNonce('wp_rest', '_wpnonce')
+            !TSJIPPY\verifyNonce('_wpnonce', 'wp_rest')
         )
     ){
         return false;
@@ -144,14 +143,22 @@ function allowedToEdit($post)
     if (is_numeric($post)) {
         $post    = get_post($post);
     }
+
+    $postType   = TSJIPPY\sanitize($_POST['post-type'] ?? '');
+
+    if(empty($post) && $postType && !current_user_can( 'edit_posts' )){
+        return false;
+    }
+
     $user         = wp_get_current_user();
-    $postAuthor   = $post->post_author;
-    $postCategory = $post->post_category;
+    $postAuthor   = $post->post_author ?? '';
+    $postCategory = $post->post_category ?? '';
     $jobs         = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
 
     if (
+        current_user_can('administrator') ||
         $postAuthor == $user->ID                                                     ||    // Own page
-        isset($jobs[$post->ID])                                                      ||    // job safe
+        isset($jobs[$post->ID ?? -1])                                                      ||    // job safe
         apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)  ||    // external filter
         current_user_can('edit_post', $post->ID )                                          // user has permission to edit any post
     ) {

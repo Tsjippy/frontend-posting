@@ -71,7 +71,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\submitPost',
             'permission_callback'     => function () {
-                return allowedToEdit((int) $_POST['post-id']);
+                return allowedToEdit((int) $_POST['post-id'] ?? false);
             },
             'args'                    => array(
                 'post-type'        => array(
@@ -109,8 +109,7 @@ function restApiInit()
                 return $frontEndContent->removePost();
             },
             'permission_callback'     => function () {
-                $frontEndContent    = new FrontEndContent();
-                return $frontEndContent->fullrights;
+                return current_user_can( 'delete_post', (int) $_REQUEST['post-id'] );
             },
             'args'                    => array(
                 'post-id'        => array(
@@ -134,7 +133,7 @@ function restApiInit()
                 return $frontEndContent->archivePost();
             },
             'permission_callback'     => function () {
-                allowedToEdit($_REQUEST['post-id']);
+                return allowedToEdit($_REQUEST['post-id']);
             },
             'args'                    => array(
                 'post-id'        => array(
@@ -457,13 +456,13 @@ function checkForDuplicate(\WP_REST_Request $request)
 {
     global $wpdb;
 
-    $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
+    $url     = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
 
     $title   = $request->get_param('title');
     $type    = $request->get_param('type');
     $exclude = $request->get_param('exclude');
 
-    $query    = "SELECT * FROM {$wpdb->prefix}posts WHERE post_title LIKE %s AND post_type = %s";
+    $query    = "SELECT * FROM {$wpdb->prefix}posts WHERE post_title LIKE %s AND post_type = %s AND post_status = %s";
 
     if (is_numeric($exclude)) {
         $query    .= " AND ID != %d";
@@ -473,6 +472,7 @@ function checkForDuplicate(\WP_REST_Request $request)
             $query,
             "%" . $wpdb->esc_like($title) . "%",
             $type,
+            'publish',
             $exclude
         ),
         OBJECT

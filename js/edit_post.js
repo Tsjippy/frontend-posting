@@ -25,7 +25,7 @@ let editPostSwitch = async function (event) {
 
   const data   = JSON.parse(
     document.getElementById(
-        'wp-script-module-data-@tsjippy/library_cat_script'
+        'wp-script-module-data-@tsjippy/edit_post_script'
     ).textContent
   );
 
