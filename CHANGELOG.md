@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- publishing rights new post
 
 ### Updated
+
+## [10.9.8] - 2026-10-06
+
+
+### Fixed
+- publishing rights new post
 
 ## [10.9.7] - 2026-10-04
 
