@@ -160,7 +160,12 @@ function allowedToEdit($post)
         $postAuthor == $user->ID                                                     ||    // Own page
         isset($jobs[$post->ID ?? -1])                                                      ||    // job safe
         apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)  ||    // external filter
-        current_user_can('edit_post', $post->ID )                                          // user has permission to edit any post
+        (
+            !empty($post) && current_user_can('edit_post', $post->ID )  
+        ) ||
+        (
+            empty($post) && current_user_can('edit_posts')
+        )                                  // user has permission to edit any post
     ) {
         return true;
     }
