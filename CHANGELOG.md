@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- publishing rights new post
 
 ### Updated
 
