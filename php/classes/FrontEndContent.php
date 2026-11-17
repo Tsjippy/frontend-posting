@@ -200,6 +200,7 @@ class FrontEndContent
             //Write the form to create all posts except events
             ?>
             <form id="postform">
+                <input type="hidden" class="no-reset" name="tsjippy-frontend-posting-nonce" value="<?php echo esc_attr(wp_create_nonce('post-posting')); ?>">
                 <input type="hidden" class="no-reset" name="post-status" value="pending">
                 <input type="hidden" class="no-reset" name="post-type" value="<?php echo esc_attr($this->postType); ?>">
                 <input type="hidden" class="no-reset" name="post-image-id" value="<?php echo esc_attr($this->postImageId); ?>">
@@ -1500,6 +1501,10 @@ class FrontEndContent
             !$this->fullrights
         ) {
             return new WP_Error('tsjippy-frontend-posting', 'No Permission to change the author!');
+        }
+
+        if (!TSJIPPY\verifyNonce('tsjippy-frontend-posting-nonce', 'post-posting')) {
+            return new WP_Error('tsjippy-frontend-posting', 'Invalid nonce!');
         }
 
         //First letter should be capital in the title

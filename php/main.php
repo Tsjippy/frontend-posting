@@ -158,7 +158,7 @@ function allowedToEdit($post)
     if (
         current_user_can('administrator') ||
         $postAuthor == $user->ID                                                     ||    // Own page
-        isset($jobs[$post->ID ?? -1])                                                      ||    // job safe
+        isset($jobs[$post->ID ?? -1])                                                ||    // job safe
         apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)  ||    // external filter
         (
             !empty($post) && current_user_can('edit_post', $post->ID )  
