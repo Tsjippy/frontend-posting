@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- nonce check when publishing posts
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [10.9.9] - 2026-11-17
+
+
+### Added
+- nonce check when publishing posts
 
 ## [10.9.8] - 2026-10-06
 
